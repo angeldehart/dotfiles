@@ -75,7 +75,6 @@ Plug 'itchyny/lightline.vim'
 Plug 'mechatroner/rainbow_csv'
 Plug 'liuchengxu/vim-which-key' 
 
-
 "====================================UTILITY====================================
 Plug 'jiangmiao/auto-pairs'
 Plug 'jpalardy/vim-slime' " better repls

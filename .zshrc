@@ -62,6 +62,8 @@ PATH=~/bin:${PATH}
 PATH=~/.local/bin:${PATH}
 # Vim iced clojure support
 PATH=~/.config/nvim/plugged/vim-iced/bin:${PATH}
+# Terraform version manager
+PATH=~/.tfenv/bin:${PATH}
 # Always want this as the last path
 export PATH=/usr/local/bin:${PATH}
 
