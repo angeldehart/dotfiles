@@ -7,6 +7,7 @@
   "coc.source.iced.enable": true,
   "coc.preferences.formatOnSaveFiletypes": [
     "python",
+    "rust",
     "javascript",
     "javascriptreact",
     "typescript",

@@ -1,4 +1,4 @@
-hs.loadSpoon("Cherry")
+-- hs.loadSpoon("Cherry")
 Mash = {"ctrl", "shift"}
 fn = hs.fnutils 
 
@@ -8,6 +8,7 @@ fn = hs.fnutils
 --   { "z", "x", "c", "v", "d", "h", "n", "e", "i", "o" },
 --   { "s", "i", "o", "t", "b", "k", "m", ",", ".", "/" }
 -- }
+--
 hs.hotkey.bind(Mash, "e", function()
   hs.grid.setGrid('4x4')
   hs.grid.show()
