@@ -9,6 +9,7 @@ set hidden                         "allow jumping back and forth between multipl
 set ignorecase                     "ignore case when searching
 set wildignorecase                 "case insensitive file search
 set number
+set nohlsearch
 set relativenumber
 set foldmethod=syntax
 set foldlevel=99
@@ -79,7 +80,8 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'jiangmiao/auto-pairs'
 Plug 'jpalardy/vim-slime' " better repls
 let g:slime_target = "neovim"
-let g:slime_python_ipython = 1
+" Change this to use slime with ipython
+let g:slime_python_ipython = 0
 Plug 'tpope/vim-rsi' " emacs readline bindings
 Plug 'tpope/vim-fugitive' " git
 Plug 'tpope/vim-rhubarb' " github
@@ -121,6 +123,7 @@ let g:coc_global_extensions = [
       \ 'coc-tsserver',
       \ 'coc-eslint',
       \ 'coc-prettier',
+      \ 'coc-rust-analyzer',
       \ ]
 
 "===================================WEB=========================================
@@ -137,12 +140,16 @@ au! BufEnter .prettierrc setlocal ft=json
 au! BufEnter .eslintrc setlocal ft=json
 au! BufEnter *.postcss,*.pcss setlocal ft=postcss
 
+"=================================ELIXIR========================================
+Plug 'elixir-editors/vim-elixir'
+
 "=================================CLOJURE=======================================
 Plug 'liquidz/vim-iced'
+Plug 'liquidz/vim-iced-coc-source'
 Plug 'guns/vim-sexp'
 Plug 'tpope/vim-sexp-mappings-for-regular-people'
 let g:iced_enable_default_key_mappings = v:true
-  let g:iced_default_key_mapping_leader = '<localleader>'
+let g:iced_default_key_mapping_leader = '<localleader>'
 augroup clojure
   au! FileType clojure,clojurescript nn gd :IcedDefJump<CR>
   au! FileType clojure,clojurescript nn gr :IcedBrowseReferences<CR>
@@ -153,6 +160,7 @@ augroup END
 Plug 'editorconfig/editorconfig-vim'
 Plug 'neo4j-contrib/cypher-vim-syntax' " neo4j cypher syntax
 Plug 'sotte/presenting.vim'
+Plug 'freitass/todo.txt-vim'
 
 "=================================PLUG END======================================
 call plug#end()
@@ -262,7 +270,8 @@ nn ! :!
 nn q: :q
 nn Z zA
 im <C-c> <ESC>
-nn <BS> :bp<CR>
+im jj    <ESC>
+nn <BS> :b#<CR>
 
 " Terminal stuff
 tnoremap <Esc> <C-\><C-n>

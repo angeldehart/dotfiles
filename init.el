@@ -1,3 +1,6 @@
+;;;;;;;;;;;;;;;;;;;;;;;;COLBY DEHART'S;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;HORRIBLE WONDERFUL;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;INIT.EL;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; straight.el
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -20,7 +23,8 @@
 (tool-bar-mode -1)
 (load-theme 'tango-dark)
 (add-to-list 'default-frame-alist
-	     '(font . "mononoki-18"))
+	     '(font . "mononoki-24"))
+
 ;;;;;;;;;;;;;;;;;;;;;;PACKAGES;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Evil: vim emulation
 (straight-use-package 'evil)
@@ -44,18 +48,10 @@
 (straight-use-package 'company)
 (global-company-mode 1)
 ;;; Fast Search
-(straight-use-package 'helm) ; fast search
+(straight-use-package 'helm)
 (straight-use-package 'which-key)
+(setq which-key-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;CLOJURE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (straight-use-package 'clojure-mode)
-;; (add-to-list 'load-path "~/.emacs.d/miracle") ; Clojure in Unity
-;; (require 'miracle)
-;; (add-hook 'clojure-mode-hook 'clojure-enable-miracle)
-(straight-use-package
- '(clojure-complete
-   :type git
-   :host github
-   :repo "sogaiu/clojure-complete"
-   :branch "clr-support")) ; this branch for miracle
 

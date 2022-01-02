@@ -36,9 +36,8 @@ export PYTHONSTARTUP=~/dotfiles/.pythonrc
 # Pyenv python manager
 export PATH="$HOME/.pyenv/bin:$PATH"
 export PYENV_ROOT=$HOME/.pyenv
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
+[ -x "$(command -v pyenv)" ] eval "$(pyenv init -)"
+[ -x "$(command -v pyenv)" ] eval "$(pyenv init --path)"
 # Python poetry
 export PATH="$HOME/.poetry/bin:$PATH"
 
