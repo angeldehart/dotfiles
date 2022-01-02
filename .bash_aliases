@@ -8,13 +8,13 @@ alias ......=' cd ../../../../..'
 alias gs='git status'
 alias gl='git log --oneline --graph --decorate $argv'
 alias gr='git rebase'
-alias grom='git rebase origin/master'
 alias grc='git rebase --continue'
 alias gri='git rebase -i'
 alias ga='git add -p'
 alias gc='git commit -m'
 alias gca='git commit --amend --no-edit'
 alias gco='git checkout'
+alias gcob='git checkout -b'
 alias gf='git fetch --all --prune'
 alias gpf='git push --force-with-lease'
 alias grhh='git reset --hard HEAD'
@@ -48,11 +48,17 @@ alias ism="iex -S mix"
 alias imps="iex -S mix phx.server"
 # mix test
 alias mixtest="mix test --listen-on-stdin --stale"
+# pytest
+alias pyt="pytest --nomigrations --reuse-db"
+alias pytw="ptw -- --nomigrations --reuse-db"
 # killall zsh
 alias killzsh="ps ax -o pid,command,ppid | grep 'zsh' | awk '{print $1}' | xargs kill -9"
 # Open localhost
 olh () {
     open http://localhost:$1;
+}
+read_secret () {
+    aws secretsmanager get-secret-value --secret-id $1 --query SecretString --output text
 }
 alias pipip="pip install -U pip"
 alias tf=terraform

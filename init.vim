@@ -13,6 +13,7 @@ set nohlsearch
 set relativenumber
 set foldmethod=syntax
 set foldlevel=99
+set nohlsearch
 let mapleader = ' '                "leader is space
 let maplocalleader = ','           "localleader is comma
 let g:python3_host_prog = "~/.config/nvim/venv/bin/python"
@@ -95,8 +96,10 @@ Plug 'tpope/vim-commentary' " comments
 Plug 'tpope/vim-repeat' " better .
 Plug 'tpope/vim-sensible' " good defaults
 Plug 'sheerun/vim-polyglot'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 let g:AutoPairsMapCR = 0
 au! FileType fugitive nm <buffer> <TAB> =
+let g:neoterm_repl_enable_ipython_paste_magic = 1
 
 "==================================NAVIGATION===================================
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -125,6 +128,7 @@ let g:coc_global_extensions = [
       \ 'coc-prettier',
       \ 'coc-rust-analyzer',
       \ ]
+
 
 "===================================WEB=========================================
 Plug 'stephenway/postcss.vim'
@@ -176,6 +180,12 @@ if executable('rg')
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
+""===================================LUA STUFF==================================
+lua << EOF
+require("twilight").setup { }
+require("zen-mode").setup { }
+EOF
+
 "===================================KEYBINDINGS=================================
 
 " COC LSP bindings
@@ -197,7 +207,7 @@ nn <leader>/ :Rg<CR>
 nn <leader>; :Commands<CR>
 nn <leader><CR> :
 nn <leader><leader> :b#<CR>
-" nn <leader>a TODO
+nn <leader>a :ZenMode<CR>
 nn <leader>b :Buffers<CR>
 nn <leader>c :Lines<CR>
 nn <leader>d :Vexplore! .<CR>
@@ -226,9 +236,10 @@ nn <leader>sh :vsplit<CR>
 nn <leader>sj :split<CR><C-W>j
 nn <leader>sk :split<CR>
 nn <leader>sl :vsplit<CR><C-W>l
-nn <silent> <leader>t :call OpenOrCreateTerminal()<CR>
+nn <silent> <leader>t :Topen<CR>
 " nn <silent> <leader>u  TODO
 nn <leader>va :e ~/dotfiles/.bash_aliases<CR>
+nn <leader>vk :e ~/.config/kitty/kitty.conf<CR>
 nn <leader>vl :e ./.lvimrc<CR>
 nn <leader>vv :e ~/dotfiles/init.vim<CR>
 nn <leader>vt :e ~/dotfiles/.tmux.conf<CR>
@@ -280,6 +291,12 @@ tnoremap <C-j> <C-\><C-n><C-w>j
 tnoremap <C-k> <C-\><C-n><C-w>k
 tnoremap <C-l> <C-\><C-n><C-w>l
 au TermOpen * setlocal nonumber norelativenumber bufhidden=hide
+
+" REPL stuff
+
+nmap gx <Plug>(neoterm-repl-send)
+xmap gx <Plug>(neoterm-repl-send)
+nmap gxx <Plug>(neoterm-repl-send-line)
 
 " Autocomplete mappings
 " Use tab for trigger completion with characters ahead and navigate.  NOTE: Use
