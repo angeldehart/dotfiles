@@ -18,7 +18,7 @@ hs.hotkey.bind(Mash, "i", function()
   hs.grid.show()
 end)
 
-hs.hotkey.bind({"alt", "cmd"}, "t", function()
+hs.hotkey.bind(Mash, "t", function()
   spoon.Cherry:start()
 end)
 
