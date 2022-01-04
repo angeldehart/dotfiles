@@ -8,6 +8,7 @@ set clipboard=unnamedplus          "use system clipboard
 set hidden                         "allow jumping back and forth between multiple unsaved buffers
 set ignorecase                     "ignore case when searching
 set wildignorecase                 "case insensitive file search
+set termguicolors
 set number
 set nohlsearch
 set relativenumber
@@ -76,6 +77,7 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'itchyny/lightline.vim'
 Plug 'mechatroner/rainbow_csv'
 Plug 'liuchengxu/vim-which-key' 
+Plug 'savq/melange'
 
 "====================================UTILITY====================================
 Plug 'jiangmiao/auto-pairs'
@@ -169,8 +171,7 @@ Plug 'freitass/todo.txt-vim'
 "=================================PLUG END======================================
 call plug#end()
 set background=dark
-let g:lightline = {'colorscheme': 'PaperColor'}
-colo PaperColor
+colo melange
 filetype plugin indent on
 syntax enable
 
@@ -182,8 +183,6 @@ endif
 
 ""===================================LUA STUFF==================================
 lua << EOF
-require("twilight").setup { }
-require("zen-mode").setup { }
 EOF
 
 "===================================KEYBINDINGS=================================
@@ -236,7 +235,7 @@ nn <leader>sh :vsplit<CR>
 nn <leader>sj :split<CR><C-W>j
 nn <leader>sk :split<CR>
 nn <leader>sl :vsplit<CR><C-W>l
-nn <silent> <leader>t :Topen<CR>
+nn <silent> <leader>t :call OpenOrCreateTerminal()<CR>
 " nn <silent> <leader>u  TODO
 nn <leader>va :e ~/dotfiles/.bash_aliases<CR>
 nn <leader>vk :e ~/.config/kitty/kitty.conf<CR>
