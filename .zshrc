@@ -18,6 +18,8 @@ precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
 zstyle ':vcs_info:git:*' formats '%b'
 
+[ -f /usr/local/bin/aws_completer  ] && complete -C '/usr/local/bin/aws_completer' aws
+
 # Fuzzy Finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files'
@@ -36,8 +38,8 @@ export PYTHONSTARTUP=~/dotfiles/.pythonrc
 # Pyenv python manager
 export PATH="$HOME/.pyenv/bin:$PATH"
 export PYENV_ROOT=$HOME/.pyenv
-[ -x "$(command -v pyenv)" ] eval "$(pyenv init -)"
-[ -x "$(command -v pyenv)" ] eval "$(pyenv init --path)"
+[ -d $PYENV_ROOT  ] && eval "$(pyenv init -)"
+[ -d $PYENV_ROOT ] && eval "$(pyenv init --path)"
 # Python poetry
 export PATH="$HOME/.poetry/bin:$PATH"
 
@@ -64,7 +66,7 @@ PATH=~/.config/nvim/plugged/vim-iced/bin:${PATH}
 # Terraform version manager
 PATH=~/.tfenv/bin:${PATH}
 # Always want this as the last path
-export PATH=/usr/local/bin:${PATH}
+export PATH=${PATH}:/usr/local/bin
 
 # Local (nonmanaged) zsh config ~/.zshrc.local
 [ -f ${HOME}/.zshrc.local ] && source ${HOME}/.zshrc.local
