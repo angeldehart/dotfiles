@@ -18,7 +18,7 @@ vim.o.relativenumber = true
 -- vim.o.foldmethod = syntax
 vim.o.foldlevel = 99
 vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.maplocalleader = ','
 vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python"
 
 vim.diagnostic.config({
@@ -28,13 +28,15 @@ vim.diagnostic.config({
 })
 
 -- Ignore
--- vim.o.wildignore+=*/_build
--- vim.o.wildignore+=*.pyc
--- vim.o.wildignore+=*/node_modules/*
--- vim.o.wildignore+=.git
--- vim.o.wildignore+=.venv
--- vim.o.wildignore+=*.bs.js
--- vim.o.wildignore+=.DS_Store
+vim.opt.wildignore = {
+  "*/_build",
+  "*.pyc",
+  "*/node_modules/*",
+  ".git",
+  ".venv",
+  "*.bs.js",
+  ".DS_Store",
+}
 
 -- Packages
 require('packer').startup(function()
@@ -57,7 +59,9 @@ require('packer').startup(function()
   lsp.pyright.setup{}
   lsp.bashls.setup{}
   lsp.dockerls.setup{}
-  lsp.elixirls.setup{}
+  lsp.elixirls.setup{
+    cmd = {vim.fn.expand("~/.local/bin/elixir-ls/release/language_server.sh")}
+  }
   lsp.jsonls.setup{}
   lsp.pyright.setup{}
   lsp.sqlls.setup{}
@@ -98,6 +102,15 @@ require('packer').startup(function()
   local luasnip = require'luasnip'
   luasnip.filetype_extend("python", {"django"})
 
+  local has_words_before = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+  end
+
+  local feedkey = function(key, mode)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+  end
+
   local cmp = require'cmp'
   cmp.setup({
       snippet = {
@@ -134,8 +147,6 @@ require('packer').startup(function()
     }
   })
 
-  local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-  cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
 
 
   -- Utility
@@ -168,6 +179,10 @@ require('packer').startup(function()
   vim.g.neoterm_repl_enable_ipython_paste_magic = 1
   vim.cmd [[au! FileType fugitive nm <buffer> <TAB> =]]
   require('nvim-autopairs').setup{}
+  vim.cmd [[au! BufEnter *.heex setlocal ft=eelixir]]
+
+  local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+  cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
 
 
   -- Web
@@ -214,7 +229,7 @@ vim.cmd [[
   nn <leader>c :Telescope treesitter<CR>
   nn <leader>d :Vexplore! .<CR>
   nn <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-  nn <leader>f :Telescope find_files<CR>
+  nn <leader>f :Telescope git_files<CR>
   nn <leader>g :Git<CR>
   nn <leader>h :Telescope help_tags<CR>
   " "nn <leader>i :echom "UNUSED"<CR>
