@@ -65,8 +65,8 @@ PATH=~/.local/bin:${PATH}
 PATH=~/.config/nvim/plugged/vim-iced/bin:${PATH}
 # Terraform version manager
 PATH=~/.tfenv/bin:${PATH}
-# Always want this as the last path
-export PATH=${PATH}:/usr/local/bin
+# Always want this as the first path
+export PATH=/usr/local/bin:${PATH}
 
 # Local (nonmanaged) zsh config ~/.zshrc.local
 [ -f ${HOME}/.zshrc.local ] && source ${HOME}/.zshrc.local
