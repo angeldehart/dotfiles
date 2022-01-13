@@ -5,7 +5,6 @@
 -- *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=INIT.LUA*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=
 -- *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=
 
-
 -- Settings
 vim.o.clipboard = "unnamedplus"
 vim.o.termguicolors = true
@@ -37,6 +36,7 @@ vim.opt.wildignore = {
   "*.bs.js",
   ".DS_Store",
 }
+
 
 -- Packages
 require('packer').startup(function()
@@ -100,7 +100,7 @@ require('packer').startup(function()
   use "rafamadriz/friendly-snippets"
 
   local luasnip = require'luasnip'
-  luasnip.filetype_extend("python", {"django"})
+  require('cool_luasnip')
 
   local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -124,10 +124,11 @@ require('packer').startup(function()
           {name = 'buffer'}
         }),
       mapping = {
+        ["<cr>"] = cmp.mapping.confirm(),
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
-          elseif luasnip.expand_or_jumpable() then
+          elseif luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
           elseif has_words_before() then
             cmp.complete()
@@ -235,7 +236,7 @@ vim.cmd [[
   " "nn <leader>i :echom "UNUSED"<CR>
   nn <silent> <leader>jc :call CondenseLog()<CR>
   nn <silent> <leader>jl :call OpenLog()<CR>
-  nn <silent> <leader>jj :e ~/notes<CR>
+  nn <silent> <leader>jj :Telescope find_files search_dirs={"~/notes"}<CR>
   nn <silent> <leader>js :e ~/notes/scratch.md<CR>
   nn <silent> <leader>jt :e ~/notes/todo.txt<CR>
   nn <leader>k :q<CR>
@@ -258,13 +259,13 @@ vim.cmd [[
   nn <leader>va :e ~/dotfiles/.bash_aliases<CR>
   nn <leader>vk :e ~/.config/kitty/kitty.conf<CR>
   nn <leader>vl :e ./.lvimrc<CR>
-  nn <leader>vv :e ~/dotfiles/init.lua<CR>
+  nn <leader>vv :e ~/.config/nvim/init.lua<CR>
   nn <leader>vt :e ~/dotfiles/.tmux.conf<CR>
   nn <leader>vu :e ~/dotfiles/init.lua<CR>
   nn <leader>vz :e ~/dotfiles/.zshrc<CR>
   nn <leader>w :w<CR>
   nn <leader>x mzgggqG`z
-  nn <leader>y :UltiSnipsEdit<CR>
+  nn <leader>y :LuaSnipEdit<CR>
   function! ToggleFold() abort
     if &foldlevel < 99
       set foldlevel=99
