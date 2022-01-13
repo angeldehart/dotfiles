@@ -36,9 +36,8 @@ export RPROMPT=\$vcs_info_msg_0_
 # Python startup
 export PYTHONSTARTUP=~/dotfiles/.pythonrc
 # Pyenv python manager
-export PATH="$HOME/.pyenv/bin:$PATH"
 export PYENV_ROOT=$HOME/.pyenv
-[ -d $PYENV_ROOT  ] && eval "$(pyenv init -)"
+export PATH="$PYENV_ROOT/bin:$PATH"
 [ -d $PYENV_ROOT ] && eval "$(pyenv init --path)"
 # Python poetry
 export PATH="$HOME/.poetry/bin:$PATH"
@@ -69,4 +68,4 @@ PATH=~/.tfenv/bin:${PATH}
 export PATH=/usr/local/bin:${PATH}
 
 # Local (nonmanaged) zsh config ~/.zshrc.local
-[ -f ${HOME}/.zshrc.local ] && source ${HOME}/.zshrc.local
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
