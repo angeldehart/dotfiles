@@ -11,6 +11,7 @@ vim.o.termguicolors = true
 vim.o.hidden = true
 vim.o.ignorecase = true
 vim.o.wildignorecase = true
+vim.o.timeoutlen = 500
 vim.o.number = true
 -- vim.o.nohlsearch = true
 vim.o.relativenumber = true
@@ -45,10 +46,7 @@ require('packer').startup(function()
   -- Cosmetic
   use 'itchyny/lightline.vim'
   use 'mechatroner/rainbow_csv'
-  use {
-    "folke/which-key.nvim",
-    config = function() require("lvim.core.which-key").setup() end,
-  }
+  use 'liuchengxu/vim-which-key'
   use 'savq/melange'
 
   -- LSP
@@ -172,9 +170,6 @@ require('packer').startup(function()
   use {
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate",
-    config = function()
-      require("lvim.core.treesitter").setup()
-    end,
   }
   vim.g.AutoPairsMapCR = 0
   vim.g.neoterm_repl_enable_ipython_paste_magic = 1
@@ -218,9 +213,9 @@ vim.cmd [[
   nmap <silent> <localleader>a <cmd>lua vim.lsp.buf.code_action()<CR>
   nmap <silent> <localleader>e <cmd>lua vim.diagnostic.open_float()<CR>
 
+  nn <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+  nn <silent> <localleader> :<c-u>WhichKey  ','<CR>
   " Leader stuff
-  nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
-  nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
   nn <leader>/ :Telescope live_grep<CR>
   nn <leader>; :Commands<CR>
   nn <leader><CR> :
