@@ -46,7 +46,6 @@ require('packer').startup(function()
   -- Cosmetic
   use 'itchyny/lightline.vim'
   use 'mechatroner/rainbow_csv'
-  use 'liuchengxu/vim-which-key'
   use 'savq/melange'
 
   -- LSP
@@ -117,8 +116,8 @@ require('packer').startup(function()
         end,
       },
       sources = cmp.config.sources({
-          {name = 'nvim_lsp'},
           {name = 'luasnip'},
+          {name = 'nvim_lsp'},
           {name = 'buffer'}
         }),
       mapping = {
@@ -160,13 +159,13 @@ require('packer').startup(function()
   use 'tpope/vim-abolish' -- substitution
   use 'tpope/vim-dadbod' -- databases
   use 'tpope/vim-dispatch' -- used by other plugins
-  use 'radenling/vim-dispatch-neovim'
+  use 'radenling/vim-dispatch-neovim' -- no one knows
   use 'tpope/vim-vinegar' -- netrw+
-  use 'tpope/vim-surround' -- ysiw
+  use 'tpope/vim-surround' -- ysiw 
   use 'tpope/vim-commentary' -- comments
   use 'tpope/vim-repeat' -- better .
   use 'tpope/vim-sensible' -- good defaults
-  use 'sheerun/vim-polyglot'
+  use 'sheerun/vim-polyglot' -- all languages
   use {
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate",
@@ -213,8 +212,6 @@ map('n', '<localleader>r', vim.lsp.buf.rename)
 map('n', '<localleader>a', vim.lsp.buf.code_action)
 map('n', '<localleader>e', vim.diagnostic.open_float)
 
-map('n', '<leader>', ':<c-u>WhichKey "<Space>"<CR>')
-map('n', '<localleader>', ':<c-u>WhichKey ","<CR>')
 map('n', '<leader>/', ':Telescope live_grep<CR>')
 map('n', '<leader>;', ':Telescope commands<CR>')
 map('n', '<leader><CR>', ':')
@@ -234,12 +231,12 @@ map('n', '<silent> <leader>jj', ':Telescope find_files search_dirs={"~/notes"}<C
 map('n', '<silent> <leader>js', ':e ~/notes/scratch.md<CR>')
 map('n', '<silent> <leader>jt', ':e ~/notes/todo.txt<CR>')
 map('n', '<leader>k', ':q<CR>')
--- map('n', '<leader>ln', vim.diagnostic.goto_next)
--- map('n', '<leader>ll', vim.diagnostic.open_float)
--- map('n', '<leader>lp', vim.diagnostic.goto_prev)
+map('n', '<leader>ln', vim.diagnostic.goto_next)
+map('n', '<leader>ll', vim.diagnostic.open_float)
+map('n', '<leader>lp', vim.diagnostic.goto_prev)
 map('n', '<leader>m', ':Telescope oldfiles<CR>')
 map('n', '<leader>n', ':tabe<CR>')
-map('n', '<leader>o', ':echom "UNUSED"<CR>')
+map('n', '<leader>o', ':Telescope treesitter<CR>')
 map('n', '<leader>p', ':cw<CR>')
 map('n', '<leader>q', ':qa<CR>')
 map('n', '<leader>ra', ':%s/')
@@ -283,8 +280,8 @@ map('n', '<Down>', ':res -5<CR>')
 -- Etc. keymappings
 map('n', '-', ':Vexplore!<CR>')
 map('n', 'Q', '@q')
-map('n', '/', '/\v')
-map('n', '?', '?\v')
+map('n', '/', '/\\v')
+map('n', '?', '?\\v')
 map('n', 'H', 'gT')
 map('n', 'L', 'gt')
 map('n', '!', ':!')
