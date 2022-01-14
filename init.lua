@@ -13,9 +13,9 @@ vim.o.ignorecase = true
 vim.o.wildignorecase = true
 vim.o.timeoutlen = 500
 vim.o.number = true
--- vim.o.nohlsearch = true
+vim.o.hlsearch = false
 vim.o.relativenumber = true
--- vim.o.foldmethod = syntax
+vim.g.foldmethod = syntax
 vim.o.foldlevel = 99
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
@@ -197,114 +197,110 @@ require('packer').startup(function()
   use {"folke/persistence.nvim", config = function() require('persistence').setup() end}
 end)
 
--- TODO: redo these bindings in lua
-vim.cmd [[
-  set background=dark
-  colo melange
-  filetype plugin indent on
-  syntax enable
 
-  " LSP bindings
-  nmap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
-  nmap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
-  nmap <silent> <localleader>f <cmd>lua vim.lsp.buf.formatting()<CR>
-  nmap <silent> <localleader>r <cmd>lua vim.lsp.buf.rename()<CR>
-  nmap <silent> <localleader>a <cmd>lua vim.lsp.buf.code_action()<CR>
-  nmap <silent> <localleader>e <cmd>lua vim.diagnostic.open_float()<CR>
+vim.o.background = 'dark'
+vim.cmd [[colo melange]]
+vim.cmd [[filetype plugin indent on]]
+vim.cmd [[syntax enable]]
 
-  nn <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
-  nn <silent> <localleader> :<c-u>WhichKey  ','<CR>
-  " Leader stuff
-  nn <leader>/ :Telescope live_grep<CR>
-  nn <leader>; :Commands<CR>
-  nn <leader><CR> :
-  nn <leader><leader> :b#<CR>
-  nn <leader>a :ZenMode<CR>
-  nn <leader>b :Telescope lsp_document_symbols<CR>
-  nn <leader>c :Telescope treesitter<CR>
-  nn <leader>d :Vexplore! .<CR>
-  nn <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-  nn <leader>f :Telescope git_files<CR>
-  nn <leader>g :Git<CR>
-  nn <leader>h :Telescope help_tags<CR>
-  " "nn <leader>i :echom "UNUSED"<CR>
-  nn <silent> <leader>jc :call CondenseLog()<CR>
-  nn <silent> <leader>jl :call OpenLog()<CR>
-  nn <silent> <leader>jj :Telescope find_files search_dirs={"~/notes"}<CR>
-  nn <silent> <leader>js :e ~/notes/scratch.md<CR>
-  nn <silent> <leader>jt :e ~/notes/todo.txt<CR>
-  nn <leader>k :q<CR>
-  nmap <leader>ln <cmd>lua vim.diagnostic.goto_next()<CR>
-  nmap <leader>ll <cmd>lua vim.diagnostic.open_float()<CR>
-  nmap <leader>lp <cmd>lua vim.diagnostic.goto_prev()<CR>
-  nn <leader>m :Telescope oldfiles<CR>
-  nn <leader>n :tabe<CR>
-  nn <leader>o :echom "UNUSED"<CR>
-  nn <leader>p :cw<CR>
-  nn <leader>q :qa<CR>
-  nn <leader>ra :%s/
-  nn <leader>rr :s/
-  nn <leader>sh :vsplit<CR>
-  nn <leader>sj :split<CR><C-W>j
-  nn <leader>sk :split<CR>
-  nn <leader>sl :vsplit<CR><C-W>l
-  nn <silent> <leader>t :ToggleTerm<CR>
-  " nn <silent> <leader>u  :echom "UNUSED"<CR>
-  nn <leader>va :e ~/dotfiles/.bash_aliases<CR>
-  nn <leader>vk :e ~/.config/kitty/kitty.conf<CR>
-  nn <leader>vl :e ./.lvimrc<CR>
-  nn <leader>vv :e ~/.config/nvim/init.lua<CR>
-  nn <leader>vt :e ~/dotfiles/.tmux.conf<CR>
-  nn <leader>vu :e ~/dotfiles/init.lua<CR>
-  nn <leader>vz :e ~/dotfiles/.zshrc<CR>
-  nn <leader>w :w<CR>
-  nn <leader>x mzgggqG`z
-  nn <leader>y :LuaSnipEdit<CR>
-  function! ToggleFold() abort
-    if &foldlevel < 99
-      set foldlevel=99
-    else
-      setlocal foldlevel=1
-    endif
-  endfunction
-  nn <leader>z :call ToggleFold()<cr>
+-- Bindings
+local map = vim.keymap.set
+map('n', 'gd', vim.lsp.buf.definition)
+map('n', 'K', vim.lsp.buf.hover)
+map('n', 'gr', vim.lsp.buf.references)
+map('n', '<localleader>f', vim.lsp.buf.formatting)
+map('n', '<localleader>r', vim.lsp.buf.rename)
+map('n', '<localleader>a', vim.lsp.buf.code_action)
+map('n', '<localleader>e', vim.diagnostic.open_float)
 
-  " Window navigation
-  nn <C-j> <C-W>j
-  nn <C-k> <C-W>k
-  nn <C-h> <C-W>h
-  nn <C-l> <C-W>l
+map('n', '<leader>', ':<c-u>WhichKey "<Space>"<CR>')
+map('n', '<localleader>', ':<c-u>WhichKey ","<CR>')
+map('n', '<leader>/', ':Telescope live_grep<CR>')
+map('n', '<leader>;', ':Telescope commands<CR>')
+map('n', '<leader><CR>', ':')
+map('n', '<leader><leader>', ':b#<CR>')
+map('n', '<leader>a', ':ZenMode<CR>')
+map('n', '<leader>b', ':Telescope lsp_document_symbols<CR>')
+map('n', '<leader>c', ':Telescope treesitter<CR>')
+map('n', '<leader>d', ':Vexplore! .<CR>')
+map('n', '<leader>e', ':e <C-R>=expand("%:p:h") . "/" <CR>')
+map('n', '<leader>f', ':Telescope git_files<CR>')
+map('n', '<leader>g', ':Git<CR>')
+map('n', '<leader>h', ':Telescope help_tags<CR>')
+map('n', '<leader>i', ':echom "UNUSED"<CR>')
+-- map('n', '<leader>jc' ':call CondenseLog()<CR>') TODO: use org mode
+-- map('n', '<silent> <leader>jl' ':call OpenLog()<CR>')
+map('n', '<silent> <leader>jj', ':Telescope find_files search_dirs={"~/notes"}<CR>')
+map('n', '<silent> <leader>js', ':e ~/notes/scratch.md<CR>')
+map('n', '<silent> <leader>jt', ':e ~/notes/todo.txt<CR>')
+map('n', '<leader>k', ':q<CR>')
+-- map('n', '<leader>ln', vim.diagnostic.goto_next)
+-- map('n', '<leader>ll', vim.diagnostic.open_float)
+-- map('n', '<leader>lp', vim.diagnostic.goto_prev)
+map('n', '<leader>m', ':Telescope oldfiles<CR>')
+map('n', '<leader>n', ':tabe<CR>')
+map('n', '<leader>o', ':echom "UNUSED"<CR>')
+map('n', '<leader>p', ':cw<CR>')
+map('n', '<leader>q', ':qa<CR>')
+map('n', '<leader>ra', ':%s/')
+map('n', '<leader>rr', ':s/')
+map('n', '<leader>sh', ':vsplit<CR>')
+map('n', '<leader>sj', ':split<CR><C-W>j')
+map('n', '<leader>sk', ':split<CR>')
+map('n', '<leader>sl', ':vsplit<CR><C-W>l')
+map('n', '<leader>t', ':ToggleTerm<CR>')
+map('n', '<leader>u', ':echom "UNUSED"<CR>')
+map('n', '<leader>va', ':e ~/dotfiles/.bash_aliases<CR>')
+map('n', '<leader>vk', ':e ~/.config/kitty/kitty.conf<CR>')
+map('n', '<leader>vl', ':e ./.lvimrc<CR>')
+map('n', '<leader>vv', ':e ~/.config/nvim/init.lua<CR>')
+map('n', '<leader>vt', ':e ~/dotfiles/.tmux.conf<CR>')
+map('n', '<leader>vu', ':e ~/dotfiles/init.lua<CR>')
+map('n', '<leader>vz', ':e ~/dotfiles/.zshrc<CR>')
+map('n', '<leader>w', ':w<CR>')
+map('n', '<leader>x', 'mzgggqG`z')
+map('n', '<leader>y', ':LuaSnipEdit<CR>')
+map('n', '<leader>z', function() 
+  if vim.o.foldlevel > 0 then
+    vim.o.foldlevel = 0
+  else
+    vim.o.foldlevel = 99
+  end 
+end)
 
+-- Window navigation
+map('n', '<C-j>', '<C-W>j')
+map('n', '<C-k>', '<C-W>k')
+map('n', '<C-h>', '<C-W>h')
+map('n', '<C-l>', '<C-W>l')
 
-  " Arrows resize
-  nn <Left> :vertical res -5<CR>
-  nn <Right> :vertical res +5<CR>
-  nn <Up> :res +5<CR>
-  nn <Down> :res -5<CR>
+-- Arrows resize
+map('n', '<Left>', ':vertical res -5<CR>')
+map('n', '<Right>', ':vertical res +5<CR>')
+map('n', '<Up>', ':res +5<CR>')
+map('n', '<Down>', ':res -5<CR>')
 
-  " Etc. keymappings
-  nn - :Vexplore!<CR>
-  nn Q @q
-  nn / /\v
-  nn ? ?\v
-  nn H gT
-  nn L gt
-  nn ! :!
-  nn q: :q
-  nn Z zA
-  im <C-c> <ESC>
-  im jj    <ESC>
-  nn <BS> :b#<CR>
+-- Etc. keymappings
+map('n', '-', ':Vexplore!<CR>')
+map('n', 'Q', '@q')
+map('n', '/', '/\v')
+map('n', '?', '?\v')
+map('n', 'H', 'gT')
+map('n', 'L', 'gt')
+map('n', '!', ':!')
+map('n', 'q:', ':q')
+map('n', 'Z',  'zA')
+map('i', '<C-c>', '<ESC>')
+map('i', 'jj', '<ESC>')
+map('n', '<BS>', ':b#<CR>')
 
-  " Terminal stuff
-  tnoremap <Esc> <C-\><C-n>
-  tnoremap <C-h> <C-\><C-n><C-w>h
-  tnoremap <C-j> <C-\><C-n><C-w>j
-  tnoremap <C-k> <C-\><C-n><C-w>k
-  tnoremap <C-l> <C-\><C-n><C-w>l
-  au TermOpen * setlocal nonumber norelativenumber bufhidden=hide
+-- Terminal stuff
+map('t', '<Esc>', '<C-\\><C-n>')
+map('t', '<C-h>', '<C-\\><C-n><C-w>h')
+map('t', '<C-j>', '<C-\\><C-n><C-w>j')
+map('t', '<C-k>', '<C-\\><C-n><C-w>k')
+map('t', '<C-l>', '<C-\\><C-n><C-w>l')
+vim.cmd  [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 
-  au! bufwritepost init.lua source %
-]]
+vim.cmd [[ au! bufwritepost init.lua source % ]]
 
