@@ -48,6 +48,8 @@ alias ism="iex -S mix"
 alias imps="iex -S mix phx.server"
 # mix test
 alias mixtest="mix test --listen-on-stdin --stale"
+# activate python venv
+alias vba=". ./venv/bin/activate"
 # pytest
 alias pyt="pytest --nomigrations --reuse-db"
 alias pytw="ptw -- --nomigrations --reuse-db"
