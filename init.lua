@@ -52,12 +52,14 @@ require('packer').startup(function()
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
   use 'tamago324/nlsp-settings.nvim'
+  use "ray-x/lsp_signature.nvim"
+  require("lsp_signature").setup({})
   local lsp = require'lspconfig'
   lsp.pyright.setup{}
   lsp.bashls.setup{}
   lsp.dockerls.setup{}
   lsp.elixirls.setup{
-    cmd = {vim.fn.expand("~/.local/bin/elixir-ls/release/language_server.sh")}
+    cmd = {vim.fn.expand("~/.local/share/nvim/lsp_servers/elixir/elixir-ls/language_server.sh")}
   }
   lsp.jsonls.setup{}
   lsp.pyright.setup{}
@@ -66,13 +68,20 @@ require('packer').startup(function()
   lsp.tsserver.setup{}
 
   -- Navigation
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = { {'nvim-lua/plenary.nvim'} }
-  }
+  use 'nvim-lua/plenary.nvim'
+  use 'nvim-telescope/telescope.nvim'
+  use 'kyazdani42/nvim-tree.lua'
   use 'glepnir/dashboard-nvim'
-  vim.g.dashboard_default_executive = 'telescope'
+  use 'nvim-lua/popup.nvim'
+  use 'ggandor/lightspeed.nvim'
 
+  require('lightspeed').setup({
+      ignore_case = true
+    })
+  require('nvim-tree').setup({
+      view = { side = 'right' }
+    })
+  vim.g.dashboard_default_executive = 'telescope'
   vim.g.dashboard_custom_footer = {"Destroy things with neovim"}
   vim.g.dashboard_custom_header = {
     '          ▀████▀▄▄              ▄█ ',
@@ -96,56 +105,8 @@ require('packer').startup(function()
   use 'saadparwaiz1/cmp_luasnip'
   use "rafamadriz/friendly-snippets"
 
-  local luasnip = require'luasnip'
   require('cool_luasnip')
-
-  local has_words_before = function()
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-  end
-
-  local feedkey = function(key, mode)
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-  end
-
-  local cmp = require'cmp'
-  cmp.setup({
-      snippet = {
-        expand = function(args)
-          require('luasnip').lsp_expand(args.body)
-        end,
-      },
-      sources = cmp.config.sources({
-          {name = 'luasnip'},
-          {name = 'nvim_lsp'},
-          {name = 'buffer'}
-        }),
-      mapping = {
-        ["<cr>"] = cmp.mapping.confirm(),
-        ["<Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          elseif luasnip.expand_or_locally_jumpable() then
-            luasnip.expand_or_jump()
-          elseif has_words_before() then
-            cmp.complete()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-      ["<S-Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_prev_item()
-        elseif luasnip.jumpable(-1) then
-          luasnip.jump(-1)
-        else
-          fallback()
-        end
-      end, { "i", "s" })
-    }
-  })
-
-
+  require('cool_cmp')
 
   -- Utility
   use 'windwp/nvim-autopairs'
@@ -170,6 +131,7 @@ require('packer').startup(function()
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate",
   }
+  
   vim.g.AutoPairsMapCR = 0
   vim.g.neoterm_repl_enable_ipython_paste_magic = 1
   vim.cmd [[au! FileType fugitive nm <buffer> <TAB> =]]
@@ -177,7 +139,7 @@ require('packer').startup(function()
   vim.cmd [[au! BufEnter *.heex setlocal ft=eelixir]]
 
   local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-  cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
+  require('cmp').event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
 
 
   -- Web
@@ -204,6 +166,7 @@ vim.cmd [[syntax enable]]
 
 -- Bindings
 local map = vim.keymap.set
+
 map('n', 'gd', vim.lsp.buf.definition)
 map('n', 'K', vim.lsp.buf.hover)
 map('n', 'gr', vim.lsp.buf.references)
@@ -216,27 +179,25 @@ map('n', '<leader>/', ':Telescope live_grep<CR>')
 map('n', '<leader>;', ':Telescope commands<CR>')
 map('n', '<leader><CR>', ':')
 map('n', '<leader><leader>', ':b#<CR>')
-map('n', '<leader>a', ':ZenMode<CR>')
+map('n', '<leader>a', ':echom "unsused"<CR>')
 map('n', '<leader>b', ':Telescope lsp_document_symbols<CR>')
 map('n', '<leader>c', ':Telescope treesitter<CR>')
-map('n', '<leader>d', ':Vexplore! .<CR>')
+map('n', '<leader>d', ':NvimTreeToggle<CR>')
 map('n', '<leader>e', ':e <C-R>=expand("%:p:h") . "/" <CR>')
 map('n', '<leader>f', ':Telescope git_files<CR>')
 map('n', '<leader>g', ':Git<CR>')
 map('n', '<leader>h', ':Telescope help_tags<CR>')
 map('n', '<leader>i', ':echom "UNUSED"<CR>')
--- map('n', '<leader>jc' ':call CondenseLog()<CR>') TODO: use org mode
--- map('n', '<silent> <leader>jl' ':call OpenLog()<CR>')
-map('n', '<silent> <leader>jj', ':Telescope find_files search_dirs={"~/notes"}<CR>')
-map('n', '<silent> <leader>js', ':e ~/notes/scratch.md<CR>')
-map('n', '<silent> <leader>jt', ':e ~/notes/todo.txt<CR>')
+map('n', '<leader>jj', ':Telescope find_files search_dirs={"~/notes"}<CR>')
+map('n', '<leader>js', ':e ~/notes/scratch.md<CR>')
+map('n', '<leader>jt', ':e ~/notes/todo.txt<CR>')
 map('n', '<leader>k', ':q<CR>')
 map('n', '<leader>ln', vim.diagnostic.goto_next)
 map('n', '<leader>ll', vim.diagnostic.open_float)
 map('n', '<leader>lp', vim.diagnostic.goto_prev)
 map('n', '<leader>m', ':Telescope oldfiles<CR>')
 map('n', '<leader>n', ':tabe<CR>')
-map('n', '<leader>o', ':Telescope treesitter<CR>')
+map('n', '<leader>oo', ':e ~/Dropbox/org/refile.org')
 map('n', '<leader>p', ':cw<CR>')
 map('n', '<leader>q', ':qa<CR>')
 map('n', '<leader>ra', ':%s/')
@@ -278,7 +239,7 @@ map('n', '<Up>', ':res +5<CR>')
 map('n', '<Down>', ':res -5<CR>')
 
 -- Etc. keymappings
-map('n', '-', ':Vexplore!<CR>')
+map('n', '-', ':NvimTreeToggle<CR>')
 map('n', 'Q', '@q')
 map('n', '/', '/\\v')
 map('n', '?', '?\\v')
