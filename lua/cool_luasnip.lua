@@ -1,5 +1,6 @@
 local luasnip = require'luasnip'
 luasnip.filetype_extend("python", {"django"})
+luasnip.filetype_extend("typescript", {"react-ts"})
 require("luasnip.loaders.from_vscode").load()
 
 -- Edit particular filetype snippets
