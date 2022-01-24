@@ -20,7 +20,8 @@ cmp.setup({
 				{name = 'luasnip'},
 				{name = 'nvim_lsp'},
 				{name = 'buffer'},
-				{name = 'neorg'}
+				{name = 'neorg'},
+				{name = 'path'}
 			}),
 		mapping = {
 			["<cr>"] = cmp.mapping.confirm(),

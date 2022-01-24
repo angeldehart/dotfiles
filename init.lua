@@ -45,9 +45,17 @@ require('packer').startup(function()
   use 'wbthomason/packer.nvim'
 
   -- Cosmetic
-  use 'itchyny/lightline.vim'
   use 'mechatroner/rainbow_csv'
+  use 'bluz71/vim-moonfly-colors'
   use 'savq/melange'
+  use  'nvim-lualine/lualine.nvim'
+  require('lualine').setup({ 
+    options = {
+      theme = 'jellybeans',
+      section_separators = { left = '', right = '' },
+      component_separators = { left = '', right = '' }
+    }
+  })
 
   -- LSP
   use 'neovim/nvim-lspconfig'
@@ -62,7 +70,9 @@ require('packer').startup(function()
   lsp.elixirls.setup{
     cmd = {vim.fn.expand("~/.local/share/nvim/lsp_servers/elixir/elixir-ls/language_server.sh")}
   }
-  lsp.jsonls.setup{}
+  lsp.jsonls.setup{
+    cmd = {"vscode-json-languageserver", "--stdio"}
+  }
   lsp.pyright.setup{}
   lsp.sqlls.setup{}
   lsp.terraformls.setup{}
@@ -160,7 +170,7 @@ end)
 
 
 vim.o.background = 'dark'
-vim.cmd [[colo melange]]
+vim.cmd [[colo moonfly]]
 vim.cmd [[filetype plugin indent on]]
 vim.cmd [[syntax enable]]
 
@@ -180,7 +190,7 @@ map('n', '<leader>;', ':Telescope commands<CR>')
 map('n', '<leader><CR>', ':')
 map('n', '<leader><leader>', ':b#<CR>')
 map('n', '<leader>a', ':echom "unsused"<CR>')
-map('n', '<leader>b', ':Telescope lsp_document_symbols<CR>')
+map('n', '<leader>b', ':Telescope buffers<CR>')
 map('n', '<leader>c', ':Telescope treesitter<CR>')
 map('n', '<leader>d', ':NvimTreeToggle<CR>')
 map('n', '<leader>e', ':e <C-R>=expand("%:p:h") . "/" <CR>')
