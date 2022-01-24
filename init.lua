@@ -15,7 +15,8 @@ vim.o.timeoutlen = 500
 vim.o.number = true
 vim.o.hlsearch = false
 vim.o.relativenumber = true
-vim.g.foldmethod = syntax
+vim.o.foldmethod = "expr"
+vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 vim.o.foldlevel = 99
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
@@ -73,14 +74,11 @@ require('packer').startup(function()
   use 'kyazdani42/nvim-tree.lua'
   use 'glepnir/dashboard-nvim'
   use 'nvim-lua/popup.nvim'
-  use 'ggandor/lightspeed.nvim'
-
-  require('lightspeed').setup({
-      ignore_case = true
-    })
-  require('nvim-tree').setup({
-      view = { side = 'right' }
-    })
+  use {'ggandor/lightspeed.nvim', 
+    config = function() require('lightspeed').setup{ ignore_case = true } end
+  }
+  use "folke/which-key.nvim"
+  require('nvim-tree').setup{ view = { side = 'right' } }
   vim.g.dashboard_default_executive = 'telescope'
   vim.g.dashboard_custom_footer = {"Destroy things with neovim"}
   vim.g.dashboard_custom_header = {
@@ -156,6 +154,8 @@ require('packer').startup(function()
   use 'editorconfig/editorconfig-vim'
   use {"akinsho/toggleterm.nvim", config = function() require('toggleterm').setup() end}
   use {"folke/persistence.nvim", config = function() require('persistence').setup() end}
+  use 'nvim-neorg/neorg'
+  require('cool_neorg')
 end)
 
 
@@ -188,8 +188,9 @@ map('n', '<leader>f', ':Telescope git_files<CR>')
 map('n', '<leader>g', ':Git<CR>')
 map('n', '<leader>h', ':Telescope help_tags<CR>')
 map('n', '<leader>i', ':echom "UNUSED"<CR>')
-map('n', '<leader>jj', ':Telescope find_files search_dirs={"~/notes"}<CR>')
-map('n', '<leader>js', ':e ~/notes/scratch.md<CR>')
+map('n', '<leader>jd', ':e ~/Dropbox/neorg/dashboard.norg<CR>')
+map('n', '<leader>jj', ':Telescope find_files search_dirs={"~/Dropbox/neorg"}<CR>')
+map('n', '<leader>js', ':e ~/Dropbox/neorg/scratch.norg<CR>')
 map('n', '<leader>jt', ':e ~/notes/todo.txt<CR>')
 map('n', '<leader>k', ':q<CR>')
 map('n', '<leader>ln', vim.diagnostic.goto_next)
@@ -197,7 +198,7 @@ map('n', '<leader>ll', vim.diagnostic.open_float)
 map('n', '<leader>lp', vim.diagnostic.goto_prev)
 map('n', '<leader>m', ':Telescope oldfiles<CR>')
 map('n', '<leader>n', ':tabe<CR>')
-map('n', '<leader>oo', ':e ~/Dropbox/org/refile.org')
+-- map('n', '<leader>oo', ':e ~/Dropbox/org/refile.org')
 map('n', '<leader>p', ':cw<CR>')
 map('n', '<leader>q', ':qa<CR>')
 map('n', '<leader>ra', ':%s/')
@@ -239,7 +240,7 @@ map('n', '<Up>', ':res +5<CR>')
 map('n', '<Down>', ':res -5<CR>')
 
 -- Etc. keymappings
-map('n', '-', ':NvimTreeToggle<CR>')
+map('n', '-', ':NvimTreeFindFile<CR>')
 map('n', 'Q', '@q')
 map('n', '/', '/\\v')
 map('n', '?', '?\\v')
@@ -261,4 +262,6 @@ map('t', '<C-l>', '<C-\\><C-n><C-w>l')
 vim.cmd  [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 
 vim.cmd [[ au! bufwritepost init.lua source % ]]
+
+require("which-key").setup{}
 
