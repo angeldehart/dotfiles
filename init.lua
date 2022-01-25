@@ -82,6 +82,7 @@ require('packer').startup(function()
   use 'nvim-lua/plenary.nvim'
   use 'nvim-telescope/telescope.nvim'
   use 'kyazdani42/nvim-tree.lua'
+  use 'ryanoasis/vim-devicons'
   use 'glepnir/dashboard-nvim'
   use 'nvim-lua/popup.nvim'
   use {'ggandor/lightspeed.nvim', 
@@ -129,7 +130,7 @@ require('packer').startup(function()
   use 'tpope/vim-dadbod' -- databases
   use 'tpope/vim-dispatch' -- used by other plugins
   use 'radenling/vim-dispatch-neovim' -- no one knows
-  use 'tpope/vim-vinegar' -- netrw+
+  -- use 'tpope/vim-vinegar' -- netrw+
   use 'tpope/vim-surround' -- ysiw 
   use 'tpope/vim-commentary' -- comments
   use 'tpope/vim-repeat' -- better .
