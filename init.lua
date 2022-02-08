@@ -18,6 +18,7 @@ vim.o.relativenumber = true
 vim.o.foldmethod = "expr"
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 vim.o.foldlevel = 99
+vim.o.grepprg = "rg --vimgrep --no-heading --smart-case"
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python"
@@ -51,7 +52,6 @@ require('packer').startup(function()
   use  'nvim-lualine/lualine.nvim'
   require('lualine').setup({ 
     options = {
-      theme = 'jellybeans',
       section_separators = { left = '', right = '' },
       component_separators = { left = '', right = '' }
     }
@@ -112,7 +112,6 @@ require('packer').startup(function()
   use 'hrsh7th/nvim-cmp'
   use 'L3MON4D3/LuaSnip'
   use 'saadparwaiz1/cmp_luasnip'
-  use "rafamadriz/friendly-snippets"
 
   require('cool_luasnip')
   require('cool_cmp')
@@ -163,6 +162,7 @@ require('packer').startup(function()
 
   -- Etc
   use 'editorconfig/editorconfig-vim'
+  use 'jamestthompson3/nvim-remote-containers'
   use {"akinsho/toggleterm.nvim", config = function() require('toggleterm').setup() end}
   use {"folke/persistence.nvim", config = function() require('persistence').setup() end}
   use 'nvim-neorg/neorg'
@@ -170,8 +170,8 @@ require('packer').startup(function()
 end)
 
 
-vim.o.background = 'dark'
-vim.cmd [[colo moonfly]]
+vim.o.background = 'light'
+vim.cmd [[colo peachpuff]]
 vim.cmd [[filetype plugin indent on]]
 vim.cmd [[syntax enable]]
 
