@@ -77,7 +77,6 @@ require('packer').startup(function()
   lsp.sqlls.setup{}
   lsp.terraformls.setup{}
   lsp.tsserver.setup{}
-
   -- Navigation
   use 'nvim-lua/plenary.nvim'
   use 'nvim-telescope/telescope.nvim'
@@ -89,19 +88,35 @@ require('packer').startup(function()
     config = function() require('lightspeed').setup{ ignore_case = true } end
   }
   use "folke/which-key.nvim"
-  require('nvim-tree').setup{ view = { side = 'right' } }
+  require('nvim-tree').setup{ view = { side = 'right' }, git = { enable = false} }
   vim.g.dashboard_default_executive = 'telescope'
   vim.g.dashboard_custom_footer = {"Destroy things with neovim"}
   vim.g.dashboard_custom_header = {
-    '          ▀████▀▄▄              ▄█ ',
-    '            █▀    ▀▀▄▄▄▄▄    ▄▄▀▀█ ',
-    '    ▄        █          ▀▀▀▀▄  ▄▀  ',
-    '   ▄▀ ▀▄      ▀▄              ▀▄▀  ',
-    '  ▄▀    █     █▀   ▄█▀▄      ▄█    ',
-    '  ▀▄     ▀▄  █     ▀██▀     ██▄█   ',
-    '   ▀▄    ▄▀ █   ▄██▄   ▄  ▄  ▀▀ █  ',
-    '    █  ▄▀  █    ▀██▀    ▀▀ ▀▀  ▄▀  ',
-    '   █   █  █      ▄▄           ▄▀   ',
+    '        ▄█          █          █▄          ',
+    '      ▐██      ▄█  ███  █▄      ██▌        ',
+    '     ▐██▌     ██████████████     ▐██▌      ',
+    '    ████     ████████████████    ████      ',
+    '    ▐█████  ██████████████████  █████▌     ',
+    '    ████████████████████████████████       ',
+    '     ███████▀▀████████████▀▀███████        ',
+    '      █████▌  ▄▄ ▀████▀ ▄▄  ▐█████         ',
+    '    ▄▄██████▄ ▀▀  ████  ▀▀ ▄██████▄▄       ',
+    '    ██████████████████████████████████     ',
+    '  ████████████████████████████████████     ',
+    ' ██████   ███████▀▄██▄▀███████   ██████▌   ',
+    '▐█████     ██████████████████      █████▌  ',
+    ' ▐█████      ██████▀  ▀██████       █████▌ ',
+    '  █████▄      ███        ███      ▄█████   ',
+    '    ██████     █          █     ██████     ',
+    '     █████                     █████       ',
+    '      █████                   █████        ',
+    '      ████   ▄            ▄    ████        ',
+    '        ████ ██           ██ ████          ',
+    '          ████████ ▄██▄ ████████           ',
+    '         ████████████████████████          ',
+    '         ████████████████████████          ',
+    '          ▀█████████▀▀█████████▀           ',
+    '            ▀███▀       ▀███▀              ',
   }
 
   -- Completion
@@ -110,10 +125,9 @@ require('packer').startup(function()
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
   use 'hrsh7th/nvim-cmp'
-  use 'L3MON4D3/LuaSnip'
-  use 'saadparwaiz1/cmp_luasnip'
+  use 'dcampos/nvim-snippy'
+  use 'dcampos/cmp-snippy'
 
-  require('cool_luasnip')
   require('cool_cmp')
 
   -- Utility
@@ -127,6 +141,8 @@ require('packer').startup(function()
   use 'tpope/vim-rhubarb' -- github
   use 'tpope/vim-abolish' -- substitution
   use 'tpope/vim-dadbod' -- databases
+  use 'kristijanhusak/vim-dadbod-ui'
+  use 'kristijanhusak/vim-dadbod-completion'
   use 'tpope/vim-dispatch' -- used by other plugins
   use 'radenling/vim-dispatch-neovim' -- no one knows
   -- use 'tpope/vim-vinegar' -- netrw+
@@ -165,13 +181,11 @@ require('packer').startup(function()
   use 'jamestthompson3/nvim-remote-containers'
   use {"akinsho/toggleterm.nvim", config = function() require('toggleterm').setup() end}
   use {"folke/persistence.nvim", config = function() require('persistence').setup() end}
-  use 'nvim-neorg/neorg'
-  require('cool_neorg')
 end)
 
 
-vim.o.background = 'light'
-vim.cmd [[colo peachpuff]]
+vim.o.background = 'dark'
+vim.cmd [[colo moonfly]]
 vim.cmd [[filetype plugin indent on]]
 vim.cmd [[syntax enable]]
 
@@ -186,7 +200,7 @@ map('n', '<localleader>r', vim.lsp.buf.rename)
 map('n', '<localleader>a', vim.lsp.buf.code_action)
 map('n', '<localleader>e', vim.diagnostic.open_float)
 
-map('n', '<leader>/', ':Telescope live_grep<CR>')
+map('n', '<leader>/', ':Telescope live_grep <CR>')
 map('n', '<leader>;', ':Telescope commands<CR>')
 map('n', '<leader><CR>', ':')
 map('n', '<leader><leader>', ':b#<CR>')
@@ -199,10 +213,10 @@ map('n', '<leader>f', ':Telescope git_files<CR>')
 map('n', '<leader>g', ':Git<CR>')
 map('n', '<leader>h', ':Telescope help_tags<CR>')
 map('n', '<leader>i', ':echom "UNUSED"<CR>')
-map('n', '<leader>jd', ':e ~/Dropbox/neorg/dashboard.norg<CR>')
-map('n', '<leader>jj', ':Telescope find_files search_dirs={"~/Dropbox/neorg"}<CR>')
-map('n', '<leader>js', ':e ~/Dropbox/neorg/scratch.norg<CR>')
-map('n', '<leader>jt', ':e ~/notes/todo.txt<CR>')
+-- map('n', '<leader>jd', ':e ~/Dropbox/neorg/dashboard.norg<CR>')
+-- map('n', '<leader>jj', ':Telescope find_files search_dirs={"~/Dropbox/neorg"}<CR>')
+-- map('n', '<leader>js', ':e ~/Dropbox/neorg/scratch.norg<CR>')
+-- map('n', '<leader>jt', ':e ~/notes/todo.txt<CR>')
 map('n', '<leader>k', ':q<CR>')
 map('n', '<leader>ln', vim.diagnostic.goto_next)
 map('n', '<leader>ll', vim.diagnostic.open_float)
@@ -222,14 +236,14 @@ map('n', '<leader>t', ':ToggleTerm<CR>')
 map('n', '<leader>u', ':echom "UNUSED"<CR>')
 map('n', '<leader>va', ':e ~/dotfiles/.bash_aliases<CR>')
 map('n', '<leader>vk', ':e ~/.config/kitty/kitty.conf<CR>')
-map('n', '<leader>vl', ':e ./.lvimrc<CR>')
+map('n', '<leader>vl', ':e .nvim/init.lua<CR>')
 map('n', '<leader>vv', ':e ~/.config/nvim/init.lua<CR>')
 map('n', '<leader>vt', ':e ~/dotfiles/.tmux.conf<CR>')
 map('n', '<leader>vu', ':e ~/dotfiles/init.lua<CR>')
 map('n', '<leader>vz', ':e ~/dotfiles/.zshrc<CR>')
 map('n', '<leader>w', ':w<CR>')
 map('n', '<leader>x', 'mzgggqG`z')
-map('n', '<leader>y', ':LuaSnipEdit<CR>')
+-- map('n', '<leader>y', ':LuaSnipEdit<CR>')
 map('n', '<leader>z', function() 
   if vim.o.foldlevel > 0 then
     vim.o.foldlevel = 0
@@ -273,6 +287,9 @@ map('t', '<C-l>', '<C-\\><C-n><C-w>l')
 vim.cmd  [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 
 vim.cmd [[ au! bufwritepost init.lua source % ]]
+if vim.fn.filereadable("./.nvim/init.lua") == 1 then
+  dofile("./.nvim/init.lua")
+end
 
 require("which-key").setup{}
 
