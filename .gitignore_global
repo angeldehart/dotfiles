@@ -51,6 +51,7 @@ Session.vim
 *.sublime-project
 .vagrant
 .vim
+.nvim
 
 # JavaScript
 #############
