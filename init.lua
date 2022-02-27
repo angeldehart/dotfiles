@@ -185,7 +185,7 @@ end)
 
 
 vim.o.background = 'dark'
-vim.cmd [[colo moonfly]]
+vim.cmd [[colo melange]]
 vim.cmd [[filetype plugin indent on]]
 vim.cmd [[syntax enable]]
 
