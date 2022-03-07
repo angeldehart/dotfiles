@@ -57,6 +57,12 @@ require('packer').startup(function()
     }
   })
 
+  -- Python
+  use 'psf/black'
+  vim.cmd  [[autocmd BufWritePre *.py execute 'silent :Black']]
+  use 'fisadev/vim-isort'
+  vim.cmd  [[autocmd BufWritePre *.py execute 'silent :Isort']]
+
   -- LSP
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
