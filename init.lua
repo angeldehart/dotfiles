@@ -10,6 +10,7 @@ vim.o.clipboard = "unnamedplus"
 vim.o.termguicolors = true
 vim.o.hidden = true
 vim.o.ignorecase = true
+vim.o.smartcase = true
 vim.o.wildignorecase = true
 vim.o.timeoutlen = 500
 vim.o.number = true
@@ -22,6 +23,8 @@ vim.o.grepprg = "rg --vimgrep --no-heading --smart-case"
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python"
+
+
 
 vim.diagnostic.config({
     virtual_text = false,
@@ -49,13 +52,23 @@ require('packer').startup(function()
   use 'mechatroner/rainbow_csv'
   use 'bluz71/vim-moonfly-colors'
   use 'savq/melange'
+  use {'catppuccin/nvim', as = 'catpuccin'}
   use  'nvim-lualine/lualine.nvim'
   require('lualine').setup({ 
     options = {
+      theme = "catppuccin",
       section_separators = { left = '', right = '' },
       component_separators = { left = '', right = '' }
     }
   })
+  require("catppuccin").setup()
+
+  -- Testing
+  use 'vim-test/vim-test'
+  use 'rcarriga/vim-ultest'
+  vim.g["test#strategy"] = "dispatch"
+  vim.g.ultest_use_pty = 1
+  vim.g.ultest_output_on_line = 0
 
   -- Python
   use 'psf/black'
@@ -174,15 +187,19 @@ require('packer').startup(function()
   }
 
   -- Etc
+  use 'direnv/direnv.vim'
   use 'editorconfig/editorconfig-vim'
   use 'jamestthompson3/nvim-remote-containers'
-  use {"akinsho/toggleterm.nvim", config = function() require('toggleterm').setup() end}
+  use {"akinsho/toggleterm.nvim", config = function() require('toggleterm').setup({
+      start_in_insert = false
+  }) end}
   use {"folke/persistence.nvim", config = function() require('persistence').setup() end}
+  vim.g.direnv_auto = 1
 end)
 
 
 vim.o.background = 'dark'
-vim.cmd [[colo melange]]
+vim.cmd [[colo catppuccin]]
 vim.cmd [[filetype plugin indent on]]
 vim.cmd [[syntax enable]]
 
@@ -201,7 +218,7 @@ map('n', '<leader>/', ':Telescope live_grep <CR>')
 map('n', '<leader>;', ':Telescope commands<CR>')
 map('n', '<leader><CR>', ':')
 map('n', '<leader><leader>', ':b#<CR>')
-map('n', '<leader>a', ':echom "unsused"<CR>')
+map('n', '<leader>a', ':ToggleTerm<CR>')
 map('n', '<leader>b', ':Telescope buffers<CR>')
 map('n', '<leader>c', ':Telescope treesitter<CR>')
 map('n', '<leader>d', ':NvimTreeToggle<CR>')
@@ -229,7 +246,9 @@ map('n', '<leader>sh', ':vsplit<CR>')
 map('n', '<leader>sj', ':split<CR><C-W>j')
 map('n', '<leader>sk', ':split<CR>')
 map('n', '<leader>sl', ':vsplit<CR><C-W>l')
-map('n', '<leader>t', ':ToggleTerm<CR>')
+map('n', '<leader>tt', ':UltestNearest<CR>')
+map('n', '<leader>to', ':UltestOutput<CR>')
+map('n', '<leader>ts', ':UltestSummary!<CR>')
 map('n', '<leader>u', ':echom "UNUSED"<CR>')
 map('n', '<leader>va', ':e ~/dotfiles/.bash_aliases<CR>')
 map('n', '<leader>vk', ':e ~/.config/kitty/kitty.conf<CR>')
