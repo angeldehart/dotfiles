@@ -14,6 +14,7 @@ vim.o.smartcase = true
 vim.o.wildignorecase = true
 vim.o.timeoutlen = 500
 vim.o.number = true
+vim.o.mouse="a"
 vim.o.hlsearch = false
 vim.o.relativenumber = true
 vim.o.foldmethod = "expr"
@@ -96,6 +97,7 @@ require('packer').startup(function()
   lsp.sqlls.setup{}
   lsp.terraformls.setup{}
   lsp.tsserver.setup{}
+  lsp.tailwindcss.setup{}
   -- Navigation
   use 'nvim-lua/plenary.nvim'
   use 'nvim-telescope/telescope.nvim'
@@ -142,6 +144,7 @@ require('packer').startup(function()
 
   -- Utility
   use 'windwp/nvim-autopairs'
+  require('nvim-autopairs').setup{}
   use 'jpalardy/vim-slime'
   vim.g.slime_target = "neovim"
   -- Change this to use slime with ipython
@@ -169,7 +172,6 @@ require('packer').startup(function()
   vim.g.AutoPairsMapCR = 0
   vim.g.neoterm_repl_enable_ipython_paste_magic = 1
   vim.cmd [[au! FileType fugitive nm <buffer> <TAB> =]]
-  require('nvim-autopairs').setup{}
   vim.cmd [[au! BufEnter *.heex setlocal ft=eelixir]]
 
   local cmp_autopairs = require('nvim-autopairs.completion.cmp')
