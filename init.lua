@@ -17,6 +17,7 @@ vim.o.number = true
 vim.o.mouse="a"
 vim.o.hlsearch = false
 vim.o.relativenumber = true
+vim.o.completeopt = "menu,menuone,noselect"
 vim.o.foldmethod = "expr"
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 vim.o.foldlevel = 99
@@ -46,6 +47,9 @@ vim.opt.wildignore = {
 
 
 -- Packages
+--
+vim.cmd [[packadd packer.nvim]]
+vim.cmd [[packloadall]]
 require('packer').startup(function()
   use 'wbthomason/packer.nvim'
 
@@ -81,35 +85,48 @@ require('packer').startup(function()
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
   use 'tamago324/nlsp-settings.nvim'
-  use "ray-x/lsp_signature.nvim"
-  require("lsp_signature").setup({})
-  local lsp = require'lspconfig'
-  lsp.pyright.setup{}
-  lsp.bashls.setup{}
-  lsp.dockerls.setup{}
-  lsp.elixirls.setup{
-    cmd = {vim.fn.expand("~/.local/share/nvim/lsp_servers/elixir/elixir-ls/language_server.sh")}
+  use {"ray-x/lsp_signature.nvim", 
+    config = function() 
+	  require("lsp_signature").setup({
+	    config = function() 
+	      local lsp = require'lspconfig'
+	      lsp.pyright.setup{}
+	      lsp.bashls.setup{}
+	      lsp.dockerls.setup{}
+	      lsp.elixirls.setup{
+	        cmd = {vim.fn.expand("~/.local/share/nvim/lsp_servers/elixir/elixir-ls/language_server.sh")}
+	      }
+	      lsp.jsonls.setup{
+	        cmd = {"vscode-json-languageserver", "--stdio"}
+	      }
+	      lsp.pyright.setup{}
+	      lsp.sqlls.setup{}
+	      lsp.terraformls.setup{}
+	      lsp.tsserver.setup{}
+	      lsp.tailwindcss.setup{}
+	    end
+	  })
+    end
   }
-  lsp.jsonls.setup{
-    cmd = {"vscode-json-languageserver", "--stdio"}
-  }
-  lsp.pyright.setup{}
-  lsp.sqlls.setup{}
-  lsp.terraformls.setup{}
-  lsp.tsserver.setup{}
-  lsp.tailwindcss.setup{}
   -- Navigation
   use 'nvim-lua/plenary.nvim'
   use 'nvim-telescope/telescope.nvim'
-  use 'kyazdani42/nvim-tree.lua'
+  use {'kyazdani42/nvim-tree.lua', 
+    config = function()
+      require('nvim-tree').setup{ view = { side = 'right' }, git = { enable = false} }
+    end
+  }
   use 'ryanoasis/vim-devicons'
   use 'glepnir/dashboard-nvim'
   use 'nvim-lua/popup.nvim'
   use {'ggandor/lightspeed.nvim', 
     config = function() require('lightspeed').setup{ ignore_case = true } end
   }
-  use "folke/which-key.nvim"
-  require('nvim-tree').setup{ view = { side = 'right' }, git = { enable = false} }
+  use {"folke/which-key.nvim",
+    config = function()
+      require("which-key").setup{}
+    end
+  }
   vim.g.dashboard_default_executive = 'telescope'
   vim.g.dashboard_custom_footer = {"Destroy things with neovim"}
   vim.g.dashboard_custom_header = {
@@ -136,15 +153,19 @@ require('packer').startup(function()
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
-  use 'hrsh7th/nvim-cmp'
+  use {'hrsh7th/nvim-cmp', 
+    config = function() 
+      require('cool_cmp')
+    end
+  }
   use 'dcampos/nvim-snippy'
   use 'dcampos/cmp-snippy'
 
-  require('cool_cmp')
 
   -- Utility
-  use 'windwp/nvim-autopairs'
-  require('nvim-autopairs').setup{}
+  use {'windwp/nvim-autopairs', 
+    config = function() require('nvim-autopairs').setup{} end,
+  }
   use 'jpalardy/vim-slime'
   vim.g.slime_target = "neovim"
   -- Change this to use slime with ipython
@@ -174,9 +195,6 @@ require('packer').startup(function()
   vim.cmd [[au! FileType fugitive nm <buffer> <TAB> =]]
   vim.cmd [[au! BufEnter *.heex setlocal ft=eelixir]]
 
-  local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-  require('cmp').event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
-
 
   -- Web
   use 'stephenway/postcss.vim'
@@ -192,9 +210,6 @@ require('packer').startup(function()
   use 'direnv/direnv.vim'
   use 'editorconfig/editorconfig-vim'
   use 'jamestthompson3/nvim-remote-containers'
-  use {"akinsho/toggleterm.nvim", config = function() require('toggleterm').setup({
-      start_in_insert = false
-  }) end}
   use {"folke/persistence.nvim", config = function() require('persistence').setup() end}
   vim.g.direnv_auto = 1
 end)
@@ -220,7 +235,7 @@ map('n', '<leader>/', ':Telescope live_grep <CR>')
 map('n', '<leader>;', ':Telescope commands<CR>')
 map('n', '<leader><CR>', ':')
 map('n', '<leader><leader>', ':b#<CR>')
-map('n', '<leader>a', ':ToggleTerm<CR>')
+map('n', '<leader>a', ':te<CR>')
 map('n', '<leader>b', ':Telescope buffers<CR>')
 map('n', '<leader>c', ':Telescope treesitter<CR>')
 map('n', '<leader>d', ':NvimTreeToggle<CR>')
@@ -309,5 +324,4 @@ if vim.fn.filereadable("./.nvim/init.lua") == 1 then
   dofile("./.nvim/init.lua")
 end
 
-require("which-key").setup{}
 
