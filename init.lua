@@ -55,25 +55,18 @@ require('packer').startup(function()
 
   -- Cosmetic
   use 'mechatroner/rainbow_csv'
-  use 'bluz71/vim-moonfly-colors'
   use 'savq/melange'
-  use {'catppuccin/nvim', as = 'catpuccin'}
   use  'nvim-lualine/lualine.nvim'
   require('lualine').setup({ 
     options = {
-      theme = "catppuccin",
       section_separators = { left = '', right = '' },
       component_separators = { left = '', right = '' }
     }
   })
-  require("catppuccin").setup()
 
   -- Testing
   use 'vim-test/vim-test'
-  use 'rcarriga/vim-ultest'
   vim.g["test#strategy"] = "dispatch"
-  vim.g.ultest_use_pty = 1
-  vim.g.ultest_output_on_line = 0
 
   -- Python
   use 'psf/black'
@@ -82,32 +75,29 @@ require('packer').startup(function()
   vim.cmd  [[autocmd BufWritePre *.py execute 'silent :Isort']]
 
   -- LSP
-  use 'neovim/nvim-lspconfig'
-  use 'williamboman/nvim-lsp-installer'
-  use 'tamago324/nlsp-settings.nvim'
-  use {"ray-x/lsp_signature.nvim", 
+  use { 'ms-jpq/coq_nvim', run = 'python3 -m coq deps'}
+  use 'ms-jpq/coq.artifacts'
+  use {'neovim/nvim-lspconfig', 
     config = function() 
-	  require("lsp_signature").setup({
-	    config = function() 
 	      local lsp = require'lspconfig'
-	      lsp.pyright.setup{}
-	      lsp.bashls.setup{}
-	      lsp.dockerls.setup{}
-	      lsp.elixirls.setup{
+	      local coq = require'coq'
+	      lsp.pyright.setup(coq.lsp_ensure_capabilities())
+	      lsp.bashls.setup(coq.lsp_ensure_capabilities({}))
+	      lsp.dockerls.setup(coq.lsp_ensure_capabilities({}))
+	      lsp.elixirls.setup(coq.lsp_ensure_capabilities({
 	        cmd = {vim.fn.expand("~/.local/share/nvim/lsp_servers/elixir/elixir-ls/language_server.sh")}
-	      }
-	      lsp.jsonls.setup{
+	      }))
+	      lsp.jsonls.setup(coq.lsp_ensure_capabilities({
 	        cmd = {"vscode-json-languageserver", "--stdio"}
-	      }
-	      lsp.pyright.setup{}
-	      lsp.sqlls.setup{}
-	      lsp.terraformls.setup{}
-	      lsp.tsserver.setup{}
-	      lsp.tailwindcss.setup{}
-	    end
-	  })
+	      }))
+	      lsp.sqlls.setup(coq.lsp_ensure_capabilities({}))
+	      lsp.terraformls.setup(coq.lsp_ensure_capabilities({}))
+	      lsp.tsserver.setup(coq.lsp_ensure_capabilities({}))
+	      lsp.tailwindcss.setup(coq.lsp_ensure_capabilities({}))
     end
   }
+  use 'williamboman/nvim-lsp-installer'
+  use 'tamago324/nlsp-settings.nvim'
   -- Navigation
   use 'nvim-lua/plenary.nvim'
   use 'nvim-telescope/telescope.nvim'
@@ -148,19 +138,6 @@ require('packer').startup(function()
     '   ⠀⠀⠀⠀⠀⠀⠉⠓⠶⣤⣄⣀⡀⠀⠀⠀⠀⠀⢀⣀⣠⡴⠖⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀  '
   }
 
-  -- Completion
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-cmdline'
-  use {'hrsh7th/nvim-cmp', 
-    config = function() 
-      require('cool_cmp')
-    end
-  }
-  use 'dcampos/nvim-snippy'
-  use 'dcampos/cmp-snippy'
-
 
   -- Utility
   use {'windwp/nvim-autopairs', 
@@ -179,7 +156,6 @@ require('packer').startup(function()
   use 'kristijanhusak/vim-dadbod-completion'
   use 'tpope/vim-dispatch' -- used by other plugins
   use 'radenling/vim-dispatch-neovim' -- no one knows
-  -- use 'tpope/vim-vinegar' -- netrw+
   use 'tpope/vim-surround' -- ysiw 
   use 'tpope/vim-commentary' -- comments
   use 'tpope/vim-repeat' -- better .
@@ -191,7 +167,6 @@ require('packer').startup(function()
   }
   
   vim.g.AutoPairsMapCR = 0
-  vim.g.neoterm_repl_enable_ipython_paste_magic = 1
   vim.cmd [[au! FileType fugitive nm <buffer> <TAB> =]]
   vim.cmd [[au! BufEnter *.heex setlocal ft=eelixir]]
 
@@ -202,7 +177,6 @@ require('packer').startup(function()
   vim.g.user_emmet_settings = {
     javascript = {extends = 'jsx'},
     javascriptreact = {extends = 'jsx'},
-    typescript = {extends = 'jsx'},
     typescriptreact = {extends = 'jsx'},
   }
 
@@ -216,7 +190,7 @@ end)
 
 
 vim.o.background = 'dark'
-vim.cmd [[colo catppuccin]]
+vim.cmd [[colo melange]]
 vim.cmd [[filetype plugin indent on]]
 vim.cmd [[syntax enable]]
 
@@ -226,7 +200,7 @@ local map = vim.keymap.set
 map('n', 'gd', vim.lsp.buf.definition)
 map('n', 'K', vim.lsp.buf.hover)
 map('n', 'gr', vim.lsp.buf.references)
-map('n', '<localleader>f', vim.lsp.buf.formatting)
+map('n', '<localleader>f', vim.lsp.buf.format)
 map('n', '<localleader>r', vim.lsp.buf.rename)
 map('n', '<localleader>a', vim.lsp.buf.code_action)
 map('n', '<localleader>e', vim.diagnostic.open_float)
@@ -263,8 +237,8 @@ map('n', '<leader>sh', ':vsplit<CR>')
 map('n', '<leader>sj', ':split<CR><C-W>j')
 map('n', '<leader>sk', ':split<CR>')
 map('n', '<leader>sl', ':vsplit<CR><C-W>l')
-map('n', '<leader>tt', ':UltestNearest<CR>')
-map('n', '<leader>to', ':UltestOutput<CR>')
+map('n', '<leader>tt', ':TestNearest<CR>')
+map('n', '<leader>to', ':TestVisit<CR>')
 map('n', '<leader>ts', ':UltestSummary!<CR>')
 map('n', '<leader>u', ':echom "UNUSED"<CR>')
 map('n', '<leader>va', ':e ~/dotfiles/.bash_aliases<CR>')
