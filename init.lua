@@ -66,7 +66,7 @@ require('packer').startup(function()
 
   -- Testing
   use 'vim-test/vim-test'
-  vim.g["test#strategy"] = "dispatch"
+  vim.g["test#strategy"] = "basic"
 
   -- Python
   use 'psf/black'
@@ -94,10 +94,14 @@ require('packer').startup(function()
 	      lsp.terraformls.setup(coq.lsp_ensure_capabilities({}))
 	      lsp.tsserver.setup(coq.lsp_ensure_capabilities({}))
 	      lsp.tailwindcss.setup(coq.lsp_ensure_capabilities({}))
-    end
+    end,
+    requires = { 'ms-jpq/coq_nvim'}
   }
   use 'williamboman/nvim-lsp-installer'
   use 'tamago324/nlsp-settings.nvim'
+
+  vim.cmd[[autocmd! VimEnter * COQnow -s]]
+
   -- Navigation
   use 'nvim-lua/plenary.nvim'
   use 'nvim-telescope/telescope.nvim'
