@@ -74,33 +74,47 @@ require('packer').startup(function()
   use 'fisadev/vim-isort'
   vim.cmd  [[autocmd BufWritePre *.py execute 'silent :Isort']]
 
+
+  use 'SirVer/ultisnips'
+
   -- LSP
-  use { 'ms-jpq/coq_nvim', run = 'python3 -m coq deps'}
-  use 'ms-jpq/coq.artifacts'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-cmdline'
+  use {'hrsh7th/nvim-cmp',
+    config = function() 
+      local cmp = require'cmp'
+      cmp.setup({
+          sources = cmp.config.sources({
+            { name = 'nvim_lsp' },
+            { name = 'ultisnips' }
+          })
+      })
+    end
+  }
+  use 'quangnguyen30192/cmp-nvim-ultisnips'
   use {'neovim/nvim-lspconfig', 
     config = function() 
 	      local lsp = require'lspconfig'
-	      local coq = require'coq'
-	      lsp.pyright.setup(coq.lsp_ensure_capabilities())
-	      lsp.bashls.setup(coq.lsp_ensure_capabilities({}))
-	      lsp.dockerls.setup(coq.lsp_ensure_capabilities({}))
-	      lsp.elixirls.setup(coq.lsp_ensure_capabilities({
+	      lsp.pyright.setup{}
+	      lsp.diagnosticls.setup{}
+	      lsp.bashls.setup{}
+	      lsp.dockerls.setup{}
+	      lsp.elixirls.setup{
 	        cmd = {vim.fn.expand("~/.local/share/nvim/lsp_servers/elixir/elixir-ls/language_server.sh")}
-	      }))
-	      lsp.jsonls.setup(coq.lsp_ensure_capabilities({
+	      }
+	      lsp.jsonls.setup{
 	        cmd = {"vscode-json-languageserver", "--stdio"}
-	      }))
-	      lsp.sqlls.setup(coq.lsp_ensure_capabilities({}))
-	      lsp.terraformls.setup(coq.lsp_ensure_capabilities({}))
-	      lsp.tsserver.setup(coq.lsp_ensure_capabilities({}))
-	      lsp.tailwindcss.setup(coq.lsp_ensure_capabilities({}))
-    end,
-    requires = { 'ms-jpq/coq_nvim'}
+	      }
+	      lsp.sqlls.setup{}
+	      lsp.terraformls.setup{}
+	      lsp.tsserver.setup{}
+	      lsp.tailwindcss.setup{}
+      end
   }
   use 'williamboman/nvim-lsp-installer'
   use 'tamago324/nlsp-settings.nvim'
-
-  vim.cmd[[autocmd! VimEnter * COQnow -s]]
 
   -- Navigation
   use 'nvim-lua/plenary.nvim'
