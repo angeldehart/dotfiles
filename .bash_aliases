@@ -69,3 +69,4 @@ alias tf=terraform
 alias lsprint="jira list -p AP -q \"project = AP AND sprint in openSprints()\""
 
 alias lb="docker run -p 8080:8080 -p 8081:8081 --pull always -u $(id -u):$(id -g) -v $(pwd):/data livebook/livebook"
+alias lv=lvim
