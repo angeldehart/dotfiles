@@ -13,17 +13,21 @@ lvim.log.level = "warn"
 lvim.format_on_save = true
 lvim.colorscheme = "onedarker"
 vim.g.maplocalleader = ','
+vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python"
+vim.o.hlsearch = false
+vim.o.grepprg = "rg --vimgrep --no-heading --smart-case"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
+lvim.localleader = ","
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["gd"] = vim.lsp.buf.definition
 lvim.keys.normal_mode['K'] = vim.lsp.buf.hover
 lvim.keys.normal_mode['gr'] = vim.lsp.buf.references
-lvim.keys.normal_mode['<localleader>f'] = vim.lsp.buf.format
+lvim.keys.normal_mode['<localleader>f'] = vim.lsp.buf.formatting_sync
 lvim.keys.normal_mode['<localleader>r'] = vim.lsp.buf.rename
 lvim.keys.normal_mode['<localleader>a'] = vim.lsp.buf.code_action
 lvim.keys.normal_mode['<localleader>e'] = vim.diagnostic.open_float
@@ -45,11 +49,13 @@ lvim.keys.normal_mode['Z'] = 'zA'
 lvim.keys.normal_mode['<BS>'] = ':b#<CR>'
 lvim.keys.insert_mode['<C-c>'] = '<ESC>'
 lvim.keys.insert_mode['jj'] = '<ESC>'
-vim.keymap.set('n', '<Esc>', '<C-\\><C-n>')
-vim.keymap.set('n', '<C-h>', '<C-\\><C-n><C-w>h')
-vim.keymap.set('n', '<C-j>', '<C-\\><C-n><C-w>j')
-vim.keymap.set('n', '<C-k>', '<C-\\><C-n><C-w>k')
-vim.keymap.set('n', '<C-l>', '<C-\\><C-n><C-w>l')
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
+vim.keymap.set('t', '<C-h>', '<C-\\><C-n><C-w>h')
+vim.keymap.set('t', '<C-j>', '<C-\\><C-n><C-w>j')
+vim.keymap.set('t', '<C-k>', '<C-\\><C-n><C-w>k')
+vim.keymap.set('t', '<C-l>', '<C-\\><C-n><C-w>l')
+vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
+
 -- unmap a default keymapping
 -- vim.keymap.del("n", "<C-Up>")
 -- override a default keymapping
@@ -98,7 +104,7 @@ lvim.builtin.which_key.mappings['e'] = { ':e <C-R>=expand("%:p:h"} . "/" <CR>', 
 lvim.builtin.which_key.mappings['f'] = { ':Telescope git_files<CR>', 'Files' }
 lvim.builtin.which_key.mappings['g'] = { ':Git<CR>', 'Git' }
 lvim.builtin.which_key.mappings['h'] = { ':Telescope help_tags<CR>', 'Help' }
-lvim.builtin.which_key.mappings['i'] = { ':echom "UNUSED"<CR>', 'UNUSED' }
+-- lvim.builtin.which_key.mappings['i'] = { ':echom "UNUSED"<CR>', 'UNUSED' }
 lvim.builtin.which_key.mappings['j'] = {
   name = "+Notes",
   d = { ':e ~/Dropbox/notes/dashboard.md<CR>', 'Dashboard' },
@@ -116,7 +122,7 @@ lvim.builtin.which_key.mappings['l'] = {
 
 }
 lvim.builtin.which_key.mappings['m'] = { ':Telescope oldfiles<CR>', 'Oldfiles' }
-lvim.builtin.which_key.mappings['n'] = { ':tabe<CR>', 'Tab' }
+lvim.builtin.which_key.mappings['n'] = { ':tabe %%<CR>', 'Tab' }
 lvim.builtin.which_key.mappings['p'] = { ':cw<CR>', 'Quickfix' }
 lvim.builtin.which_key.mappings['q'] = { ':qa<CR>', 'Quit all' }
 lvim.builtin.which_key.mappings['r'] = { ':%s/', 'Replace' }
@@ -239,13 +245,15 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- }
 
 -- Additional Plugins
--- lvim.plugins = {
---     {"folke/tokyonight.nvim"},
---     {
---       "folke/trouble.nvim",
---       cmd = "TroubleToggle",
---     },
--- }
+lvim.plugins = {
+  { "tpope/vim-fugitive" },
+  { "tpope/vim-abolish" },
+  { "tpope/vim-surround" },
+  { "hashivim/vim-terraform" },
+  { 'tpope/vim-dadbod' },
+  { 'kristijanhusak/vim-dadbod-ui' },
+  { 'kristijanhusak/vim-dadbod-completion' }
+}
 
 lvim.builtin.terminal.active = false
 lvim.builtin.bufferline.active = false
@@ -263,3 +271,8 @@ lvim.builtin.bufferline.active = false
 --     require("nvim-treesitter.highlight").attach(0, "bash")
 --   end,
 -- })
+
+-- Local config
+if vim.fn.filereadable("./.nvim/init.lua") == 1 then
+  dofile("./.nvim/init.lua")
+end

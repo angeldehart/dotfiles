@@ -14,7 +14,7 @@ vim.o.smartcase = true
 vim.o.wildignorecase = true
 vim.o.timeoutlen = 500
 vim.o.number = true
-vim.o.mouse="a"
+vim.o.mouse = "a"
 vim.o.hlsearch = false
 vim.o.relativenumber = true
 vim.o.completeopt = "menu,menuone,noselect"
@@ -26,12 +26,10 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python"
 
-
-
 vim.diagnostic.config({
-    virtual_text = false,
-    signs = true,
-    float = { border = "single" },
+  virtual_text = false,
+  signs = true,
+  float = { border = "single" },
 })
 
 -- Ignore
@@ -56,8 +54,8 @@ require('packer').startup(function()
   -- Cosmetic
   use 'mechatroner/rainbow_csv'
   use 'savq/melange'
-  use  'nvim-lualine/lualine.nvim'
-  require('lualine').setup({ 
+  use 'nvim-lualine/lualine.nvim'
+  require('lualine').setup({
     options = {
       section_separators = { left = '', right = '' },
       component_separators = { left = '', right = '' }
@@ -70,9 +68,9 @@ require('packer').startup(function()
 
   -- Python
   use 'psf/black'
-  vim.cmd  [[autocmd BufWritePre *.py execute 'silent :Black']]
+  vim.cmd [[autocmd BufWritePre *.py execute 'silent :Black']]
   use 'fisadev/vim-isort'
-  vim.cmd  [[autocmd BufWritePre *.py execute 'silent :Isort']]
+  vim.cmd [[autocmd BufWritePre *.py execute 'silent :Isort']]
 
 
   use 'SirVer/ultisnips'
@@ -82,36 +80,36 @@ require('packer').startup(function()
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
-  use {'hrsh7th/nvim-cmp',
-    config = function() 
-      local cmp = require'cmp'
+  use { 'hrsh7th/nvim-cmp',
+    config = function()
+      local cmp = require 'cmp'
       cmp.setup({
-          sources = cmp.config.sources({
-            { name = 'nvim_lsp' },
-            { name = 'ultisnips' }
-          })
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp' },
+          { name = 'ultisnips' }
+        })
       })
     end
   }
   use 'quangnguyen30192/cmp-nvim-ultisnips'
-  use {'neovim/nvim-lspconfig', 
-    config = function() 
-	      local lsp = require'lspconfig'
-	      lsp.pyright.setup{}
-	      lsp.diagnosticls.setup{}
-	      lsp.bashls.setup{}
-	      lsp.dockerls.setup{}
-	      lsp.elixirls.setup{
-	        cmd = {vim.fn.expand("~/.local/share/nvim/lsp_servers/elixir/elixir-ls/language_server.sh")}
-	      }
-	      lsp.jsonls.setup{
-	        cmd = {"vscode-json-languageserver", "--stdio"}
-	      }
-	      lsp.sqlls.setup{}
-	      lsp.terraformls.setup{}
-	      lsp.tsserver.setup{}
-	      lsp.tailwindcss.setup{}
-      end
+  use { 'neovim/nvim-lspconfig',
+    config = function()
+      local lsp = require 'lspconfig'
+      lsp.pyright.setup {}
+      lsp.diagnosticls.setup {}
+      lsp.bashls.setup {}
+      lsp.dockerls.setup {}
+      lsp.elixirls.setup {
+        cmd = { vim.fn.expand("~/.local/share/nvim/lsp_servers/elixir/elixir-ls/language_server.sh") }
+      }
+      lsp.jsonls.setup {
+        cmd = { "vscode-json-languageserver", "--stdio" }
+      }
+      lsp.sqlls.setup {}
+      lsp.terraformls.setup {}
+      lsp.tsserver.setup {}
+      lsp.tailwindcss.setup {}
+    end
   }
   use 'williamboman/nvim-lsp-installer'
   use 'tamago324/nlsp-settings.nvim'
@@ -119,24 +117,24 @@ require('packer').startup(function()
   -- Navigation
   use 'nvim-lua/plenary.nvim'
   use 'nvim-telescope/telescope.nvim'
-  use {'kyazdani42/nvim-tree.lua', 
+  use { 'kyazdani42/nvim-tree.lua',
     config = function()
-      require('nvim-tree').setup{ view = { side = 'right' }, git = { enable = false} }
+      require('nvim-tree').setup { view = { side = 'right' }, git = { enable = false } }
     end
   }
   use 'ryanoasis/vim-devicons'
   use 'glepnir/dashboard-nvim'
   use 'nvim-lua/popup.nvim'
-  use {'ggandor/lightspeed.nvim', 
-    config = function() require('lightspeed').setup{ ignore_case = true } end
+  use { 'ggandor/lightspeed.nvim',
+    config = function() require('lightspeed').setup { ignore_case = true } end
   }
-  use {"folke/which-key.nvim",
+  use { "folke/which-key.nvim",
     config = function()
-      require("which-key").setup{}
+      require("which-key").setup {}
     end
   }
   vim.g.dashboard_default_executive = 'telescope'
-  vim.g.dashboard_custom_footer = {"Destroy things with neovim"}
+  vim.g.dashboard_custom_footer = { "Destroy things with neovim" }
   vim.g.dashboard_custom_header = {
     '     ⠀⠀⠀⠀⠀⠀⠀⡴⠞⠉⢉⣭⣿⣿⠿⣳⣤⠴⠖⠛⣛⣿⣿⡷⠖⣶⣤⡀⠀⠀⠀  ',
     '   ⠀⠀⠀⠀⠀⠀⠀⣼⠁⢀⣶⢻⡟⠿⠋⣴⠿⢻⣧⡴⠟⠋⠿⠛⠠⠾⢛⣵⣿⠀⠀⠀⠀  ',
@@ -158,8 +156,8 @@ require('packer').startup(function()
 
 
   -- Utility
-  use {'windwp/nvim-autopairs', 
-    config = function() require('nvim-autopairs').setup{} end,
+  use { 'windwp/nvim-autopairs',
+    config = function() require('nvim-autopairs').setup {} end,
   }
   use 'jpalardy/vim-slime'
   vim.g.slime_target = "neovim"
@@ -183,7 +181,7 @@ require('packer').startup(function()
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate",
   }
-  
+
   vim.g.AutoPairsMapCR = 0
   vim.cmd [[au! FileType fugitive nm <buffer> <TAB> =]]
   vim.cmd [[au! BufEnter *.heex setlocal ft=eelixir]]
@@ -193,16 +191,16 @@ require('packer').startup(function()
   use 'stephenway/postcss.vim'
   use 'mattn/emmet-vim'
   vim.g.user_emmet_settings = {
-    javascript = {extends = 'jsx'},
-    javascriptreact = {extends = 'jsx'},
-    typescriptreact = {extends = 'jsx'},
+    javascript = { extends = 'jsx' },
+    javascriptreact = { extends = 'jsx' },
+    typescriptreact = { extends = 'jsx' },
   }
 
   -- Etc
   use 'direnv/direnv.vim'
   use 'editorconfig/editorconfig-vim'
   use 'jamestthompson3/nvim-remote-containers'
-  use {"folke/persistence.nvim", config = function() require('persistence').setup() end}
+  use { "folke/persistence.nvim", config = function() require('persistence').setup() end }
   vim.g.direnv_auto = 1
 end)
 
@@ -269,12 +267,12 @@ map('n', '<leader>vz', ':e ~/dotfiles/.zshrc<CR>')
 map('n', '<leader>w', ':w<CR>')
 map('n', '<leader>x', 'mzgggqG`z')
 -- map('n', '<leader>y', ':LuaSnipEdit<CR>')
-map('n', '<leader>z', function() 
+map('n', '<leader>z', function()
   if vim.o.foldlevel > 0 then
     vim.o.foldlevel = 0
   else
     vim.o.foldlevel = 99
-  end 
+  end
 end)
 
 -- Window navigation
@@ -298,7 +296,7 @@ map('n', 'H', 'gT')
 map('n', 'L', 'gt')
 map('n', '!', ':!')
 map('n', 'q:', ':q')
-map('n', 'Z',  'zA')
+map('n', 'Z', 'zA')
 map('i', '<C-c>', '<ESC>')
 map('i', 'jj', '<ESC>')
 map('n', '<BS>', ':b#<CR>')
@@ -309,11 +307,9 @@ map('t', '<C-h>', '<C-\\><C-n><C-w>h')
 map('t', '<C-j>', '<C-\\><C-n><C-w>j')
 map('t', '<C-k>', '<C-\\><C-n><C-w>k')
 map('t', '<C-l>', '<C-\\><C-n><C-w>l')
-vim.cmd  [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
+vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 
 vim.cmd [[ au! bufwritepost init.lua source % ]]
 if vim.fn.filereadable("./.nvim/init.lua") == 1 then
   dofile("./.nvim/init.lua")
 end
-
-
