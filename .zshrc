@@ -44,8 +44,8 @@ export PATH="$HOME/.poetry/bin:$PATH"
 
 # Node Version Manager
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 # Automatically do stuff when entering directories
 [ -x "$(command -v direnv)" ] && eval "$(direnv hook zsh)"
 # Rustup stuff
