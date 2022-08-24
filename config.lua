@@ -16,6 +16,7 @@ vim.g.maplocalleader = ','
 vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python"
 vim.o.hlsearch = false
 vim.o.grepprg = "rg --vimgrep --no-heading --smart-case"
+vim.o.autochdir = false
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -102,7 +103,8 @@ lvim.builtin.which_key.mappings['c'] = { ':Telescope treesitter<CR>', 'Treesitte
 lvim.builtin.which_key.mappings['d'] = { ':NvimTreeToggle<CR>', 'Explorer' }
 lvim.builtin.which_key.mappings['e'] = { ':e <C-R>=expand("%:p:h"} . "/" <CR>', 'Expand' }
 lvim.builtin.which_key.mappings['f'] = { ':Telescope git_files<CR>', 'Files' }
-lvim.builtin.which_key.mappings['g'] = { ':Git<CR>', 'Git' }
+lvim.builtin.which_key.mappings['gd'] = { ':Git diff master...HEAD<CR>', 'Git' }
+lvim.builtin.which_key.mappings['gg'] = { ':Git<CR>', 'Git' }
 lvim.builtin.which_key.mappings['h'] = { ':Telescope help_tags<CR>', 'Help' }
 -- lvim.builtin.which_key.mappings['i'] = { ':echom "UNUSED"<CR>', 'UNUSED' }
 lvim.builtin.which_key.mappings['j'] = {
@@ -211,20 +213,17 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- end
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
--- local formatters = require "lvim.lsp.null-ls.formatters"
--- formatters.setup {
---   { command = "black", filetypes = { "python" } },
---   { command = "isort", filetypes = { "python" } },
---   {
---     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
---     command = "prettier",
---     ---@usage arguments to pass to the formatter
---     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
---     extra_args = { "--print-with", "100" },
---     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
---     filetypes = { "typescript", "typescriptreact" },
---   },
--- }
+local formatters = require "lvim.lsp.null-ls.formatters"
+formatters.setup {
+  { command = "black", filetypes = { "python" } },
+  { command = "isort", filetypes = { "python" } },
+}
+
+local nvimtree = lvim.builtin.nvimtree
+nvimtree.setup.update_focused_file.update_cwd = false
+
+local project = lvim.builtin.project
+project.manual_mode = true
 
 -- -- set additional linters
 -- local linters = require "lvim.lsp.null-ls.linters"
@@ -252,7 +251,14 @@ lvim.plugins = {
   { "hashivim/vim-terraform" },
   { 'tpope/vim-dadbod' },
   { 'kristijanhusak/vim-dadbod-ui' },
-  { 'kristijanhusak/vim-dadbod-completion' }
+  { 'kristijanhusak/vim-dadbod-completion' },
+  { 'mattn/emmet-vim' },
+  { 'ray-x/lsp_signature.nvim' }
+}
+vim.g.user_emmet_settings = {
+  javascript = { extends = 'jsx' },
+  javascriptreact = { extends = 'jsx' },
+  typescriptreact = { extends = 'jsx' },
 }
 
 lvim.builtin.terminal.active = false
