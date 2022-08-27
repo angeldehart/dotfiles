@@ -26,6 +26,7 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
   pattern = { "*" },
   command = "normal zx",
 })
+vim.g["test#strategy"] = "floaterm"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -46,6 +47,13 @@ lvim.keys.normal_mode['<C-j>'] = '<C-W>j'
 lvim.keys.normal_mode['<C-k>'] = '<C-W>k'
 lvim.keys.normal_mode['<C-h>'] = '<C-W>h'
 lvim.keys.normal_mode['<C-l>'] = '<C-W>l'
+
+
+-- Arrows resize
+lvim.keys.normal_mode['<Left>'] = ':vertical res -5<CR>'
+lvim.keys.normal_mode['<Right>'] = ':vertical res +5<CR>'
+lvim.keys.normal_mode['<Up>'] = ':res +5<CR>'
+lvim.keys.normal_mode['<Down>'] = ':res -5<CR>'
 
 lvim.keys.normal_mode['-'] = ':30Lex %:h<CR>'
 lvim.keys.normal_mode['Q'] = '@q'
@@ -72,41 +80,6 @@ vim.keymap.set('t', '<C-k>', '<C-\\><C-n><C-w>k')
 vim.keymap.set('t', '<C-l>', '<C-\\><C-n><C-w>l')
 vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 
--- unmap a default keymapping
--- vim.keymap.del("n", "<C-Up>")
--- override a default keymapping
--- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
-
--- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
--- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
--- local _, actions = pcall(require, "telescope.actions")
--- lvim.builtin.telescope.defaults.mappings = {
---   -- for input mode
---   i = {
---     ["<C-j>"] = actions.move_selection_next,
---     ["<C-k>"] = actions.move_selection_previous,
---     ["<C-n>"] = actions.cycle_history_next,
---     ["<C-p>"] = actions.cycle_history_prev,
---   },
---   -- for normal mode
---   n = {
---     ["<C-j>"] = actions.move_selection_next,
---     ["<C-k>"] = actions.move_selection_previous,
---   },
--- }
-
--- Use which-key to add extra bindings with the leader-key prefix
--- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
--- lvim.builtin.which_key.mappings["t"] = {
---   name = "+Trouble",
---   r = { "<cmd>Trouble lsp_references<cr>", "References" },
---   f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
---   d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
---   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
---   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
---   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
--- }
-lvim.builtin.which_key.mappings = {}
 lvim.builtin.which_key.mappings['/'] = { ':<cmd>Telescope live_grep<CR>', 'Grep' }
 
 lvim.builtin.which_key.mappings[';'] = { ':Telescope commands<CR>', 'Commands' }
@@ -115,7 +88,8 @@ lvim.builtin.which_key.mappings['<leader>'] = { ':b#<CR>' }
 lvim.builtin.which_key.mappings['a'] = { ':te<CR>', 'Terminal' }
 lvim.builtin.which_key.mappings['b'] = { ':Telescope buffers<CR>', 'Buffers' }
 lvim.builtin.which_key.mappings['c'] = { ':Telescope treesitter<CR>', 'Treesitter' }
-lvim.builtin.which_key.mappings['e'] = { ':30Lex<CR>', 'Explorer' }
+lvim.builtin.which_key.mappings['d'] = { ':NvimTreeToggle<CR>', 'Explorer' }
+-- lvim.builtin.which_key.mappings['e'] = DOESN'T WORK
 lvim.builtin.which_key.mappings['f'] = { ':Telescope git_files<CR>', 'Files' }
 lvim.builtin.which_key.mappings['gd'] = { ':Git diff master...HEAD<CR>', 'Git' }
 lvim.builtin.which_key.mappings['gg'] = { ':Git<CR>', 'Git' }
@@ -137,6 +111,7 @@ lvim.builtin.which_key.mappings['l'] = {
   p = { vim.diagnostic.goto_prev, 'Prev' },
 
 }
+
 lvim.builtin.which_key.mappings['m'] = { ':Telescope oldfiles<CR>', 'Oldfiles' }
 lvim.builtin.which_key.mappings['n'] = { ':tabe %%<CR>', 'Tab' }
 lvim.builtin.which_key.mappings['o'] = { ':Telescope current_buffer_fuzzy_find', 'Tab' }
@@ -149,6 +124,13 @@ lvim.builtin.which_key.mappings['s'] = {
   j = { ':split<CR><C-W>j', 'Up' },
   k = { ':split<CR>', 'Down' },
   l = { ':vsplit<CR><C-W>l', 'Right' },
+}
+
+lvim.builtin.which_key.mappings['t'] = {
+  name = '+Test',
+  t = { ':TestNearest<CR>', 'Test Nearest' },
+  f = { ':TestFile<CR>', 'Test File' },
+  i = { ':TestVisit<CR>', 'Test Visit' },
 }
 
 lvim.builtin.which_key.mappings['v'] = {
@@ -175,10 +157,9 @@ vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
-lvim.builtin.alpha.active = true
-lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.notify.active = true
-lvim.builtin.terminal.active = true
+lvim.builtin.alpha.active = false
+lvim.builtin.notify.active = false
+lvim.builtin.terminal.active = false
 lvim.builtin.nvimtree.active = false
 
 -- if you don't want all the parsers change this to a table of the ones you want
@@ -264,10 +245,12 @@ lvim.plugins = {
   { 'kristijanhusak/vim-dadbod-ui' },
   { 'kristijanhusak/vim-dadbod-completion' },
   { 'mattn/emmet-vim' },
-  { 'ray-x/lsp_signature.nvim' },
   { 'stefandtw/quickfix-reflector.vim' },
   { 'justinmk/vim-sneak' },
-  { 'mracos/mermaid.vim' }
+  { 'mracos/mermaid.vim' },
+  { 'vim-test/vim-test' },
+  { 'voldikss/vim-floaterm' },
+  { 'ray-x/lsp_signature.nvim' }
 }
 vim.g.user_emmet_settings = {
   javascript = { extends = 'jsx' },
