@@ -48,8 +48,14 @@ lvim.keys.normal_mode['!'] = ':!'
 lvim.keys.normal_mode['q:'] = ':q'
 lvim.keys.normal_mode['Z'] = 'zA'
 lvim.keys.normal_mode['<BS>'] = ':b#<CR>'
+lvim.keys.normal_mode['<Left>'] = ':vertical res -5<CR>'
+lvim.keys.normal_mode['<Right>'] = ':vertical res +5<CR>'
+lvim.keys.normal_mode['<Up>'] = ':res +5<CR>'
+lvim.keys.normal_mode['<Down>'] = ':res -5<CR>'
+
 lvim.keys.insert_mode['<C-c>'] = '<ESC>'
 lvim.keys.insert_mode['jj'] = '<ESC>'
+
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
 vim.keymap.set('t', '<C-h>', '<C-\\><C-n><C-w>h')
 vim.keymap.set('t', '<C-j>', '<C-\\><C-n><C-w>j')
@@ -101,12 +107,11 @@ lvim.builtin.which_key.mappings['a'] = { ':te<CR>', 'Terminal' }
 lvim.builtin.which_key.mappings['b'] = { ':Telescope buffers<CR>', 'Buffers' }
 lvim.builtin.which_key.mappings['c'] = { ':Telescope treesitter<CR>', 'Treesitter' }
 lvim.builtin.which_key.mappings['d'] = { ':NvimTreeToggle<CR>', 'Explorer' }
-lvim.builtin.which_key.mappings['e'] = { ':e <C-R>=expand("%:p:h"} . "/" <CR>', 'Expand' }
 lvim.builtin.which_key.mappings['f'] = { ':Telescope git_files<CR>', 'Files' }
 lvim.builtin.which_key.mappings['gd'] = { ':Git diff master...HEAD<CR>', 'Git' }
 lvim.builtin.which_key.mappings['gg'] = { ':Git<CR>', 'Git' }
 lvim.builtin.which_key.mappings['h'] = { ':Telescope help_tags<CR>', 'Help' }
--- lvim.builtin.which_key.mappings['i'] = { ':echom "UNUSED"<CR>', 'UNUSED' }
+lvim.builtin.which_key.mappings['i'] = { ':e <C-R>=expand("%:p:h")<CR>/', 'Expand' }
 lvim.builtin.which_key.mappings['j'] = {
   name = "+Notes",
   d = { ':e ~/Dropbox/notes/dashboard.md<CR>', 'Dashboard' },
@@ -147,6 +152,7 @@ lvim.builtin.which_key.mappings['v'] = {
 }
 
 lvim.builtin.which_key.mappings['w'] = { ':w<CR>', 'Save' }
+lvim.builtin.which_key.mappings['y'] = { ':let @+ = expand("%")<cr>', 'Yank path' }
 lvim.builtin.which_key.mappings['z'] = { function()
   if vim.o.foldlevel > 0 then
     vim.o.foldlevel = 0
@@ -219,12 +225,6 @@ formatters.setup {
   { command = "isort", filetypes = { "python" } },
 }
 
-local nvimtree = lvim.builtin.nvimtree
-nvimtree.setup.update_focused_file.update_cwd = false
-
-local project = lvim.builtin.project
-project.manual_mode = true
-
 -- -- set additional linters
 -- local linters = require "lvim.lsp.null-ls.linters"
 -- linters.setup {
@@ -260,6 +260,15 @@ vim.g.user_emmet_settings = {
   javascriptreact = { extends = 'jsx' },
   typescriptreact = { extends = 'jsx' },
 }
+
+--- Set up plugins
+local nvimtree = lvim.builtin.nvimtree
+nvimtree.setup.update_focused_file.update_cwd = false
+
+local project = lvim.builtin.project
+project.manual_mode = true
+
+require("lsp_signature").setup({})
 
 lvim.builtin.terminal.active = false
 lvim.builtin.bufferline.active = false
