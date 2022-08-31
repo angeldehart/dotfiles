@@ -17,6 +17,14 @@ vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python"
 vim.o.hlsearch = false
 vim.o.grepprg = "rg --vimgrep --no-heading --smart-case"
 vim.o.autochdir = false
+vim.o.foldmethod = "expr"
+vim.o.foldlevel = 99
+vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+-- see https://github.com/nvim-telescope/telescope.nvim/issues/699
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+  pattern = { "*" },
+  command = "normal zx",
+})
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -154,10 +162,10 @@ lvim.builtin.which_key.mappings['v'] = {
 lvim.builtin.which_key.mappings['w'] = { ':w<CR>', 'Save' }
 lvim.builtin.which_key.mappings['y'] = { ':let @+ = expand("%")<cr>', 'Yank path' }
 lvim.builtin.which_key.mappings['z'] = { function()
-  if vim.o.foldlevel > 0 then
-    vim.o.foldlevel = 0
+  if vim.wo.foldlevel > 0 then
+    vim.wo.foldlevel = 0
   else
-    vim.o.foldlevel = 99
+    vim.wo.foldlevel = 99
   end
 end, 'Fold' }
 
