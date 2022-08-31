@@ -46,7 +46,7 @@ lvim.keys.normal_mode['<C-k>'] = '<C-W>k'
 lvim.keys.normal_mode['<C-h>'] = '<C-W>h'
 lvim.keys.normal_mode['<C-l>'] = '<C-W>l'
 
-lvim.keys.normal_mode['-'] = ':NvimTreeFindFile<CR>'
+lvim.keys.normal_mode['-'] = ':30Lex %:h<CR>'
 lvim.keys.normal_mode['Q'] = '@q'
 lvim.keys.normal_mode['/'] = '/\\v'
 lvim.keys.normal_mode['?'] = '?\\v'
@@ -114,7 +114,7 @@ lvim.builtin.which_key.mappings['<leader>'] = { ':b#<CR>' }
 lvim.builtin.which_key.mappings['a'] = { ':te<CR>', 'Terminal' }
 lvim.builtin.which_key.mappings['b'] = { ':Telescope buffers<CR>', 'Buffers' }
 lvim.builtin.which_key.mappings['c'] = { ':Telescope treesitter<CR>', 'Treesitter' }
-lvim.builtin.which_key.mappings['d'] = { ':NvimTreeToggle<CR>', 'Explorer' }
+lvim.builtin.which_key.mappings['e'] = { ':30Lex<CR>', 'Explorer' }
 lvim.builtin.which_key.mappings['f'] = { ':Telescope git_files<CR>', 'Files' }
 lvim.builtin.which_key.mappings['gd'] = { ':Git diff master...HEAD<CR>', 'Git' }
 lvim.builtin.which_key.mappings['gg'] = { ':Git<CR>', 'Git' }
@@ -177,8 +177,7 @@ lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
-lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+lvim.builtin.nvimtree.active = false
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -255,6 +254,7 @@ formatters.setup {
 lvim.plugins = {
   { "tpope/vim-fugitive" },
   { "tpope/vim-abolish" },
+  { "tpope/vim-vinegar" },
   { "tpope/vim-surround" },
   { "hashivim/vim-terraform" },
   { 'tpope/vim-dadbod' },
