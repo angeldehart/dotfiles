@@ -14,13 +14,14 @@ lvim.format_on_save = true
 lvim.colorscheme = "onedarker"
 vim.g.maplocalleader = ','
 vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python"
+vim.g.netrw_liststyle = 3
 vim.o.hlsearch = false
 vim.o.grepprg = "rg --vimgrep --no-heading --smart-case"
 vim.o.autochdir = false
 vim.o.foldmethod = "expr"
 vim.o.foldlevel = 99
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
--- see https://github.com/nvim-telescope/telescope.nvim/issues/699
+-- see https://github.com/folke/which-key.nvim/issues/273
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
   pattern = { "*" },
   command = "normal zx",
@@ -119,7 +120,7 @@ lvim.builtin.which_key.mappings['f'] = { ':Telescope git_files<CR>', 'Files' }
 lvim.builtin.which_key.mappings['gd'] = { ':Git diff master...HEAD<CR>', 'Git' }
 lvim.builtin.which_key.mappings['gg'] = { ':Git<CR>', 'Git' }
 lvim.builtin.which_key.mappings['h'] = { ':Telescope help_tags<CR>', 'Help' }
-lvim.builtin.which_key.mappings['i'] = { ':e <C-R>=expand("%:p:h")<CR>/', 'Expand' }
+lvim.builtin.which_key.mappings['i'] = { ':e <C-R>=expand("%:p:h")<CR>/', 'Edit Here' }
 lvim.builtin.which_key.mappings['j'] = {
   name = "+Notes",
   d = { ':e ~/Dropbox/notes/dashboard.md<CR>', 'Dashboard' },
@@ -138,6 +139,7 @@ lvim.builtin.which_key.mappings['l'] = {
 }
 lvim.builtin.which_key.mappings['m'] = { ':Telescope oldfiles<CR>', 'Oldfiles' }
 lvim.builtin.which_key.mappings['n'] = { ':tabe %%<CR>', 'Tab' }
+lvim.builtin.which_key.mappings['o'] = { ':Telescope current_buffer_fuzzy_find', 'Tab' }
 lvim.builtin.which_key.mappings['p'] = { ':cw<CR>', 'Quickfix' }
 lvim.builtin.which_key.mappings['q'] = { ':qa<CR>', 'Quit all' }
 lvim.builtin.which_key.mappings['r'] = { ':%s/', 'Replace' }
@@ -251,6 +253,7 @@ formatters.setup {
 -- }
 
 -- Additional Plugins
+vim.cmd [[packadd cfilter]]
 lvim.plugins = {
   { "tpope/vim-fugitive" },
   { "tpope/vim-abolish" },
@@ -261,13 +264,17 @@ lvim.plugins = {
   { 'kristijanhusak/vim-dadbod-ui' },
   { 'kristijanhusak/vim-dadbod-completion' },
   { 'mattn/emmet-vim' },
-  { 'ray-x/lsp_signature.nvim' }
+  { 'ray-x/lsp_signature.nvim' },
+  { 'stefandtw/quickfix-reflector.vim' },
+  { 'justinmk/vim-sneak' },
+  { 'mracos/mermaid.vim' }
 }
 vim.g.user_emmet_settings = {
   javascript = { extends = 'jsx' },
   javascriptreact = { extends = 'jsx' },
   typescriptreact = { extends = 'jsx' },
 }
+vim.g.qf_join_changes = true
 
 --- Set up plugins
 local nvimtree = lvim.builtin.nvimtree
