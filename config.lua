@@ -21,11 +21,11 @@ vim.o.autochdir = false
 vim.o.foldmethod = "expr"
 vim.o.foldlevel = 99
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
--- see https://github.com/folke/which-key.nvim/issues/273
-vim.api.nvim_create_autocmd({ "BufEnter" }, {
-  pattern = { "*" },
-  command = "normal zx",
-})
+-- see https://github.com/nvim-telescope/telescope.nvim/issues/699
+-- vim.api.nvim_create_autocmd({ "BufEnter" }, {
+--   pattern = { "*" },
+--   command = "silent! :%foldopen!",
+-- })
 vim.g["test#strategy"] = "floaterm"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
@@ -144,6 +144,8 @@ lvim.builtin.which_key.mappings['v'] = {
 }
 
 lvim.builtin.which_key.mappings['w'] = { ':w<CR>', 'Save' }
+lvim.builtin.which_key.mappings['x'] = { function() require("luasnip.loaders").edit_snippet_files(nil) end,
+  'Edit snippets' }
 lvim.builtin.which_key.mappings['y'] = { ':let @+ = expand("%")<cr>', 'Yank path' }
 lvim.builtin.which_key.mappings['z'] = { function()
   if vim.wo.foldlevel > 0 then
