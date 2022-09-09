@@ -88,8 +88,8 @@ lvim.builtin.which_key.mappings['<leader>'] = { ':b#<CR>' }
 lvim.builtin.which_key.mappings['a'] = { ':te<CR>', 'Terminal' }
 lvim.builtin.which_key.mappings['b'] = { ':Telescope buffers<CR>', 'Buffers' }
 lvim.builtin.which_key.mappings['c'] = { ':Telescope treesitter<CR>', 'Treesitter' }
-lvim.builtin.which_key.mappings['d'] = { ':NvimTreeToggle<CR>', 'Explorer' }
--- lvim.builtin.which_key.mappings['e'] = DOESN'T WORK
+lvim.builtin.which_key.mappings['d'] = { ':echo UNUSED<CR>', 'Explorer' }
+lvim.builtin.which_key.mappings['e'] = { ':30Lex<CR>', 'Explorer' }
 lvim.builtin.which_key.mappings['f'] = { ':Telescope git_files<CR>', 'Files' }
 lvim.builtin.which_key.mappings['gd'] = { ':Git diff master...HEAD<CR>', 'Git' }
 lvim.builtin.which_key.mappings['gg'] = { ':Git<CR>', 'Git' }
@@ -242,6 +242,7 @@ lvim.plugins = {
   { "tpope/vim-abolish" },
   { "tpope/vim-vinegar" },
   { "tpope/vim-surround" },
+  { "tpope/vim-repeat" },
   { "hashivim/vim-terraform" },
   { 'tpope/vim-dadbod' },
   { 'kristijanhusak/vim-dadbod-ui' },
@@ -272,6 +273,11 @@ require("lsp_signature").setup({})
 
 lvim.builtin.terminal.active = false
 lvim.builtin.bufferline.active = false
+
+
+vim.g["sneak#label"] = true
+vim.g["sneak#use_ic_ics"] = true
+
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
