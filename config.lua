@@ -15,6 +15,7 @@ lvim.colorscheme = "onedarker"
 vim.g.maplocalleader = ','
 vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python"
 vim.g.netrw_liststyle = 3
+vim.g.qf_join_changes = true
 vim.o.hlsearch = false
 vim.o.grepprg = "rg --vimgrep --no-heading --smart-case"
 vim.o.autochdir = false
@@ -48,7 +49,6 @@ lvim.keys.normal_mode['<C-k>'] = '<C-W>k'
 lvim.keys.normal_mode['<C-h>'] = '<C-W>h'
 lvim.keys.normal_mode['<C-l>'] = '<C-W>l'
 
-
 -- Arrows resize
 lvim.keys.normal_mode['<Left>'] = ':vertical res -5<CR>'
 lvim.keys.normal_mode['<Right>'] = ':vertical res +5<CR>'
@@ -61,7 +61,7 @@ lvim.keys.normal_mode['/'] = '/\\v'
 lvim.keys.normal_mode['?'] = '?\\v'
 lvim.keys.normal_mode['H'] = 'gT'
 lvim.keys.normal_mode['L'] = 'gt'
-lvim.keys.normal_mode['!'] = ':!'
+lvim.keys.normal_mode['!'] = ':!<C-n>'
 lvim.keys.normal_mode['q:'] = ':q'
 lvim.keys.normal_mode['Z'] = 'zA'
 lvim.keys.normal_mode['<BS>'] = ':b#<CR>'
@@ -70,7 +70,6 @@ lvim.keys.normal_mode['<Right>'] = ':vertical res +5<CR>'
 lvim.keys.normal_mode['<Up>'] = ':res +5<CR>'
 lvim.keys.normal_mode['<Down>'] = ':res -5<CR>'
 
-lvim.keys.insert_mode['<C-c>'] = '<ESC>'
 lvim.keys.insert_mode['jj'] = '<ESC>'
 
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
@@ -80,80 +79,50 @@ vim.keymap.set('t', '<C-k>', '<C-\\><C-n><C-w>k')
 vim.keymap.set('t', '<C-l>', '<C-\\><C-n><C-w>l')
 vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 
-lvim.builtin.which_key.mappings['/'] = { ':<cmd>Telescope live_grep<CR>', 'Grep' }
-
-lvim.builtin.which_key.mappings[';'] = { ':Telescope commands<CR>', 'Commands' }
-lvim.builtin.which_key.mappings['<CR>'] = { ':', ':' }
-lvim.builtin.which_key.mappings['<leader>'] = { ':b#<CR>' }
-lvim.builtin.which_key.mappings['a'] = { ':te<CR>', 'Terminal' }
-lvim.builtin.which_key.mappings['b'] = { ':Telescope buffers<CR>', 'Buffers' }
-lvim.builtin.which_key.mappings['c'] = { ':Telescope treesitter<CR>', 'Treesitter' }
-lvim.builtin.which_key.mappings['d'] = { ':echo UNUSED<CR>', 'Explorer' }
-lvim.builtin.which_key.mappings['e'] = { ':30Lex<CR>', 'Explorer' }
-lvim.builtin.which_key.mappings['f'] = { ':Telescope git_files<CR>', 'Files' }
-lvim.builtin.which_key.mappings['gd'] = { ':Git diff master...HEAD<CR>', 'Git' }
-lvim.builtin.which_key.mappings['gg'] = { ':Git<CR>', 'Git' }
-lvim.builtin.which_key.mappings['h'] = { ':Telescope help_tags<CR>', 'Help' }
-lvim.builtin.which_key.mappings['i'] = { ':e <C-R>=expand("%:p:h")<CR>/', 'Edit Here' }
-lvim.builtin.which_key.mappings['j'] = {
-  name = "+Notes",
-  d = { ':e ~/Dropbox/notes/dashboard.md<CR>', 'Dashboard' },
-  j = { ':Telescope find_files search_dirs={"~/Dropbox/notes"}<CR>', 'Search' },
-  s = { ':e /tmp/scratch.md<CR>', 'Scratch' },
-  t = { ':e ~/notes/todo.txt<CR>', 'TODO' }
-
-}
-lvim.builtin.which_key.mappings['k'] = { ':q<CR>', 'Quit' }
-lvim.builtin.which_key.mappings['l'] = {
-  name = "+Diagnostics",
-  n = { vim.diagnostic.goto_next, 'Next' },
-  l = { vim.diagnostic.open_float, 'Open' },
-  p = { vim.diagnostic.goto_prev, 'Prev' },
-
-}
-
-lvim.builtin.which_key.mappings['m'] = { ':Telescope oldfiles<CR>', 'Oldfiles' }
-lvim.builtin.which_key.mappings['n'] = { ':tabe %%<CR>', 'Tab' }
-lvim.builtin.which_key.mappings['o'] = { ':Telescope current_buffer_fuzzy_find', 'Tab' }
-lvim.builtin.which_key.mappings['p'] = { ':cw<CR>', 'Quickfix' }
-lvim.builtin.which_key.mappings['q'] = { ':qa<CR>', 'Quit all' }
-lvim.builtin.which_key.mappings['r'] = { ':%s/', 'Replace' }
-lvim.builtin.which_key.mappings['s'] = {
-  name = '+Split',
-  h = { ':vsplit<CR>', 'Left' },
-  j = { ':split<CR><C-W>j', 'Up' },
-  k = { ':split<CR>', 'Down' },
-  l = { ':vsplit<CR><C-W>l', 'Right' },
-}
-
-lvim.builtin.which_key.mappings['t'] = {
-  name = '+Test',
-  t = { ':TestNearest<CR>', 'Test Nearest' },
-  f = { ':TestFile<CR>', 'Test File' },
-  i = { ':TestVisit<CR>', 'Test Visit' },
-}
-
-lvim.builtin.which_key.mappings['v'] = {
-  name = '+Config Files',
-  a = { ':e ~/dotfiles/.bash_aliases<CR>', 'Aliases' },
-  k = { ':e ~/.config/kitty/kitty.conf<CR>', 'Kitty' },
-  l = { ':e .nvim/init.lua<CR>', 'Local Config' },
-  v = { ':e ~/.config/lvim/config.lua<CR>', 'Config' },
-  t = { ':e ~/dotfiles/.tmux.conf<CR>', 'Tmux' },
-  z = { ':e ~/dotfiles/.zshrc<CR>', 'Zsh' },
-}
-
-lvim.builtin.which_key.mappings['w'] = { ':w<CR>', 'Save' }
-lvim.builtin.which_key.mappings['x'] = { function() require("luasnip.loaders").edit_snippet_files(nil) end,
-  'Edit snippets' }
-lvim.builtin.which_key.mappings['y'] = { ':let @+ = expand("%")<cr>', 'Yank path' }
-lvim.builtin.which_key.mappings['z'] = { function()
-  if vim.wo.foldlevel > 0 then
-    vim.wo.foldlevel = 0
-  else
-    vim.wo.foldlevel = 99
-  end
-end, 'Fold' }
+-- Leader mappings
+lvim.keys.normal_mode['<leader>/'] = ':<cmd>Telescope live_grep<CR>'
+lvim.keys.normal_mode['<leader>;'] = ':Telescope commands<CR>'
+lvim.keys.normal_mode['<leader><CR>'] = ':'
+lvim.keys.normal_mode['<leader><leader>'] = ':b#<CR>'
+lvim.keys.normal_mode['<leader>a'] = ':te<CR>'
+lvim.keys.normal_mode['<leader>b'] = ':Telescope buffers<CR>'
+lvim.keys.normal_mode['<leader>c'] = ':Telescope treesitter<CR>'
+lvim.keys.normal_mode['<leader>d'] = ':NvimTreeToggle<CR>'
+lvim.keys.normal_mode['<leader>e'] = ':e <C-R>=expand("%:p:h")<CR>/<C-n>'
+lvim.keys.normal_mode['<leader>f'] = ':Telescope git_files<CR>'
+lvim.keys.normal_mode['<leader>gd'] = ':Git diff master...HEAD<CR>'
+lvim.keys.normal_mode['<leader>gg'] = ':Git<CR>'
+lvim.keys.normal_mode['<leader>h'] = ':Telescope help_tags<CR>'
+-- lvim.keys.normal_mode['<leader>i'] = ':Echom UNUSED'
+lvim.keys.normal_mode['<leader>jj'] = ':Telescope find_files search_dirs={"~/Dropbox/notes"}<CR>'
+lvim.keys.normal_mode['<leader>js'] = ':e /tmp/scratch.md<CR>'
+lvim.keys.normal_mode['<leader>k'] = ':q<CR>'
+lvim.keys.normal_mode['<leader>ll'] = vim.diagnostic.open_float
+lvim.keys.normal_mode['<leader>ln'] = vim.diagnostic.goto_next
+lvim.keys.normal_mode['<leader>lp'] = vim.diagnostic.goto_prev
+lvim.keys.normal_mode['<leader>m'] = ':Telescope oldfiles<CR>'
+lvim.keys.normal_mode['<leader>n'] = ':tabe<CR>'
+lvim.keys.normal_mode['<leader>o'] = ':Telescope current_buffer_fuzzy_find<CR>'
+lvim.keys.normal_mode['<leader>p'] = ':cw<CR>'
+lvim.keys.normal_mode['<leader>q'] = ':qa<CR>'
+lvim.keys.normal_mode['<leader>r'] = ':%s/'
+lvim.keys.normal_mode['<leader>sh'] = ':vsplit<CR>'
+lvim.keys.normal_mode['<leader>sj'] = ':split<CR><C-W>j'
+lvim.keys.normal_mode['<leader>sk'] = ':split<CR>'
+lvim.keys.normal_mode['<leader>sl'] = ':vsplit<CR><C-W>l'
+lvim.keys.normal_mode['<leader>tt'] = ':TestNearest<CR>'
+lvim.keys.normal_mode['<leader>tf'] = ':TestFile<CR>'
+lvim.keys.normal_mode['<leader>ti'] = ':TestVisit<CR>'
+lvim.keys.normal_mode['<leader>va'] = ':e ~/dotfiles/.bash_aliases<CR>'
+lvim.keys.normal_mode['<leader>vk'] = ':e ~/.config/kitty/kitty.conf<CR>'
+lvim.keys.normal_mode['<leader>vl'] = ':e .nvim/init.lua<CR>'
+lvim.keys.normal_mode['<leader>vv'] = ':e ~/.config/lvim/config.lua<CR>'
+lvim.keys.normal_mode['<leader>vt'] = ':e ~/dotfiles/.tmux.conf<CR>'
+lvim.keys.normal_mode['<leader>vz'] = ':e ~/dotfiles/.zshrc<CR>'
+lvim.keys.normal_mode['<leader>w'] = ':w<CR>'
+lvim.keys.normal_mode['<leader>y'] = function() require("luasnip.loaders").edit_snippet_files(nil) end
+lvim.keys.normal_mode['<leader>y'] = ':let @+ = expand("%")<cr>'
+lvim.keys.normal_mode['<leader>z'] = function() if vim.wo.foldlevel > 0 then vim.wo.foldlevel = 0 else vim.wo.foldlevel = 99 end end
 
 vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 
@@ -243,6 +212,7 @@ lvim.plugins = {
   { "tpope/vim-vinegar" },
   { "tpope/vim-surround" },
   { "tpope/vim-repeat" },
+  { "jpalardy/vim-slime" },
   { "hashivim/vim-terraform" },
   { 'tpope/vim-dadbod' },
   { 'kristijanhusak/vim-dadbod-ui' },
@@ -260,7 +230,7 @@ vim.g.user_emmet_settings = {
   javascriptreact = { extends = 'jsx' },
   typescriptreact = { extends = 'jsx' },
 }
-vim.g.qf_join_changes = true
+vim.g.slime_target = "neovim"
 
 --- Set up plugins
 local nvimtree = lvim.builtin.nvimtree
@@ -273,6 +243,7 @@ require("lsp_signature").setup({})
 
 lvim.builtin.terminal.active = false
 lvim.builtin.bufferline.active = false
+lvim.builtin.which_key.active = false
 
 
 vim.g["sneak#label"] = true
