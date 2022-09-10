@@ -1,5 +1,5 @@
 #     "ZSHRC"
-# BY COLBY DEHART
+# BY ANGEL CAMPBELL
 #     A NOVEL
 
 HISTFILE=~/.histfile
@@ -17,6 +17,11 @@ precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
 zstyle ':vcs_info:git:*' formats '%b'
+# Open in editor
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^xe' edit-command-line
+bindkey '^x^e' edit-command-line
 
 [ -f /usr/local/bin/aws_completer  ] && complete -C '/usr/local/bin/aws_completer' aws
 
@@ -26,7 +31,7 @@ export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # Neovim
-export EDITOR="nvim"
+export EDITOR="lvim"
 # Beautiful Prompt
 export PROMPT="%n@%~ "
 export RPROMPT=\$vcs_info_msg_0_
