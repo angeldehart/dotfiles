@@ -54,7 +54,7 @@ export PATH="$HOME/.poetry/bin:$PATH"
 
 # asdf version manager
 [ -f ${HOME}/.asdf/asdf.sh ] && source $HOME/.asdf/asdf.sh
-[ -f ${HOME}/.asdf/completions/asdf.bash ] && source $HOME/.asdf/completions/asdf.bash
+[ -f ${HOME}/.asdf/completions/asdf.zsh ] && source $HOME/.asdf/completions/asdf.zsh
 
 # America's favorite PATHs-time.
 # Home bin
