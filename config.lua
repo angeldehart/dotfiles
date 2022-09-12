@@ -14,7 +14,6 @@ lvim.format_on_save = true
 lvim.colorscheme = "onedarker"
 vim.g.maplocalleader = ','
 vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python"
-vim.g.netrw_liststyle = 3
 vim.g.qf_join_changes = true
 vim.o.hlsearch = false
 vim.o.grepprg = "rg --vimgrep --no-heading --smart-case"
@@ -55,7 +54,7 @@ lvim.keys.normal_mode['<Right>'] = ':vertical res +5<CR>'
 lvim.keys.normal_mode['<Up>'] = ':res +5<CR>'
 lvim.keys.normal_mode['<Down>'] = ':res -5<CR>'
 
-lvim.keys.normal_mode['-'] = ':30Lex %:h<CR>'
+lvim.keys.normal_mode['-'] = ':25Lex %:h<CR>'
 lvim.keys.normal_mode['Q'] = '@q'
 lvim.keys.normal_mode['/'] = '/\\v'
 lvim.keys.normal_mode['?'] = '?\\v'
@@ -87,7 +86,7 @@ lvim.keys.normal_mode['<leader><leader>'] = ':b#<CR>'
 lvim.keys.normal_mode['<leader>a'] = ':te<CR>'
 lvim.keys.normal_mode['<leader>b'] = ':Telescope buffers<CR>'
 lvim.keys.normal_mode['<leader>c'] = ':Telescope treesitter<CR>'
-lvim.keys.normal_mode['<leader>d'] = ':NvimTreeToggle<CR>'
+lvim.keys.normal_mode['<leader>d'] = ':25Lex<CR>'
 lvim.keys.normal_mode['<leader>e'] = ':e <C-R>=expand("%:p:h")<CR>/<C-n>'
 lvim.keys.normal_mode['<leader>f'] = ':Telescope git_files<CR>'
 lvim.keys.normal_mode['<leader>gd'] = ':Git diff master...HEAD<CR>'
@@ -95,7 +94,7 @@ lvim.keys.normal_mode['<leader>gg'] = ':Git<CR>'
 lvim.keys.normal_mode['<leader>h'] = ':Telescope help_tags<CR>'
 -- lvim.keys.normal_mode['<leader>i'] = ':Echom UNUSED'
 lvim.keys.normal_mode['<leader>jj'] = ':Telescope find_files search_dirs={"~/Dropbox/notes"}<CR>'
-lvim.keys.normal_mode['<leader>js'] = ':e /tmp/scratch.md<CR>'
+lvim.keys.normal_mode['<leader>js'] = ':e ~/.local/scratch.md<CR>'
 lvim.keys.normal_mode['<leader>k'] = ':q<CR>'
 lvim.keys.normal_mode['<leader>ll'] = vim.diagnostic.open_float
 lvim.keys.normal_mode['<leader>ln'] = vim.diagnostic.goto_next
@@ -117,8 +116,8 @@ lvim.keys.normal_mode['<leader>va'] = ':e ~/dotfiles/.bash_aliases<CR>'
 lvim.keys.normal_mode['<leader>vk'] = ':e ~/.config/kitty/kitty.conf<CR>'
 lvim.keys.normal_mode['<leader>vl'] = ':e .nvim/init.lua<CR>'
 lvim.keys.normal_mode['<leader>vv'] = ':e ~/.config/lvim/config.lua<CR>'
+lvim.keys.normal_mode['<leader>vs'] = ':e ~/dotfiles/.zshrc<CR>'
 lvim.keys.normal_mode['<leader>vt'] = ':e ~/dotfiles/.tmux.conf<CR>'
-lvim.keys.normal_mode['<leader>vz'] = ':e ~/dotfiles/.zshrc<CR>'
 lvim.keys.normal_mode['<leader>w'] = ':w<CR>'
 lvim.keys.normal_mode['<leader>y'] = function() require("luasnip.loaders").edit_snippet_files(nil) end
 lvim.keys.normal_mode['<leader>y'] = ':let @+ = expand("%")<cr>'
@@ -207,13 +206,13 @@ formatters.setup {
 -- Additional Plugins
 vim.cmd [[packadd cfilter]]
 lvim.plugins = {
-  { "tpope/vim-fugitive" },
-  { "tpope/vim-abolish" },
-  { "tpope/vim-vinegar" },
-  { "tpope/vim-surround" },
-  { "tpope/vim-repeat" },
-  { "jpalardy/vim-slime" },
-  { "hashivim/vim-terraform" },
+  { 'tpope/vim-fugitive' },
+  { 'tpope/vim-abolish' },
+  { 'tpope/vim-vinegar' },
+  { 'tpope/vim-surround' },
+  { 'tpope/vim-repeat' },
+  { 'jpalardy/vim-slime' },
+  { 'hashivim/vim-terraform' },
   { 'tpope/vim-dadbod' },
   { 'kristijanhusak/vim-dadbod-ui' },
   { 'kristijanhusak/vim-dadbod-completion' },
@@ -223,7 +222,8 @@ lvim.plugins = {
   { 'mracos/mermaid.vim' },
   { 'vim-test/vim-test' },
   { 'voldikss/vim-floaterm' },
-  { 'ray-x/lsp_signature.nvim' }
+  { 'ray-x/lsp_signature.nvim' },
+  { 'rcarriga/nvim-dap-ui' }
 }
 vim.g.user_emmet_settings = {
   javascript = { extends = 'jsx' },
@@ -240,10 +240,16 @@ local project = lvim.builtin.project
 project.manual_mode = true
 
 require("lsp_signature").setup({})
+require("dapui").setup({})
+local dap = require('dap')
+dap.adapters.node = { type = 'executable', command = os.getenv("HOME") .. '/.asdf/shims/node' }
+dap.adapters.node = { type = 'executable', command = os.getenv("HOME") .. '/.asdf/shims/python' }
+dap.adapters.elixir = { type = 'executable', command = os.getenv("HOME") .. '/.asdf/shims/elixir' }
 
 lvim.builtin.terminal.active = false
 lvim.builtin.bufferline.active = false
 lvim.builtin.which_key.active = false
+lvim.builtin.dap.active = true
 
 
 vim.g["sneak#label"] = true
