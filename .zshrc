@@ -2,71 +2,39 @@
 # BY ANGEL CAMPBELL
 #     A NOVEL
 
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-bindkey -e
-autoload -U compinit promptinit bashcompinit
-compinit
-promptinit
-bashcompinit
+# Brew completions
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
-# Version control autocomplete
-autoload -Uz vcs_info
-precmd_vcs_info() { vcs_info }
-precmd_functions+=( precmd_vcs_info )
-setopt prompt_subst
-zstyle ':vcs_info:git:*' formats '%b'
-# Open in editor
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey '^xe' edit-command-line
-bindkey '^x^e' edit-command-line
+  autoload -Uz compinit
+  compinit
+fi
 
-[ -f /usr/local/bin/aws_completer  ] && complete -C '/usr/local/bin/aws_completer' aws
+# America's favorite paths time
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 
-# Fuzzy Finder
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='rg --files'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# oh-my-zsh
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="minimal"
+plugins=(git asdf aws direnv fzf npm brew)
+source $ZSH/oh-my-zsh.sh
 
-# Neovim
-export EDITOR="lvim"
-# Beautiful Prompt
-export PROMPT="%n@%~ "
-export RPROMPT=\$vcs_info_msg_0_
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='lvim'
+else
+  export EDITOR='vim'
+fi
 
+# Compilation flags for M1 stuff
+# export ARCHFLAGS="-arch x86_64"
+
+# aliases
 [ -f ~/dotfiles/.bash_aliases ] && source ~/dotfiles/.bash_aliases
-
-# Python startup
-export PYTHONSTARTUP=~/dotfiles/.pythonrc
-# Pyenv python manager
-export PYENV_ROOT=$HOME/.pyenv
-export PATH="$PYENV_ROOT/bin:$PATH"
-[ -d $PYENV_ROOT ] && eval "$(pyenv init --path)"
-# Python poetry
-export PATH="$HOME/.poetry/bin:$PATH"
-
-# Automatically do stuff when entering directories
-[ -x "$(command -v direnv)" ] && eval "$(direnv hook zsh)"
-# Rustup stuff
-[ -f ${HOME}/.cargo/env ] && source ${HOME}/.cargo/env
-
-# asdf version manager
-[ -f ${HOME}/.asdf/asdf.sh ] && source $HOME/.asdf/asdf.sh
-[ -f ${HOME}/.asdf/completions/asdf.zsh ] && source $HOME/.asdf/completions/asdf.zsh
-
-# America's favorite PATHs-time.
-# Home bin
-PATH=~/bin:${PATH}
-# Local bin
-PATH=~/.local/bin:${PATH}
-# Vim iced clojure support
-PATH=~/.config/nvim/plugged/vim-iced/bin:${PATH}
-# Terraform version manager
-PATH=~/.tfenv/bin:${PATH}
-# Always want this as the first path
-export PATH=/usr/local/bin:${PATH}
 
 # Local (nonmanaged) zsh config ~/.zshrc.local
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
+# # Vim iced clojure support
+# PATH=~/.config/nvim/plugged/vim-iced/bin:${PATH}
