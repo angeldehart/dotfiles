@@ -1,17 +1,8 @@
---[[
-lvim is the global options object
-
-Linters should be
-filled in as strings with either
-a global executable or a path to
-an executable
-]]
--- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+-- ANGEL CAMPBELL'S WONDERFUL HORRIBLE VIM CONFIG
 
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "onedarker"
 vim.g.maplocalleader = ','
 vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python"
 vim.g.qf_join_changes = true
@@ -78,6 +69,9 @@ vim.keymap.set('t', '<C-k>', '<C-\\><C-n><C-w>k')
 vim.keymap.set('t', '<C-l>', '<C-\\><C-n><C-w>l')
 vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 
+-- Dash
+lvim.keys.visual_mode['<C-i>'] = ':<C-U>DashWord<CR>'
+
 -- Leader mappings
 lvim.keys.normal_mode['<leader>/'] = ':<cmd>Telescope live_grep<CR>'
 lvim.keys.normal_mode['<leader>;'] = ':Telescope commands<CR>'
@@ -92,7 +86,7 @@ lvim.keys.normal_mode['<leader>f'] = ':Telescope git_files<CR>'
 lvim.keys.normal_mode['<leader>gd'] = ':Git diff master...HEAD<CR>'
 lvim.keys.normal_mode['<leader>gg'] = ':Git<CR>'
 lvim.keys.normal_mode['<leader>h'] = ':Telescope help_tags<CR>'
--- lvim.keys.normal_mode['<leader>i'] = ':Echom UNUSED'
+lvim.keys.normal_mode['<leader>i'] = ':Dash<CR>'
 lvim.keys.normal_mode['<leader>jj'] = ':Telescope find_files search_dirs={"~/Dropbox/notes"}<CR>'
 lvim.keys.normal_mode['<leader>js'] = ':e ~/.local/scratch.md<CR>'
 lvim.keys.normal_mode['<leader>k'] = ':q<CR>'
@@ -116,8 +110,8 @@ lvim.keys.normal_mode['<leader>va'] = ':e ~/dotfiles/.bash_aliases<CR>'
 lvim.keys.normal_mode['<leader>vk'] = ':e ~/.config/kitty/kitty.conf<CR>'
 lvim.keys.normal_mode['<leader>vl'] = ':e .nvim/init.lua<CR>'
 lvim.keys.normal_mode['<leader>vv'] = ':e ~/.config/lvim/config.lua<CR>'
-lvim.keys.normal_mode['<leader>vs'] = ':e ~/dotfiles/.zshrc<CR>'
 lvim.keys.normal_mode['<leader>vt'] = ':e ~/dotfiles/.tmux.conf<CR>'
+lvim.keys.normal_mode['<leader>vz'] = ':e ~/dotfiles/.zshrc<CR>'
 lvim.keys.normal_mode['<leader>w'] = ':w<CR>'
 lvim.keys.normal_mode['<leader>y'] = function() require("luasnip.loaders").edit_snippet_files(nil) end
 lvim.keys.normal_mode['<leader>y'] = ':let @+ = expand("%")<cr>'
@@ -185,6 +179,14 @@ formatters.setup {
   { command = "isort", filetypes = { "python" } },
 }
 
+require('lvim.lsp.null-ls.code_actions').setup({
+  {
+    exe = "eslint",
+    filetypes = {
+      "javascript", "vue", "typescript", "javascriptreact", "typescriptreact", "json"
+    }
+  }
+})
 -- -- set additional linters
 -- local linters = require "lvim.lsp.null-ls.linters"
 -- linters.setup {
@@ -223,18 +225,23 @@ lvim.plugins = {
   { 'vim-test/vim-test' },
   { 'voldikss/vim-floaterm' },
   { 'ray-x/lsp_signature.nvim' },
-  { 'rcarriga/nvim-dap-ui' }
+  { 'rcarriga/nvim-dap-ui' },
+  { 'udalov/kotlin-vim' },
+  { 'mrjones2014/dash.nvim', run = 'make install' },
+  { 'catppuccin/nvim' }
 }
+
+--- Set up plugins
+vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
+require("catppuccin").setup()
+lvim.colorscheme = "catppuccin"
+
 vim.g.user_emmet_settings = {
   javascript = { extends = 'jsx' },
   javascriptreact = { extends = 'jsx' },
   typescriptreact = { extends = 'jsx' },
 }
 vim.g.slime_target = "neovim"
-
---- Set up plugins
-local nvimtree = lvim.builtin.nvimtree
-nvimtree.setup.update_focused_file.update_cwd = false
 
 local project = lvim.builtin.project
 project.manual_mode = true
