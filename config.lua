@@ -6,6 +6,7 @@ lvim.format_on_save = true
 vim.g.maplocalleader = ','
 vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python"
 vim.g.qf_join_changes = true
+vim.o.guifont = "mononoki Nerd Font Mono:h22"
 vim.o.hlsearch = false
 vim.o.grepprg = "rg --vimgrep --no-heading --smart-case"
 vim.o.autochdir = false
@@ -122,7 +123,7 @@ vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = false
-lvim.builtin.notify.active = false
+lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = false
 lvim.builtin.nvimtree.active = false
 
@@ -225,7 +226,6 @@ lvim.plugins = {
   { 'vim-test/vim-test' },
   { 'voldikss/vim-floaterm' },
   { 'ray-x/lsp_signature.nvim' },
-  { 'rcarriga/nvim-dap-ui' },
   { 'udalov/kotlin-vim' },
   { 'mrjones2014/dash.nvim', run = 'make install' },
   { 'catppuccin/nvim' }
@@ -247,16 +247,10 @@ local project = lvim.builtin.project
 project.manual_mode = true
 
 require("lsp_signature").setup({})
-require("dapui").setup({})
-local dap = require('dap')
-dap.adapters.node = { type = 'executable', command = os.getenv("HOME") .. '/.asdf/shims/node' }
-dap.adapters.node = { type = 'executable', command = os.getenv("HOME") .. '/.asdf/shims/python' }
-dap.adapters.elixir = { type = 'executable', command = os.getenv("HOME") .. '/.asdf/shims/elixir' }
 
 lvim.builtin.terminal.active = false
 lvim.builtin.bufferline.active = false
 lvim.builtin.which_key.active = false
-lvim.builtin.dap.active = true
 
 
 vim.g["sneak#label"] = true
