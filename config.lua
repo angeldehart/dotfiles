@@ -114,7 +114,7 @@ lvim.keys.normal_mode['<leader>vv'] = ':e ~/.config/lvim/config.lua<CR>'
 lvim.keys.normal_mode['<leader>vt'] = ':e ~/dotfiles/.tmux.conf<CR>'
 lvim.keys.normal_mode['<leader>vz'] = ':e ~/dotfiles/.zshrc<CR>'
 lvim.keys.normal_mode['<leader>w'] = ':w<CR>'
-lvim.keys.normal_mode['<leader>y'] = function() require("luasnip.loaders").edit_snippet_files(nil) end
+lvim.keys.normal_mode['<leader>x'] = function() require("luasnip.loaders").edit_snippet_files(nil) end
 lvim.keys.normal_mode['<leader>y'] = ':let @+ = expand("%")<cr>'
 lvim.keys.normal_mode['<leader>z'] = function() if vim.wo.foldlevel > 0 then vim.wo.foldlevel = 0 else vim.wo.foldlevel = 99 end end
 
@@ -123,7 +123,7 @@ vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = false
-lvim.builtin.notify.active = true
+lvim.builtin.notify.active = false
 lvim.builtin.terminal.active = false
 lvim.builtin.nvimtree.active = false
 
