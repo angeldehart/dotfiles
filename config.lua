@@ -10,15 +10,17 @@ vim.o.guifont = "mononoki Nerd Font Mono:h22"
 vim.o.hlsearch = false
 vim.o.grepprg = "rg --vimgrep --no-heading --smart-case"
 vim.o.autochdir = false
+vim.o.clipboard = "unnamedplus"
+vim.o.relativenumber = true
 vim.o.foldmethod = "expr"
 vim.o.foldlevel = 99
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 -- see https://github.com/nvim-telescope/telescope.nvim/issues/699
--- vim.api.nvim_create_autocmd({ "BufEnter" }, {
---   pattern = { "*" },
---   command = "silent! :%foldopen!",
--- })
-vim.g["test#strategy"] = "floaterm"
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+  pattern = { "*" },
+  command = "silent! :%foldopen!",
+})
+vim.g["test#strategy"] = "neovim"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -77,14 +79,14 @@ lvim.keys.visual_mode['<C-i>'] = ':<C-U>DashWord<CR>'
 lvim.keys.normal_mode['<leader>/'] = ':<cmd>Telescope live_grep<CR>'
 lvim.keys.normal_mode['<leader>;'] = ':Telescope commands<CR>'
 lvim.keys.normal_mode['<leader><CR>'] = ':'
-lvim.keys.normal_mode['<leader><leader>'] = ':b#<CR>'
+lvim.keys.normal_mode['<leader><leader>'] = ':'
 lvim.keys.normal_mode['<leader>a'] = ':te<CR>'
 lvim.keys.normal_mode['<leader>b'] = ':Telescope buffers<CR>'
 lvim.keys.normal_mode['<leader>c'] = ':Telescope treesitter<CR>'
 lvim.keys.normal_mode['<leader>d'] = ':25Lex<CR>'
 lvim.keys.normal_mode['<leader>e'] = ':e <C-R>=expand("%:p:h")<CR>/<C-n>'
 lvim.keys.normal_mode['<leader>f'] = ':Telescope git_files<CR>'
-lvim.keys.normal_mode['<leader>gd'] = ':Git diff master...HEAD<CR>'
+lvim.keys.normal_mode['<leader>gd'] = ':Git diff main...HEAD %<CR>'
 lvim.keys.normal_mode['<leader>gg'] = ':Git<CR>'
 lvim.keys.normal_mode['<leader>h'] = ':Telescope help_tags<CR>'
 lvim.keys.normal_mode['<leader>i'] = ':Dash<CR>'
@@ -100,19 +102,20 @@ lvim.keys.normal_mode['<leader>o'] = ':Telescope current_buffer_fuzzy_find<CR>'
 lvim.keys.normal_mode['<leader>p'] = ':cw<CR>'
 lvim.keys.normal_mode['<leader>q'] = ':qa<CR>'
 lvim.keys.normal_mode['<leader>r'] = ':%s/'
-lvim.keys.normal_mode['<leader>sh'] = ':vsplit<CR>'
-lvim.keys.normal_mode['<leader>sj'] = ':split<CR><C-W>j'
-lvim.keys.normal_mode['<leader>sk'] = ':split<CR>'
-lvim.keys.normal_mode['<leader>sl'] = ':vsplit<CR><C-W>l'
+lvim.keys.normal_mode['<leader>sh'] = ':vsplit<CR><C-w>h'
+lvim.keys.normal_mode['<leader>sj'] = ':split<CR>'
+lvim.keys.normal_mode['<leader>sk'] = ':split<CR><C-w>k'
+lvim.keys.normal_mode['<leader>sl'] = ':vsplit<CR>'
 lvim.keys.normal_mode['<leader>tt'] = ':TestNearest<CR>'
 lvim.keys.normal_mode['<leader>tf'] = ':TestFile<CR>'
 lvim.keys.normal_mode['<leader>ti'] = ':TestVisit<CR>'
 lvim.keys.normal_mode['<leader>va'] = ':e ~/dotfiles/.bash_aliases<CR>'
+lvim.keys.normal_mode['<leader>vd'] = ':e ~/local-init.lua<CR>'
 lvim.keys.normal_mode['<leader>vk'] = ':e ~/.config/kitty/kitty.conf<CR>'
 lvim.keys.normal_mode['<leader>vl'] = ':e .nvim/init.lua<CR>'
 lvim.keys.normal_mode['<leader>vv'] = ':e ~/.config/lvim/config.lua<CR>'
+lvim.keys.normal_mode['<leader>vs'] = ':e ~/dotfiles/.zshrc<CR>'
 lvim.keys.normal_mode['<leader>vt'] = ':e ~/dotfiles/.tmux.conf<CR>'
-lvim.keys.normal_mode['<leader>vz'] = ':e ~/dotfiles/.zshrc<CR>'
 lvim.keys.normal_mode['<leader>w'] = ':w<CR>'
 lvim.keys.normal_mode['<leader>x'] = function() require("luasnip.loaders").edit_snippet_files(nil) end
 lvim.keys.normal_mode['<leader>y'] = ':let @+ = expand("%")<cr>'
@@ -176,35 +179,27 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  { command = "black", filetypes = { "python" } },
-  { command = "isort", filetypes = { "python" } },
+  { command = "prettier", filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "json" } },
 }
 
-require('lvim.lsp.null-ls.code_actions').setup({
-  {
-    exe = "eslint",
-    filetypes = {
-      "javascript", "vue", "typescript", "javascriptreact", "typescriptreact", "json"
-    }
-  }
-})
 -- -- set additional linters
--- local linters = require "lvim.lsp.null-ls.linters"
--- linters.setup {
---   { command = "flake8", filetypes = { "python" } },
---   {
---     -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
---     command = "shellcheck",
---     ---@usage arguments to pass to the formatter
---     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
---     extra_args = { "--severity", "warning" },
---   },
---   {
---     command = "codespell",
---     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
---     filetypes = { "javascript", "python" },
---   },
--- }
+local linters = require "lvim.lsp.null-ls.linters"
+linters.setup {
+  -- { command = "eslint_d", filetypes = { "typescript", "typescriptreact" } }
+  --   { command = "flake8", filetypes = { "python" } },
+  --   {
+  --     -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+  --     command = "shellcheck",
+  --     ---@usage arguments to pass to the formatter
+  --     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+  --     extra_args = { "--severity", "warning" },
+  --   },
+  --   {
+  --     command = "codespell",
+  --     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+  --     filetypes = { "javascript", "python" },
+  --   },
+}
 
 -- Additional Plugins
 vim.cmd [[packadd cfilter]]
@@ -224,17 +219,21 @@ lvim.plugins = {
   { 'justinmk/vim-sneak' },
   { 'mracos/mermaid.vim' },
   { 'vim-test/vim-test' },
-  { 'voldikss/vim-floaterm' },
   { 'ray-x/lsp_signature.nvim' },
   { 'udalov/kotlin-vim' },
   { 'mrjones2014/dash.nvim', run = 'make install' },
-  { 'catppuccin/nvim' }
+  { 'catppuccin/nvim' },
+  { 'RRethy/nvim-base16' },
+  { 'jose-elias-alvarez/typescript.nvim' }
 }
 
 --- Set up plugins
-vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
-require("catppuccin").setup()
-lvim.colorscheme = "catppuccin"
+-- vim.g.catppuccin_flavour = "latte" -- latte, frappe, macchiato, mocha
+-- require("catppuccin").setup()
+
+require('typescript').setup({})
+
+lvim.colorscheme = "base16-tomorrow-night"
 
 vim.g.user_emmet_settings = {
   javascript = { extends = 'jsx' },
@@ -251,6 +250,8 @@ require("lsp_signature").setup({})
 lvim.builtin.terminal.active = false
 lvim.builtin.bufferline.active = false
 lvim.builtin.which_key.active = false
+lvim.builtin.dap.active = true
+lvim.builtin.bufferline.active = false
 
 
 vim.g["sneak#label"] = true
@@ -271,7 +272,11 @@ vim.g["sneak#use_ic_ics"] = true
 --   end,
 -- })
 
--- Local config
+-- Project config
 if vim.fn.filereadable("./.nvim/init.lua") == 1 then
   dofile("./.nvim/init.lua")
+end
+-- Device config
+if vim.fn.filereadable(os.getenv("HOME") .. "local-init.lua") == 1 then
+  dofile(os.getenv("HOME") .. "local-init.lua")
 end
