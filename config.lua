@@ -32,8 +32,9 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["gd"] = vim.lsp.buf.definition
 lvim.keys.normal_mode['K'] = vim.lsp.buf.hover
 lvim.keys.normal_mode['gr'] = vim.lsp.buf.references
-lvim.keys.normal_mode['<localleader>f'] = vim.lsp.buf.formatting_sync
+lvim.keys.normal_mode['<localleader>f'] = vim.lsp.buf.format
 lvim.keys.normal_mode['<localleader>r'] = vim.lsp.buf.rename
+lvim.keys.visual_mode['<localleader>a'] = vim.lsp.buf.code_action
 lvim.keys.normal_mode['<localleader>a'] = vim.lsp.buf.code_action
 lvim.keys.normal_mode['<localleader>e'] = vim.diagnostic.open_float
 
@@ -127,8 +128,8 @@ vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = false
 lvim.builtin.notify.active = false
-lvim.builtin.terminal.active = false
 lvim.builtin.nvimtree.active = false
+lvim.builtin.terminal.active = false
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -222,15 +223,11 @@ lvim.plugins = {
   { 'ray-x/lsp_signature.nvim' },
   { 'udalov/kotlin-vim' },
   { 'mrjones2014/dash.nvim', run = 'make install' },
-  { 'catppuccin/nvim' },
   { 'RRethy/nvim-base16' },
   { 'jose-elias-alvarez/typescript.nvim' }
 }
 
 --- Set up plugins
--- vim.g.catppuccin_flavour = "latte" -- latte, frappe, macchiato, mocha
--- require("catppuccin").setup()
-
 require('typescript').setup({})
 
 lvim.colorscheme = "base16-tomorrow-night"
@@ -247,11 +244,10 @@ project.manual_mode = true
 
 require("lsp_signature").setup({})
 
-lvim.builtin.terminal.active = false
-lvim.builtin.bufferline.active = false
 lvim.builtin.which_key.active = false
 lvim.builtin.dap.active = true
 lvim.builtin.bufferline.active = false
+lvim.builtin.luasnip.sources.friendly_snippets = false
 
 
 vim.g["sneak#label"] = true

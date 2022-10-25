@@ -27,7 +27,7 @@ fi
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='lvim'
+  export EDITOR='nvim'
 fi
 
 # Compilation flags for M1 stuff

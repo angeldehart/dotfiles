@@ -1,8 +1,3 @@
 local ls = require("luasnip")
-local s = ls.snippet
-local t = ls.text_node
 
-
-return {
-  s("ir", { t("import React from 'react';") })
-}
+ls.filetype_extend("typescriptreact", { "typescript" })

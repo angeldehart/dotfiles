@@ -40,6 +40,10 @@ alias myip="ifconfig | grep en0 -A 3 | grep \"inet \" | cut -d \" \" -f 2"
 # Docker stuff
 alias dc="docker compose"
 alias dcl="docker container ls"
+alias ktl="kubectl"
+alias kgp="kubectl get pods"
+alias kgs="kubectl get services"
+alias kgd="kubectl get deployments"
 # tmux in color mode with unicode
 alias tmux="tmux -u2"
 # iex with mix
