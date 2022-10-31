@@ -23,6 +23,7 @@ alias gsuu='git submodule update --remote --rebase'
 alias gsup='git push --recurse-submodules=on-demand'
 # no time to type "nvim"
 alias nv="nvim"
+alias lv="lvim"
 # easier xclipping
 alias xclip="xclip -selection c"
 # clear the screen
