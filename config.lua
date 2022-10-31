@@ -1,10 +1,9 @@
 -- ANGEL CAMPBELL'S WONDERFUL HORRIBLE VIM CONFIG
 
--- general
+-- settings
 lvim.log.level = "warn"
 lvim.format_on_save = true
 vim.g.maplocalleader = ','
-vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python"
 vim.g.qf_join_changes = true
 vim.o.guifont = "mononoki Nerd Font Mono:h22"
 vim.o.hlsearch = false
@@ -12,23 +11,15 @@ vim.o.grepprg = "rg --vimgrep --no-heading --smart-case"
 vim.o.autochdir = false
 vim.o.clipboard = "unnamedplus"
 vim.o.relativenumber = true
-vim.o.foldmethod = "expr"
 vim.o.foldlevel = 99
+vim.o.foldmethod = "expr"
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
--- see https://github.com/nvim-telescope/telescope.nvim/issues/699
-vim.api.nvim_create_autocmd({ "BufEnter" }, {
-  pattern = { "*" },
-  command = "silent! :%foldopen!",
-})
 vim.g["test#strategy"] = "neovim"
--- to disable icons and use a minimalist setup, uncomment the following
--- lvim.use_icons = false
-
--- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 lvim.localleader = ","
--- add your own keymapping
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.colorscheme = "base16-tomorrow-night"
+
+-- keymappings
 lvim.keys.normal_mode["gd"] = vim.lsp.buf.definition
 lvim.keys.normal_mode['K'] = vim.lsp.buf.hover
 lvim.keys.normal_mode['gr'] = vim.lsp.buf.references
@@ -124,17 +115,19 @@ lvim.keys.normal_mode['<leader>z'] = function() if vim.wo.foldlevel > 0 then vim
 
 vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 
--- TODO: User Config for predefined plugins
--- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
+-- suprress builtins
+lvim.builtin.which_key.active = false
 lvim.builtin.alpha.active = false
-lvim.builtin.notify.active = false
 lvim.builtin.nvimtree.active = false
 lvim.builtin.terminal.active = false
+lvim.builtin.dap.active = true
+lvim.builtin.bufferline.active = false
+lvim.builtin.luasnip.sources.friendly_snippets = false
+lvim.builtin.treesitter.highlight.enabled = true
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
-  "c",
   "javascript",
   "json",
   "lua",
@@ -143,50 +136,22 @@ lvim.builtin.treesitter.ensure_installed = {
   "tsx",
   "css",
   "rust",
-  "java",
   "yaml",
+  "dockerfile",
 }
 
-lvim.builtin.treesitter.ignore_install = { "haskell" }
-lvim.builtin.treesitter.highlight.enabled = true
+require("lvim.lsp.manager").setup("eslint")
 
--- generic LSP settings
-
--- ---@usage disable automatic installation of servers
--- lvim.lsp.automatic_servers_installation = false
-
--- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
--- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
--- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
--- local opts = {} -- check the lspconfig documentation for a list of all possible options
--- require("lvim.lsp.manager").setup("pyright", opts)
-
--- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
--- ---`:LvimInfo` lists which server(s) are skiipped for the current filetype
--- vim.tbl_map(function(server)
---   return server ~= "emmet_ls"
--- end, lvim.lsp.automatic_configuration.skipped_servers)
-
--- -- you can set a custom on_attach function that will be used for all the language servers
--- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
--- lvim.lsp.on_attach_callback = function(client, bufnr)
---   local function buf_set_option(...)
---     vim.api.nvim_buf_set_option(bufnr, ...)
---   end
---   --Enable completion triggered by <c-x><c-o>
---   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
--- end
-
--- -- set a formatter, this will override the language server formatting capabilities (if it exists)
+-- formatters
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
   { command = "prettier", filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "json" } },
 }
 
--- -- set additional linters
+-- -- linters
 local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
-  -- { command = "eslint_d", filetypes = { "typescript", "typescriptreact" } }
+  --   { command = "eslint_d", filetypes = { "typescript", "typescriptreact" } }
   --   { command = "flake8", filetypes = { "python" } },
   --   {
   --     -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
@@ -210,7 +175,6 @@ lvim.plugins = {
   { 'tpope/vim-vinegar' },
   { 'tpope/vim-surround' },
   { 'tpope/vim-repeat' },
-  { 'jpalardy/vim-slime' },
   { 'hashivim/vim-terraform' },
   { 'tpope/vim-dadbod' },
   { 'kristijanhusak/vim-dadbod-ui' },
@@ -218,61 +182,32 @@ lvim.plugins = {
   { 'mattn/emmet-vim' },
   { 'stefandtw/quickfix-reflector.vim' },
   { 'justinmk/vim-sneak' },
-  { 'mracos/mermaid.vim' },
   { 'vim-test/vim-test' },
   { 'ray-x/lsp_signature.nvim' },
-  { 'udalov/kotlin-vim' },
   { 'mrjones2014/dash.nvim', run = 'make install' },
   { 'RRethy/nvim-base16' },
-  { 'jose-elias-alvarez/typescript.nvim' }
 }
 
---- Set up plugins
-require('typescript').setup({})
-
-lvim.colorscheme = "base16-tomorrow-night"
-
+--- plugin config
 vim.g.user_emmet_settings = {
   javascript = { extends = 'jsx' },
   javascriptreact = { extends = 'jsx' },
   typescriptreact = { extends = 'jsx' },
 }
-vim.g.slime_target = "neovim"
 
 local project = lvim.builtin.project
 project.manual_mode = true
 
 require("lsp_signature").setup({})
 
-lvim.builtin.which_key.active = false
-lvim.builtin.dap.active = true
-lvim.builtin.bufferline.active = false
-lvim.builtin.luasnip.sources.friendly_snippets = false
-
-
 vim.g["sneak#label"] = true
 vim.g["sneak#use_ic_ics"] = true
 
-
--- Autocommands (https://neovim.io/doc/user/autocmd.html)
--- vim.api.nvim_create_autocmd("BufEnter", {
---   pattern = { "*.json", "*.jsonc" },
---   -- enable wrap mode for json files only
---   command = "setlocal wrap",
--- })
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = "zsh",
---   callback = function()
---     -- let treesitter use bash highlight for zsh files as well
---     require("nvim-treesitter.highlight").attach(0, "bash")
---   end,
--- })
-
--- Project config
+-- project config
 if vim.fn.filereadable("./.nvim/init.lua") == 1 then
   dofile("./.nvim/init.lua")
 end
--- Device config
+-- device config
 if vim.fn.filereadable(os.getenv("HOME") .. "local-init.lua") == 1 then
   dofile(os.getenv("HOME") .. "local-init.lua")
 end
