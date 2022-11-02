@@ -64,9 +64,6 @@ vim.keymap.set('t', '<C-k>', '<C-\\><C-n><C-w>k')
 vim.keymap.set('t', '<C-l>', '<C-\\><C-n><C-w>l')
 vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 
--- Dash
-lvim.keys.visual_mode['<C-i>'] = ':<C-U>DashWord<CR>'
-
 -- Leader mappings
 lvim.keys.normal_mode['<leader>/'] = ':<cmd>Telescope live_grep<CR>'
 lvim.keys.normal_mode['<leader>;'] = ':Telescope commands<CR>'
@@ -81,7 +78,7 @@ lvim.keys.normal_mode['<leader>f'] = ':Telescope git_files<CR>'
 lvim.keys.normal_mode['<leader>gd'] = ':Git diff main...HEAD %<CR>'
 lvim.keys.normal_mode['<leader>gg'] = ':Git<CR>'
 lvim.keys.normal_mode['<leader>h'] = ':Telescope help_tags<CR>'
-lvim.keys.normal_mode['<leader>i'] = ':Dash<CR>'
+-- lvim.keys.normal_mode['<leader>i'] = 'echom unused'
 lvim.keys.normal_mode['<leader>jj'] = ':Telescope find_files search_dirs={"~/Dropbox/notes"}<CR>'
 lvim.keys.normal_mode['<leader>js'] = ':e ~/.local/scratch.md<CR>'
 lvim.keys.normal_mode['<leader>k'] = ':q<CR>'
@@ -184,7 +181,6 @@ lvim.plugins = {
   { 'justinmk/vim-sneak' },
   { 'vim-test/vim-test' },
   { 'ray-x/lsp_signature.nvim' },
-  { 'mrjones2014/dash.nvim', run = 'make install' },
   { 'RRethy/nvim-base16' },
 }
 
