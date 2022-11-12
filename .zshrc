@@ -12,7 +12,7 @@ export FZF_BASE="/opt/homebrew/opt/fzf/"
 # oh-my-zsh
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="minimal"
-plugins=(git asdf aws direnv fzf npm brew kubectl 1password)
+plugins=(git aws direnv fzf npm brew kubectl 1password)
 source $ZSH/oh-my-zsh.sh
 
 # Brew completions

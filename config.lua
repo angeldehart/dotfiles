@@ -5,6 +5,7 @@ lvim.log.level = "warn"
 lvim.format_on_save = true
 vim.g.maplocalleader = ','
 vim.g.qf_join_changes = true
+vim.g.netrw_keepdir = 0
 vim.o.guifont = "mononoki Nerd Font Mono:h22"
 vim.o.hlsearch = false
 vim.o.grepprg = "rg --vimgrep --no-heading --smart-case"
@@ -115,14 +116,15 @@ vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 -- suprress builtins
 lvim.builtin.which_key.active = false
 lvim.builtin.alpha.active = false
-lvim.builtin.nvimtree.active = false
 lvim.builtin.terminal.active = false
 lvim.builtin.dap.active = true
 lvim.builtin.bufferline.active = false
+lvim.builtin.nvimtree.active = false
 lvim.builtin.luasnip.sources.friendly_snippets = false
 lvim.builtin.treesitter.highlight.enabled = true
+lvim.builtin.project.manual_mode = true
 
--- if you don't want all the parsers change this to a table of the ones you want
+-- treesitter
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
   "javascript",
@@ -137,6 +139,7 @@ lvim.builtin.treesitter.ensure_installed = {
   "dockerfile",
 }
 
+-- LSP
 require("lvim.lsp.manager").setup("eslint")
 
 -- formatters
@@ -146,32 +149,19 @@ formatters.setup {
 }
 
 -- -- linters
-local linters = require "lvim.lsp.null-ls.linters"
-linters.setup {
-  --   { command = "eslint_d", filetypes = { "typescript", "typescriptreact" } }
-  --   { command = "flake8", filetypes = { "python" } },
-  --   {
-  --     -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
-  --     command = "shellcheck",
-  --     ---@usage arguments to pass to the formatter
-  --     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
-  --     extra_args = { "--severity", "warning" },
-  --   },
-  --   {
-  --     command = "codespell",
-  --     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-  --     filetypes = { "javascript", "python" },
-  --   },
-}
+-- local linters = require "lvim.lsp.null-ls.linters"
+-- linters.setup {
+--   { command = "flake8", filetypes = { "python" } },
+-- }
 
 -- Additional Plugins
 vim.cmd [[packadd cfilter]]
 lvim.plugins = {
   { 'tpope/vim-fugitive' },
   { 'tpope/vim-abolish' },
-  { 'tpope/vim-vinegar' },
   { 'tpope/vim-surround' },
   { 'tpope/vim-repeat' },
+  { 'tpope/vim-vinegar' },
   { 'hashivim/vim-terraform' },
   { 'tpope/vim-dadbod' },
   { 'kristijanhusak/vim-dadbod-ui' },
@@ -190,9 +180,6 @@ vim.g.user_emmet_settings = {
   javascriptreact = { extends = 'jsx' },
   typescriptreact = { extends = 'jsx' },
 }
-
-local project = lvim.builtin.project
-project.manual_mode = true
 
 require("lsp_signature").setup({})
 
