@@ -18,7 +18,7 @@ vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 vim.g["test#strategy"] = "neovim"
 lvim.leader = "space"
 lvim.localleader = ","
-lvim.colorscheme = "base16-tomorrow-night"
+lvim.colorscheme = "gruvbox"
 
 -- keymappings
 lvim.keys.normal_mode["gd"] = vim.lsp.buf.definition
@@ -171,7 +171,7 @@ lvim.plugins = {
   { 'justinmk/vim-sneak' },
   { 'vim-test/vim-test' },
   { 'ray-x/lsp_signature.nvim' },
-  { 'RRethy/nvim-base16' },
+  { "ellisonleao/gruvbox.nvim" }
 }
 
 --- plugin config
