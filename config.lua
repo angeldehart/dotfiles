@@ -107,7 +107,7 @@ lvim.keys.normal_mode['<leader>vv'] = ':e ~/.config/lvim/config.lua<CR>'
 lvim.keys.normal_mode['<leader>vs'] = ':e ~/dotfiles/.zshrc<CR>'
 lvim.keys.normal_mode['<leader>vt'] = ':e ~/dotfiles/.tmux.conf<CR>'
 lvim.keys.normal_mode['<leader>w'] = ':w<CR>'
-lvim.keys.normal_mode['<leader>x'] = function() require("luasnip.loaders").edit_snippet_files(nil) end
+lvim.keys.normal_mode['<leader>x'] = ':Telescope find_files search_dirs={"~/dotfiles/snippets"}<CR>'
 lvim.keys.normal_mode['<leader>y'] = ':let @+ = expand("%")<cr>'
 lvim.keys.normal_mode['<leader>z'] = function() if vim.wo.foldlevel > 0 then vim.wo.foldlevel = 0 else vim.wo.foldlevel = 99 end end
 
@@ -182,6 +182,8 @@ vim.g.user_emmet_settings = {
 }
 
 require("lsp_signature").setup({})
+
+require("luasnip.loaders.from_snipmate").lazy_load({ paths = "~/dotfiles/snippets" })
 
 vim.g["sneak#label"] = true
 vim.g["sneak#use_ic_ics"] = true
