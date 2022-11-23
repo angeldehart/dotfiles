@@ -26,9 +26,8 @@ lvim.keys.normal_mode['K'] = vim.lsp.buf.hover
 lvim.keys.normal_mode['gr'] = vim.lsp.buf.references
 lvim.keys.normal_mode['<localleader>f'] = vim.lsp.buf.format
 lvim.keys.normal_mode['<localleader>r'] = vim.lsp.buf.rename
-lvim.keys.visual_mode['<localleader>a'] = vim.lsp.buf.code_action
 lvim.keys.normal_mode['<localleader>a'] = vim.lsp.buf.code_action
-lvim.keys.normal_mode['<localleader>e'] = vim.diagnostic.open_float
+lvim.keys.visual_mode['<localleader>a'] = vim.lsp.buf.code_action
 
 lvim.keys.normal_mode['<C-j>'] = '<C-W>j'
 lvim.keys.normal_mode['<C-k>'] = '<C-W>k'
@@ -76,14 +75,14 @@ lvim.keys.normal_mode['<leader>c'] = ':Telescope treesitter<CR>'
 lvim.keys.normal_mode['<leader>d'] = ':25Lex<CR>'
 lvim.keys.normal_mode['<leader>e'] = ':e <C-R>=expand("%:p:h")<CR>/<C-n>'
 lvim.keys.normal_mode['<leader>f'] = ':Telescope git_files<CR>'
-lvim.keys.normal_mode['<leader>gd'] = ':Git diff main...HEAD %<CR>'
+lvim.keys.normal_mode['<leader>gd'] = ':Git diff dev...HEAD %<CR>'
 lvim.keys.normal_mode['<leader>gg'] = ':Git<CR>'
 lvim.keys.normal_mode['<leader>h'] = ':Telescope help_tags<CR>'
 -- lvim.keys.normal_mode['<leader>i'] = 'echom unused'
 lvim.keys.normal_mode['<leader>jj'] = ':Telescope find_files search_dirs={"~/Dropbox/notes"}<CR>'
 lvim.keys.normal_mode['<leader>js'] = ':e ~/.local/scratch.md<CR>'
 lvim.keys.normal_mode['<leader>k'] = ':q<CR>'
-lvim.keys.normal_mode['<leader>ll'] = vim.diagnostic.open_float
+lvim.keys.normal_mode['<leader>ll'] = vim.diagnostic.setqflist
 lvim.keys.normal_mode['<leader>ln'] = vim.diagnostic.goto_next
 lvim.keys.normal_mode['<leader>lp'] = vim.diagnostic.goto_prev
 lvim.keys.normal_mode['<leader>m'] = ':Telescope oldfiles<CR>'
