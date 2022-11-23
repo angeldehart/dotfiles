@@ -1,4 +1,4 @@
-# get back up the tree faster
+# Get back up the tree faster
 alias ..=' cd ..'
 alias ...=' cd ../..'
 alias ....=' cd ../../..'
@@ -21,6 +21,7 @@ alias grhh='git reset --hard HEAD'
 # git submodule stuff
 alias gsuu='git submodule update --remote --rebase'
 alias gsup='git push --recurse-submodules=on-demand'
+# No time to type those other 2 letters
 alias lv="lvim"
 # old habits die hard
 alias nv="lvim"
@@ -53,11 +54,10 @@ alias ism="iex -S mix"
 alias imps="iex -S mix phx.server"
 # mix test
 alias mixtest="mix test --listen-on-stdin --stale"
+# debug jest test
+alias jestdebug="node --nolazy --inspect-brk ./node_modules/jest-cli/bin/jest.js --runInBand --colors --verbose"
 # activate python venv
 alias vba=". ./venv/bin/activate"
-# pytest
-alias pyt="pytest --nomigrations --reuse-db"
-alias pytw="ptw -- --nomigrations --reuse-db"
 # killall zsh
 alias killzsh="ps ax -o pid,command,ppid | grep 'zsh' | awk '{print $1}' | xargs kill -9"
 # Open localhost
@@ -69,4 +69,4 @@ read_secret () {
 }
 alias tf=terraform
 
-alias live="docker run -p 8080:8080 -p 8081:8081 --pull always -u $(id -u):$(id -g) -v $(pwd):/data livebook/livebook"
+alias livebook="docker run -p 8080:8080 -p 8081:8081 --pull always -u $(id -u):$(id -g) -v $(pwd):/data livebook/livebook"

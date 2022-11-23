@@ -9,6 +9,7 @@ export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 [ -f ~/.cargo/env ] && source ~/.cargo/env
 export FZF_BASE="/opt/homebrew/opt/fzf/"
+export FZF_DEFAULT_COMMAND="rg --files --hidden"
 # oh-my-zsh
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="minimal"
