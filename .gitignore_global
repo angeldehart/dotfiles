@@ -85,10 +85,6 @@ _build
 # Idea
 #############
 .idea
-#
-# VS Code
-#############
-.vscode
 
 # Emacs
 #############

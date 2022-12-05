@@ -170,7 +170,8 @@ lvim.plugins = {
   { 'justinmk/vim-sneak' },
   { 'vim-test/vim-test' },
   { 'ray-x/lsp_signature.nvim' },
-  { "ellisonleao/gruvbox.nvim" }
+  { "ellisonleao/gruvbox.nvim" },
+  { "entrez/roku.vim" }
 }
 
 --- plugin config
