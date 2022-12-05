@@ -33,6 +33,7 @@ lvim.keys.normal_mode['<C-j>'] = '<C-W>j'
 lvim.keys.normal_mode['<C-k>'] = '<C-W>k'
 lvim.keys.normal_mode['<C-h>'] = '<C-W>h'
 lvim.keys.normal_mode['<C-l>'] = '<C-W>l'
+lvim.keys.normal_mode['<C-o>'] = '<C-W>o'
 
 -- Arrows resize
 lvim.keys.normal_mode['<Left>'] = ':vertical res -5<CR>'
@@ -80,7 +81,7 @@ lvim.keys.normal_mode['<leader>gg'] = ':Git<CR>'
 lvim.keys.normal_mode['<leader>h'] = ':Telescope help_tags<CR>'
 -- lvim.keys.normal_mode['<leader>i'] = 'echom unused'
 lvim.keys.normal_mode['<leader>jj'] = ':Telescope find_files search_dirs={"~/Dropbox/notes"}<CR>'
-lvim.keys.normal_mode['<leader>js'] = ':e ~/.local/scratch.md<CR>'
+lvim.keys.normal_mode['<leader>ji'] = ':e ~/notes/index.md<CR>'
 lvim.keys.normal_mode['<leader>k'] = ':q<CR>'
 lvim.keys.normal_mode['<leader>ll'] = vim.diagnostic.setqflist
 lvim.keys.normal_mode['<leader>ln'] = vim.diagnostic.goto_next
