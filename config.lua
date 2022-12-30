@@ -33,7 +33,6 @@ lvim.keys.normal_mode['<C-j>'] = '<C-W>j'
 lvim.keys.normal_mode['<C-k>'] = '<C-W>k'
 lvim.keys.normal_mode['<C-h>'] = '<C-W>h'
 lvim.keys.normal_mode['<C-l>'] = '<C-W>l'
-lvim.keys.normal_mode['<C-o>'] = '<C-W>o'
 
 -- Arrows resize
 lvim.keys.normal_mode['<Left>'] = ':vertical res -5<CR>'
@@ -112,11 +111,13 @@ lvim.keys.normal_mode['<leader>y'] = ':let @+ = expand("%")<cr>'
 lvim.keys.normal_mode['<leader>z'] = function() if vim.wo.foldlevel > 0 then vim.wo.foldlevel = 0 else vim.wo.foldlevel = 99 end end
 
 vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
+vim.cmd [[au FileType typescriptreact setlocal foldmethod=indent]]
 
 -- suprress builtins
 lvim.builtin.which_key.active = false
 lvim.builtin.alpha.active = false
 lvim.builtin.terminal.active = false
+lvim.builtin.lir.active = false
 lvim.builtin.dap.active = true
 lvim.builtin.bufferline.active = false
 lvim.builtin.nvimtree.active = false
