@@ -2,7 +2,6 @@
 # BY ANGEL CAMPBELL
 #     A NOVEL
 
-
 # America's favorite paths time
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH

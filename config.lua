@@ -122,6 +122,7 @@ lvim.builtin.dap.active = true
 lvim.builtin.bufferline.active = false
 lvim.builtin.terminal.direction = 'horizontal'
 lvim.builtin.nvimtree.active = false
+lvim.builtin.lir.active = false
 lvim.builtin.luasnip.sources.friendly_snippets = false
 lvim.builtin.treesitter.highlight.enabled = true
 lvim.builtin.project.manual_mode = true
