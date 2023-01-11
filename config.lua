@@ -69,7 +69,7 @@ lvim.keys.normal_mode['<leader>/'] = ':<cmd>Telescope live_grep<CR>'
 lvim.keys.normal_mode['<leader>;'] = ':Telescope commands<CR>'
 lvim.keys.normal_mode['<leader><CR>'] = ':'
 lvim.keys.normal_mode['<leader><leader>'] = ':'
-lvim.keys.normal_mode['<leader>a'] = ':te<CR>'
+lvim.keys.normal_mode['<leader>a'] = ':ToggleTerm<CR>'
 lvim.keys.normal_mode['<leader>b'] = ':Telescope buffers<CR>'
 lvim.keys.normal_mode['<leader>c'] = ':Telescope treesitter<CR>'
 lvim.keys.normal_mode['<leader>d'] = ':25Lex<CR>'
@@ -112,14 +112,15 @@ lvim.keys.normal_mode['<leader>z'] = function() if vim.wo.foldlevel > 0 then vim
 
 vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 vim.cmd [[au FileType typescriptreact setlocal foldmethod=indent]]
+vim.cmd [[au FileType toggleterm setlocal modifiable]]
 
 -- suprress builtins
 lvim.builtin.which_key.active = false
 lvim.builtin.alpha.active = false
-lvim.builtin.terminal.active = false
 lvim.builtin.lir.active = false
 lvim.builtin.dap.active = true
 lvim.builtin.bufferline.active = false
+lvim.builtin.terminal.direction = 'horizontal'
 lvim.builtin.nvimtree.active = false
 lvim.builtin.luasnip.sources.friendly_snippets = false
 lvim.builtin.treesitter.highlight.enabled = true
