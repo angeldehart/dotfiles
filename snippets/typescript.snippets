@@ -7,3 +7,29 @@ snippet ir "Import React"
 snippet us "Use State"
 	const [$1, $2] = React.useState($0);
 
+snippet tsi "ts-ignore"
+	// @ts-ignore
+
+snippet esi "eslint ts-ignore"
+	// eslint-disable-next-line $0
+
+snippet if "if"
+	if ($1) {
+		$2
+	}
+
+snippet switch "switch"
+	switch ($1) {
+		case $2:
+			return $3;
+	}
+
+snippet desc "Jest describe"
+	describe("$1", () => {
+		$2
+	});
+
+snippet it "Jest it"
+	it("$1", () => {
+		$2
+	});

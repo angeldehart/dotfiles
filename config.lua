@@ -24,6 +24,7 @@ lvim.colorscheme = "gruvbox"
 lvim.keys.normal_mode["gd"] = vim.lsp.buf.definition
 lvim.keys.normal_mode['K'] = vim.lsp.buf.hover
 lvim.keys.normal_mode['gr'] = vim.lsp.buf.references
+lvim.keys.normal_mode['<C-x>'] = ":ToggleTerm size=12<CR>"
 lvim.keys.normal_mode['<localleader>f'] = vim.lsp.buf.format
 lvim.keys.normal_mode['<localleader>r'] = vim.lsp.buf.rename
 lvim.keys.normal_mode['<localleader>a'] = vim.lsp.buf.code_action
@@ -62,13 +63,15 @@ vim.keymap.set('t', '<C-h>', '<C-\\><C-n><C-w>h')
 vim.keymap.set('t', '<C-j>', '<C-\\><C-n><C-w>j')
 vim.keymap.set('t', '<C-k>', '<C-\\><C-n><C-w>k')
 vim.keymap.set('t', '<C-l>', '<C-\\><C-n><C-w>l')
+vim.keymap.set('t', '<C-x>', '<C-\\><C-n>:ToggleTerm size=12<CR>')
+vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 
 -- Leader mappings
 lvim.keys.normal_mode['<leader>/'] = ':<cmd>Telescope live_grep<CR>'
 lvim.keys.normal_mode['<leader>;'] = ':Telescope commands<CR>'
 lvim.keys.normal_mode['<leader><CR>'] = ':'
 lvim.keys.normal_mode['<leader><leader>'] = ':'
-lvim.keys.normal_mode['<leader>a'] = ':ToggleTerm<CR>'
+lvim.keys.normal_mode['<leader>a'] = ':ToggleTerm size=12<CR>'
 lvim.keys.normal_mode['<leader>b'] = ':Telescope buffers<CR>'
 lvim.keys.normal_mode['<leader>c'] = ':Telescope treesitter<CR>'
 lvim.keys.normal_mode['<leader>d'] = ':25Lex<CR>'
@@ -115,10 +118,6 @@ vim.cmd [[au FileType typescript,typescriptreact setlocal foldmethod=indent]]
 vim.cmd [[au FileType toggleterm setlocal modifiable]]
 vim.cmd [[au BufEnter journal.md nn <C-n> <C-x>k ]]
 vim.cmd [[au BufEnter journal.md lua require('cmp').setup.buffer { enabled = false } ]]
-
-
-
-
 
 -- suprress builtins
 lvim.builtin.which_key.active = false
