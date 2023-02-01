@@ -62,7 +62,6 @@ vim.keymap.set('t', '<C-h>', '<C-\\><C-n><C-w>h')
 vim.keymap.set('t', '<C-j>', '<C-\\><C-n><C-w>j')
 vim.keymap.set('t', '<C-k>', '<C-\\><C-n><C-w>k')
 vim.keymap.set('t', '<C-l>', '<C-\\><C-n><C-w>l')
-vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 
 -- Leader mappings
 lvim.keys.normal_mode['<leader>/'] = ':<cmd>Telescope live_grep<CR>'
@@ -80,7 +79,8 @@ lvim.keys.normal_mode['<leader>gg'] = ':Git<CR>'
 lvim.keys.normal_mode['<leader>h'] = ':Telescope help_tags<CR>'
 -- lvim.keys.normal_mode['<leader>i'] = 'echom unused'
 lvim.keys.normal_mode['<leader>jj'] = ':Telescope find_files search_dirs={"~/Dropbox/notes"}<CR>'
-lvim.keys.normal_mode['<leader>ji'] = ':e ~/notes/index.md<CR>'
+lvim.keys.normal_mode['<leader>jl'] = ':e ~/notes/journal.md<CR>'
+lvim.keys.normal_mode['<leader>jt'] = ':e ~/notes/todo.md<CR>'
 lvim.keys.normal_mode['<leader>k'] = ':q<CR>'
 lvim.keys.normal_mode['<leader>ll'] = vim.diagnostic.setqflist
 lvim.keys.normal_mode['<leader>ln'] = vim.diagnostic.goto_next
@@ -111,8 +111,14 @@ lvim.keys.normal_mode['<leader>y'] = ':let @+ = expand("%")<cr>'
 lvim.keys.normal_mode['<leader>z'] = function() if vim.wo.foldlevel > 0 then vim.wo.foldlevel = 0 else vim.wo.foldlevel = 99 end end
 
 vim.cmd [[au TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
-vim.cmd [[au FileType typescriptreact setlocal foldmethod=indent]]
+vim.cmd [[au FileType typescript,typescriptreact setlocal foldmethod=indent]]
 vim.cmd [[au FileType toggleterm setlocal modifiable]]
+vim.cmd [[au BufEnter journal.md nn <C-n> <C-x>k ]]
+vim.cmd [[au BufEnter journal.md lua require('cmp').setup.buffer { enabled = false } ]]
+
+
+
+
 
 -- suprress builtins
 lvim.builtin.which_key.active = false
