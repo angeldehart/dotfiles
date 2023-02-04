@@ -41,7 +41,7 @@ lvim.keys.normal_mode['<Right>'] = ':vertical res +5<CR>'
 lvim.keys.normal_mode['<Up>'] = ':res +5<CR>'
 lvim.keys.normal_mode['<Down>'] = ':res -5<CR>'
 
-lvim.keys.normal_mode['-'] = ':25Lex %:h<CR>'
+lvim.keys.normal_mode['-'] = ':25Lex %:h<CR><CR>'
 lvim.keys.normal_mode['Q'] = '@q'
 lvim.keys.normal_mode['/'] = '/\\v'
 lvim.keys.normal_mode['?'] = '?\\v'
@@ -84,6 +84,7 @@ lvim.keys.normal_mode['<leader>h'] = ':Telescope help_tags<CR>'
 lvim.keys.normal_mode['<leader>jj'] = ':Telescope find_files search_dirs={"~/Dropbox/notes"}<CR>'
 lvim.keys.normal_mode['<leader>jl'] = ':e ~/notes/journal.md<CR>'
 lvim.keys.normal_mode['<leader>jt'] = ':e ~/notes/todo.md<CR>'
+lvim.keys.normal_mode['<leader>jr'] = ':e ~/notes/read-watch-listen.md<CR>'
 lvim.keys.normal_mode['<leader>k'] = ':q<CR>'
 lvim.keys.normal_mode['<leader>ll'] = vim.diagnostic.setqflist
 lvim.keys.normal_mode['<leader>ln'] = vim.diagnostic.goto_next
@@ -204,3 +205,5 @@ end
 if vim.fn.filereadable(os.getenv("HOME") .. "local-init.lua") == 1 then
   dofile(os.getenv("HOME") .. "local-init.lua")
 end
+
+vim.cmd [[echom "Hello. You are loved and worthy of love. Please remember to drink water"]]
