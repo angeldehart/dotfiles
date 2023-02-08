@@ -52,7 +52,7 @@ vim.keymap.set("n", "<Up>", ":res +5<CR>")
 vim.keymap.set("n", "<Down>", ":res -5<CR>")
 
 -- terminal
--- vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+vim.keymap.set("t", "<C-/>", "<C-\\><C-n>")
 vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h")
 vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-w>j")
 vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-w>k")
@@ -94,7 +94,6 @@ vim.keymap.set("n", "<leader>gd", ":Git diff main...HEAD %<CR>")
 vim.keymap.set("n", "<leader>gg", ":Git<CR>")
 vim.keymap.set("n", "<leader>h", ":FzfLua help_tags<CR>")
 vim.keymap.set("n", "<leader>i", ":echom unused<CR>")
-
 vim.keymap.set("n", '<leader>jf', ':lua require("fzf-lua").files({ cwd="~/notes" })<CR>')
 vim.keymap.set("n", '<leader>jj', ':e ~/notes/journal.md<CR>')
 vim.keymap.set("n", '<leader>jr', ':e ~/notes/read-watch-listen.md<CR>')
@@ -111,10 +110,10 @@ vim.keymap.set("n", "<leader>o", ":FzfLua current_buffer_fuzzy_find<CR>")
 vim.keymap.set("n", "<leader>p", ":cw<CR>")
 vim.keymap.set("n", "<leader>q", ":qa<CR>")
 vim.keymap.set("n", "<leader>r", ":%s/")
-vim.keymap.set("n", "<leader>sh", ":vsplit<CR><C-w>h")
-vim.keymap.set("n", "<leader>sj", ":split<CR>")
-vim.keymap.set("n", "<leader>sk", ":split<CR><C-w>k")
-vim.keymap.set("n", "<leader>sl", ":vsplit<CR>")
+vim.keymap.set("n", "<leader>sh", ":vsplit<CR>")
+vim.keymap.set("n", "<leader>sj", ":split<CR><C-w>j")
+vim.keymap.set("n", "<leader>sk", ":split<CR>")
+vim.keymap.set("n", "<leader>sl", ":vsplit<CR><C-w>l")
 vim.keymap.set("n", "<leader>tt", ":TestNearest<CR>")
 vim.keymap.set("n", "<leader>tf", ":TestFile<CR>")
 vim.keymap.set("n", "<leader>ti", ":TestVisit<CR>")
@@ -270,6 +269,7 @@ vim.cmd([[syntax enable]])
 vim.cmd [[au! FileType fugitive nm <buffer> <TAB> =]]
 vim.cmd [[au! FileType netrw nm <buffer> <C-l> <C-w>l]]
 vim.cmd [[au! BufEnter *.heex setlocal ft=eelixir]]
+vim.cmd [[au! BufEnter *.mdx setlocal ft=markdown]]
 vim.cmd [[au! TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 vim.cmd [[au! FileType typescript,typescriptreact setlocal foldmethod=indent]]
 vim.cmd [[au! BufEnter journal.md nn <C-n> <C-x>k ]]

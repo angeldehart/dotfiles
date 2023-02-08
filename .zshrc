@@ -5,19 +5,30 @@
 
 # America's favorite paths time
 export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=/opt/homebrew/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 [ -f ~/.cargo/env ] && source ~/.cargo/env
 export FZF_BASE="/opt/homebrew/opt/fzf/"
 export FZF_DEFAULT_COMMAND="rg --files --hidden"
-# oh-my-zsh
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="minimal"
-plugins=(git aws direnv fzf npm brew kubectl 1password)
-source $ZSH/oh-my-zsh.sh
+#
+# Load version control information
+autoload -Uz vcs_info
+precmd() { vcs_info }
+zstyle ':vcs_info:git:*' formats 'on %b'
 
 # vim it all
 set -o vi
+source "$HOME/dotfiles/zsh-plugins/zsh-vim-mode.plugin.zsh"
+
+# perfect prompt
+source "$HOME/dotfiles/zsh-plugins/git-prompt.sh"
+function parse_git_branch() {
+    git branch 2> /dev/null | sed -n -e 's/^\* \(.*\)/[\1]/p'
+}
+setopt PROMPT_SUBST
+export PROMPT="%F{magenta}%n%f@%.: "
+export RPROMPT="${MODE_INDICATOR_PROMPT}$(__git_ps1 "%s")"
 
 # Brew completions
 if type brew &>/dev/null
@@ -34,14 +45,8 @@ else
   export EDITOR='nvim'
 fi
 
-# Compilation flags for M1 stuff
-# export ARCHFLAGS="-arch x86_64"
-
 # aliases
 [ -f ~/dotfiles/.bash_aliases ] && source ~/dotfiles/.bash_aliases
 
 # Local (nonmanaged) zsh config ~/.zshrc.local
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
-
-# # Vim iced clojure support
-# PATH=~/.config/nvim/plugged/vim-iced/bin:${PATH}
