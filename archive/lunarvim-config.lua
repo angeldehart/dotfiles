@@ -1,5 +1,10 @@
 -- ANGEL CAMPBELL'S WONDERFUL HORRIBLE VIM CONFIG
 
+-- > YOU ARE LOVED AND WORTHY OF LOVE
+-- > YOU ARE NOT IN TROUBLE
+-- > NOBODY IS GOING TO GET YOU
+-- > DRINK WATER
+
 -- settings
 lvim.log.level = "warn"
 lvim.format_on_save = true
@@ -18,7 +23,7 @@ vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 vim.g["test#strategy"] = "neovim"
 lvim.leader = "space"
 lvim.localleader = ","
-lvim.colorscheme = "gruvbox"
+lvim.colorscheme = "habamax"
 
 -- keymappings
 lvim.keys.normal_mode["gd"] = vim.lsp.buf.definition
@@ -207,5 +212,3 @@ end
 if vim.fn.filereadable(os.getenv("HOME") .. "local-init.lua") == 1 then
   dofile(os.getenv("HOME") .. "local-init.lua")
 end
-
-vim.cmd [[echom "Hello. You are loved and worthy of love. Please remember to drink water"]]
