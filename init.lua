@@ -1,5 +1,12 @@
 -- ANGEL CAMPBELL'S WONDERFUL HORRIBLE VIM CONFIG
 
+-- > YOU ARE LOVED
+-- > YOU ARE WORTHY OF THAT LOVE
+-- > YOU ARE NOT IN TROUBLE
+-- > DRINK WATER
+
+---@diagnostic disable: undefined-global, redundant-parameter
+
 -- XXX SETTINGS
 vim.g.maplocalleader = ","
 vim.g.qf_join_changes = true -- for editing quickfix
@@ -15,7 +22,7 @@ vim.o.foldlevel = 99
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 vim.g.netrw_banner = 0
 vim.o.background = "dark"
-vim.cmd([[colo gruvbox]])
+vim.cmd([[colo habamax]])
 -- vim.diagnostic.config({
 -- 	virtual_text = false,
 -- 	signs = true,
@@ -45,7 +52,7 @@ vim.keymap.set("n", "<Up>", ":res +5<CR>")
 vim.keymap.set("n", "<Down>", ":res -5<CR>")
 
 -- terminal
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+-- vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h")
 vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-w>j")
 vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-w>k")
@@ -114,7 +121,8 @@ vim.keymap.set("n", "<leader>ti", ":TestVisit<CR>")
 vim.keymap.set("n", "<leader>va", ":e ~/dotfiles/.bash_aliases<CR>")
 vim.keymap.set("n", "<leader>vd", ":e ~/local-init.lua<CR>")
 vim.keymap.set("n", "<leader>vk", ":e ~/.config/kitty/kitty.conf<CR>")
-vim.keymap.set("n", "<leader>vp", "./.nvim/init.lua")
+vim.keymap.set("n", "<leader>vv", ":e ~/dotfiles/init.lua<CR>")
+vim.keymap.set("n", "<leader>vl", ":e ./.nvim/init.lua<CR>")
 vim.keymap.set("n", "<leader>vv", ":e ~/dotfiles/init.lua<CR>")
 vim.keymap.set("n", "<leader>vz", ":e ~/dotfiles/.zshrc<CR>")
 vim.keymap.set("n", "<leader>w", ":w<CR>")
@@ -195,7 +203,6 @@ require("packer").startup(function()
         "rust_analyzer",
         "sumneko_lua",
         "terraformls",
-        "tflint",
         "tsserver",
       } })
 
@@ -211,7 +218,6 @@ require("packer").startup(function()
       lsp["rust_analyzer"].setup({})
       lsp["sumneko_lua"].setup({})
       lsp["terraformls"].setup({})
-      lsp["tflint"].setup({})
       lsp["tsserver"].setup({})
     end
   }
@@ -268,7 +274,7 @@ vim.cmd [[au! TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 vim.cmd [[au! FileType typescript,typescriptreact setlocal foldmethod=indent]]
 vim.cmd [[au! BufEnter journal.md nn <C-n> <C-x>k ]]
 vim.cmd [[au! BufEnter journal.md lua require('cmp').setup.buffer { enabled = false } ]]
-vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+vim.cmd [[au! BufWritePre * lua vim.lsp.buf.format()]]
 
 --------------------------------------------------------------------------------
 

@@ -16,6 +16,9 @@ ZSH_THEME="minimal"
 plugins=(git aws direnv fzf npm brew kubectl 1password)
 source $ZSH/oh-my-zsh.sh
 
+# vim it all
+set -o vi
+
 # Brew completions
 if type brew &>/dev/null
 then
