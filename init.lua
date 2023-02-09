@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global, redundant-parameter
 -- ANGEL CAMPBELL'S WONDERFUL HORRIBLE VIM CONFIG
 
 -- > YOU ARE LOVED
@@ -5,7 +6,6 @@
 -- > YOU ARE NOT IN TROUBLE
 -- > DRINK WATER
 
----@diagnostic disable: undefined-global, redundant-parameter
 
 -- XXX SETTINGS
 vim.g.maplocalleader = ","
@@ -144,13 +144,15 @@ vim.cmd([[packadd cfilter]])
 require("packer").startup(function()
   use { "wbthomason/packer.nvim" }
 
-  use { "hrsh7th/nvim-cmp" }
-  use { "hrsh7th/cmp-nvim-lsp" }
-  use { "hrsh7th/cmp-buffer" }
-  use { "hrsh7th/cmp-path" }
-  use { "hrsh7th/cmp-cmdline" }
-
-  use { "quangnguyen30192/cmp-nvim-ultisnips",
+  -- Autocomplete
+  use { "hrsh7th/nvim-cmp",
+    requires = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
+      "quangnguyen30192/cmp-nvim-ultisnips"
+    },
     config = function()
       local cmp = require("cmp")
       cmp.setup({
@@ -181,13 +183,14 @@ require("packer").startup(function()
     end
   }
 
-  use("williamboman/mason-lspconfig.nvim")
-  use("neovim/nvim-lspconfig")
-  use("ray-x/lsp_signature.nvim")
-  use { "jose-elias-alvarez/typescript.nvim", config = function()
-    require("typescript").setup({})
-  end }
-  use { "williamboman/mason.nvim",
+  -- LSP
+  use { "neovim/nvim-lspconfig",
+    requires = {
+      "jose-elias-alvarez/typescript.nvim",
+      "ray-x/lsp_signature.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "williamboman/mason.nvim",
+    },
     config = function()
       require("mason").setup()
       require("mason-lspconfig").setup({ ensure_installed = {
@@ -217,6 +220,8 @@ require("packer").startup(function()
       lsp["rust_analyzer"].setup({})
       lsp["sumneko_lua"].setup({})
       lsp["terraformls"].setup({})
+      lsp["tflint"].setup({})
+      -- require("typescript").setup()
       lsp["tsserver"].setup({})
     end
   }
