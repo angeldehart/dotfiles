@@ -21,6 +21,7 @@ vim.o.foldmethod = "expr"
 vim.o.foldlevel = 99
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 vim.g.netrw_banner = 0
+vim.g["UltiSnipsSnippetDirectories"] = { "~/dotfiles/snippets" }
 vim.o.background = "dark"
 vim.cmd([[colo habamax]])
 -- vim.diagnostic.config({
@@ -125,7 +126,7 @@ vim.keymap.set("n", "<leader>vl", ":e ./.nvim/init.lua<CR>")
 vim.keymap.set("n", "<leader>vv", ":e ~/dotfiles/init.lua<CR>")
 vim.keymap.set("n", "<leader>vz", ":e ~/dotfiles/.zshrc<CR>")
 vim.keymap.set("n", "<leader>w", ":w<CR>")
-vim.keymap.set("n", "<leader>x", ':UltisnipEdit')
+vim.keymap.set("n", "<leader>x", ':UltiSnipsEdit')
 vim.keymap.set("n", "<leader>y", ':let @+ = expand("%")<cr>')
 vim.keymap.set("n", "<leader>z", function()
   if vim.wo.foldlevel > 0 then
@@ -280,7 +281,7 @@ vim.cmd [[au! FileType typescript,typescriptreact setlocal foldmethod=indent]]
 vim.cmd [[au! BufEnter journal.md nn <C-n> <C-x>k ]]
 vim.cmd [[au! BufEnter journal.md lua require('cmp').setup.buffer { enabled = false } ]]
 vim.cmd [[au! BufWritePre * lua vim.lsp.buf.format()]]
-
+vim.cmd [[au! FileType snippets setlocal foldmethod=indent]]
 --------------------------------------------------------------------------------
 
 -- XXX CONFIGS

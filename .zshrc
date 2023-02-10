@@ -11,11 +11,6 @@ export PATH=$HOME/.cargo/bin:$PATH
 [ -f ~/.cargo/env ] && source ~/.cargo/env
 export FZF_BASE="/opt/homebrew/opt/fzf/"
 export FZF_DEFAULT_COMMAND="rg --files --hidden"
-#
-# Load version control information
-autoload -Uz vcs_info
-precmd() { vcs_info }
-zstyle ':vcs_info:git:*' formats 'on %b'
 
 # vim it all
 set -o vi
@@ -23,9 +18,6 @@ source "$HOME/dotfiles/zsh-plugins/zsh-vim-mode.plugin.zsh"
 
 # perfect prompt
 source "$HOME/dotfiles/zsh-plugins/git-prompt.sh"
-function parse_git_branch() {
-    git branch 2> /dev/null | sed -n -e 's/^\* \(.*\)/[\1]/p'
-}
 setopt PROMPT_SUBST
 export PROMPT="%F{magenta}%n%f@%.: "
 export RPROMPT="${MODE_INDICATOR_PROMPT}$(__git_ps1 "%s")"
@@ -50,3 +42,4 @@ fi
 
 # Local (nonmanaged) zsh config ~/.zshrc.local
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+export PATH="/opt/homebrew/sbin:$PATH"
