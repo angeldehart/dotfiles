@@ -12,15 +12,16 @@ export PATH=$HOME/.cargo/bin:$PATH
 export FZF_BASE="/opt/homebrew/opt/fzf/"
 export FZF_DEFAULT_COMMAND="rg --files --hidden"
 
+# Pure prompt (brew install pure)
+fpath+=("$(brew --prefix)/share/zsh/site-functions")
+autoload -Uz promptinit
+promptinit
+prompt pure
+
 # vim it all
 set -o vi
 source "$HOME/dotfiles/zsh-plugins/zsh-vim-mode.plugin.zsh"
 
-# perfect prompt
-source "$HOME/dotfiles/zsh-plugins/git-prompt.sh"
-setopt PROMPT_SUBST
-export PROMPT="%F{magenta}%n%f@%.: "
-export RPROMPT="${MODE_INDICATOR_PROMPT}$(__git_ps1 "%s")"
 
 # Brew completions
 if type brew &>/dev/null

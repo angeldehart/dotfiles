@@ -104,3 +104,4 @@ tags*
 
 # Typescript incremental cache
 .rts2_cache*
+pnpm-lock.yaml

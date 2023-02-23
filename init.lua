@@ -20,6 +20,8 @@ vim.o.relativenumber = true
 vim.o.foldmethod = "expr"
 vim.o.foldlevel = 99
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+vim.o.ignorecase = true
+vim.o.smartcase = true
 vim.g.netrw_banner = 0
 vim.g["UltiSnipsSnippetDirectories"] = { "~/dotfiles/snippets" }
 vim.o.background = "dark"
@@ -80,7 +82,7 @@ vim.keymap.set("n", "?", "?\\v") -- Magic backwards search
 vim.keymap.set("n", "Q", "@q") -- One button macros
 vim.keymap.set("n", "q:", ":q") -- No q:
 
--- Leader mappings
+-- leader mappings
 vim.keymap.set("n", "<leader>/", ":FzfLua live_grep<CR>")
 vim.keymap.set("n", "<leader>;", ":FzfLua commands<CR>")
 vim.keymap.set("n", "<leader><CR>", ":")
@@ -91,7 +93,7 @@ vim.keymap.set("n", "<leader>c", ":FzfLua lsp_live_workspace_symbols<CR>")
 vim.keymap.set("n", "<leader>d", ":25Lex<CR>")
 vim.keymap.set("n", "<leader>e", ':e <C-R>=expand("%:p:h")<CR>/<C-n>')
 vim.keymap.set("n", "<leader>f", ":FzfLua git_files<CR>")
-vim.keymap.set("n", "<leader>gd", ":Git diff main...HEAD %<CR>")
+vim.keymap.set("n", "<leader>gd", ":Git diff origin/main...HEAD %<CR>")
 vim.keymap.set("n", "<leader>gg", ":Git<CR>")
 vim.keymap.set("n", "<leader>h", ":FzfLua help_tags<CR>")
 vim.keymap.set("n", "<leader>i", ":echom unused<CR>")
@@ -107,7 +109,7 @@ vim.keymap.set("n", "<leader>ln", vim.diagnostic.goto_next)
 vim.keymap.set("n", "<leader>lp", vim.diagnostic.goto_prev)
 vim.keymap.set("n", "<leader>m", ":FzfLua oldfiles<CR>")
 vim.keymap.set("n", "<leader>n", ":tabe<CR>")
-vim.keymap.set("n", "<leader>o", ":FzfLua current_buffer_fuzzy_find<CR>")
+vim.keymap.set("n", "<leader>o", ":FzfLua grep_curbuf<CR>")
 vim.keymap.set("n", "<leader>p", ":cw<CR>")
 vim.keymap.set("n", "<leader>q", ":qa<CR>")
 vim.keymap.set("n", "<leader>r", ":%s/")
@@ -194,20 +196,22 @@ require("packer").startup(function()
     },
     config = function()
       require("mason").setup()
-      require("mason-lspconfig").setup({ ensure_installed = {
-        "bashls",
-        "bright_script",
-        "dockerls",
-        "cssls",
-        "elixirls",
-        "emmet_ls",
-        "eslint",
-        "jsonls",
-        "rust_analyzer",
-        "sumneko_lua",
-        "terraformls",
-        "tsserver",
-      } })
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          "bashls",
+          "bright_script",
+          "dockerls",
+          "cssls",
+          "elixirls",
+          "emmet_ls",
+          "eslint",
+          "jsonls",
+          "rust_analyzer",
+          "sumneko_lua",
+          "terraformls",
+          "tsserver",
+        }
+      })
 
       local lsp = require("lspconfig")
       lsp["bashls"].setup({})
@@ -253,6 +257,7 @@ require("packer").startup(function()
   use { "tpope/vim-fugitive" } -- git
   use { "tpope/vim-rhubarb" } -- github
   use { "tpope/vim-abolish" } -- substitution
+  use { "tpope/vim-vinegar" } -- netrw improvements
   use { "tpope/vim-dadbod" } -- databases
   use { "kristijanhusak/vim-dadbod-ui" } -- database UI
   use { "kristijanhusak/vim-dadbod-completion" } -- database completion
@@ -264,6 +269,7 @@ require("packer").startup(function()
   use { "tpope/vim-sensible" } -- good defaults
   use { "nvim-treesitter/nvim-treesitter", run = ':TSUpdate' }
   use { "editorconfig/editorconfig-vim" }
+  use { "mracos/mermaid.vim" }
 end)
 
 vim.cmd([[filetype plugin indent on]])
@@ -279,8 +285,9 @@ vim.cmd [[au! BufEnter *.mdx setlocal ft=markdown]]
 vim.cmd [[au! TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 vim.cmd [[au! FileType typescript,typescriptreact setlocal foldmethod=indent]]
 vim.cmd [[au! BufEnter journal.md nn <C-n> <C-x>k ]]
-vim.cmd [[au! BufEnter journal.md lua require('cmp').setup.buffer { enabled = false } ]]
+vim.cmd [[au! BufEnter journal.md lua require('cmp').setup.buffer { enabled = false }]]
 vim.cmd [[au! BufWritePre * lua vim.lsp.buf.format()]]
+vim.cmd [[au! BufWritePre *.ts,*.tsx,*.js,*.jsx EslintFixAll]]
 vim.cmd [[au! FileType snippets setlocal foldmethod=indent]]
 --------------------------------------------------------------------------------
 
