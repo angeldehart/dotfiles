@@ -189,7 +189,7 @@ require("packer").startup(function()
   -- LSP
   use { "neovim/nvim-lspconfig",
     requires = {
-      "jose-elias-alvarez/typescript.nvim",
+      -- "jose-elias-alvarez/typescript.nvim",
       "ray-x/lsp_signature.nvim",
       "williamboman/mason-lspconfig.nvim",
       "williamboman/mason.nvim",
@@ -220,14 +220,13 @@ require("packer").startup(function()
       lsp["cssls"].setup({})
       lsp["elixirls"].setup({})
       lsp["emmet_ls"].setup({})
-      lsp["eslint"].setup({ settings = { autoFixOnSave = true } })
+      lsp["eslint"].setup({})
       lsp["jsonls"].setup({})
       lsp["rust_analyzer"].setup({})
       lsp["sumneko_lua"].setup({})
       lsp["terraformls"].setup({})
       lsp["tflint"].setup({})
-      -- require("typescript").setup()
-      lsp["tsserver"].setup({})
+      -- lsp["tsserver"].setup({})
     end
   }
 
@@ -286,7 +285,7 @@ vim.cmd [[au! TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 vim.cmd [[au! FileType typescript,typescriptreact setlocal foldmethod=indent]]
 vim.cmd [[au! BufEnter journal.md nn <C-n> <C-x>k ]]
 vim.cmd [[au! BufEnter journal.md lua require('cmp').setup.buffer { enabled = false }]]
-vim.cmd [[au! BufWritePre * lua vim.lsp.buf.format()]]
+vim.cmd [[au! BufWritePre *.json,*.lua,*.tf lua vim.lsp.buf.format()]]
 vim.cmd [[au! BufWritePre *.ts,*.tsx,*.js,*.jsx EslintFixAll]]
 vim.cmd [[au! FileType snippets setlocal foldmethod=indent]]
 --------------------------------------------------------------------------------
