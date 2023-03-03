@@ -196,22 +196,20 @@ require("packer").startup(function()
     },
     config = function()
       require("mason").setup()
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "bashls",
-          "bright_script",
-          "dockerls",
-          "cssls",
-          "elixirls",
-          "emmet_ls",
-          "eslint",
-          "jsonls",
-          "rust_analyzer",
-          "sumneko_lua",
-          "terraformls",
-          "tsserver",
-        }
-      })
+      require("mason-lspconfig").setup({ ensure_installed = {
+        "bashls",
+        "bright_script",
+        "dockerls",
+        "cssls",
+        "elixirls",
+        "emmet_ls",
+        "eslint",
+        "jsonls",
+        "rust_analyzer",
+        "lua_ls",
+        "terraformls",
+        "tsserver",
+      } })
 
       local lsp = require("lspconfig")
       lsp["bashls"].setup({})
@@ -223,10 +221,10 @@ require("packer").startup(function()
       lsp["eslint"].setup({})
       lsp["jsonls"].setup({})
       lsp["rust_analyzer"].setup({})
-      lsp["sumneko_lua"].setup({})
+      lsp["lua_ls"].setup({})
       lsp["terraformls"].setup({})
       lsp["tflint"].setup({})
-      -- lsp["tsserver"].setup({})
+      lsp["tsserver"].setup({})
     end
   }
 
