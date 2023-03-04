@@ -189,7 +189,6 @@ require("packer").startup(function()
   -- LSP
   use { "neovim/nvim-lspconfig",
     requires = {
-      -- "jose-elias-alvarez/typescript.nvim",
       "ray-x/lsp_signature.nvim",
       "williamboman/mason-lspconfig.nvim",
       "williamboman/mason.nvim",
@@ -217,7 +216,6 @@ require("packer").startup(function()
       lsp["dockerls"].setup({})
       lsp["cssls"].setup({})
       lsp["elixirls"].setup({})
-      lsp["emmet_ls"].setup({})
       lsp["eslint"].setup({})
       lsp["jsonls"].setup({})
       lsp["rust_analyzer"].setup({})
@@ -267,6 +265,7 @@ require("packer").startup(function()
   use { "nvim-treesitter/nvim-treesitter", run = ':TSUpdate' }
   use { "editorconfig/editorconfig-vim" }
   use { "mracos/mermaid.vim" }
+  use { "mattn/emmet-vim" }
 end)
 
 vim.cmd([[filetype plugin indent on]])

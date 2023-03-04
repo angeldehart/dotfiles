@@ -6,11 +6,12 @@
 # America's favorite paths time
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=/opt/homebrew/bin:$PATH
+export PATH=/opt/homebrew/sbin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 [ -f ~/.cargo/env ] && source ~/.cargo/env
-export FZF_BASE="/opt/homebrew/opt/fzf/"
 export FZF_DEFAULT_COMMAND="rg --files --hidden"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Pure prompt (brew install pure)
 fpath+=("$(brew --prefix)/share/zsh/site-functions")
@@ -43,4 +44,4 @@ fi
 
 # Local (nonmanaged) zsh config ~/.zshrc.local
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
-export PATH="/opt/homebrew/sbin:$PATH"
+
