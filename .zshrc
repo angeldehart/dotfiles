@@ -34,7 +34,7 @@ fi
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='nvim'
+  export EDITOR='nvr -s'
 fi
 
 export FZF_DEFAULT_COMMAND="rg --files --hidden"

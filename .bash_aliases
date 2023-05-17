@@ -21,8 +21,8 @@ alias grhh='git reset --hard HEAD'
 # git submodule stuff
 alias gsuu='git submodule update --remote --rebase'
 alias gsup='git push --recurse-submodules=on-demand'
-# No time to type those other 2 letters
-alias nv="nvim"
+# No time to type that other letter
+alias nv="nvr -s"
 # easier xclipping
 alias xclip="xclip -selection c"
 # clear the screen
