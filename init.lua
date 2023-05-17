@@ -72,15 +72,15 @@ vim.keymap.set("n", "<localleader>a", vim.lsp.buf.code_action)
 vim.keymap.set("n", "<localleader>e", vim.diagnostic.open_float)
 
 -- others
-vim.keymap.set("i", "<C-c>", "<ESC>") -- C-c actually ESC
-vim.keymap.set("i", "jj", "<ESC>") -- jj in insert to ESC
-vim.keymap.set("n", "!", ":!") -- Shell commands
+vim.keymap.set("i", "<C-c>", "<ESC>")      -- C-c actually ESC
+vim.keymap.set("i", "jj", "<ESC>")         -- jj in insert to ESC
+vim.keymap.set("n", "!", ":!")             -- Shell commands
 vim.keymap.set("n", "-", ":25Lex %:h<CR>") -- Cwd explorer
-vim.keymap.set("n", "/", "/\\v") -- Magic search
-vim.keymap.set("n", "<BS>", ":b#<CR>") -- Backspace jumps buffers
-vim.keymap.set("n", "?", "?\\v") -- Magic backwards search
-vim.keymap.set("n", "Q", "@q") -- One button macros
-vim.keymap.set("n", "q:", ":q") -- No q:
+vim.keymap.set("n", "/", "/\\v")           -- Magic search
+vim.keymap.set("n", "<BS>", ":b#<CR>")     -- Backspace jumps buffers
+vim.keymap.set("n", "?", "?\\v")           -- Magic backwards search
+vim.keymap.set("n", "Q", "@q")             -- One button macros
+vim.keymap.set("n", "q:", ":q")            -- No q:
 
 -- leader mappings
 vim.keymap.set("n", "<leader>/", ":FzfLua live_grep<CR>")
@@ -192,23 +192,33 @@ require("packer").startup(function()
       "ray-x/lsp_signature.nvim",
       "williamboman/mason-lspconfig.nvim",
       "williamboman/mason.nvim",
+      "jose-elias-alvarez/typescript.nvim",
+      "jose-elias-alvarez/null-ls.nvim"
     },
     config = function()
       require("mason").setup()
-      require("mason-lspconfig").setup({ ensure_installed = {
-        "bashls",
-        "bright_script",
-        "dockerls",
-        "cssls",
-        "elixirls",
-        "emmet_ls",
-        "eslint",
-        "jsonls",
-        "rust_analyzer",
-        "lua_ls",
-        "terraformls",
-        "tsserver",
-      } })
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          "bashls",
+          "bright_script",
+          "dockerls",
+          "cssls",
+          "elixirls",
+          "emmet_ls",
+          "eslint",
+          "jsonls",
+          "rust_analyzer",
+          "lua_ls",
+          "terraformls",
+          "tsserver"
+        }
+      })
+      require("typescript").setup({
+        disable_commands = true,
+        go_to_source_definition = {
+          fallback = true,
+        },
+      })
 
       local lsp = require("lspconfig")
       lsp["bashls"].setup({})
@@ -223,6 +233,11 @@ require("packer").startup(function()
       lsp["terraformls"].setup({})
       lsp["tflint"].setup({})
       lsp["tsserver"].setup({})
+      lsp["null_ls"].setup({
+        sources = {
+          require("typescript.extensions.null-ls.code-actions"),
+        }
+      })
     end
   }
 
@@ -248,20 +263,20 @@ require("packer").startup(function()
   use { "nvim-lua/plenary.nvim" } -- async lib for plugins
   use { "windwp/nvim-autopairs", config = function() require("nvim-autopairs").setup({}) end }
   vim.g.AutoPairsMapCR = 0
-  use { "tpope/vim-rsi" } -- emacs readline bindings
-  use { "tpope/vim-fugitive" } -- git
-  use { "tpope/vim-rhubarb" } -- github
-  use { "tpope/vim-abolish" } -- substitution
-  use { "tpope/vim-vinegar" } -- netrw improvements
-  use { "tpope/vim-dadbod" } -- databases
-  use { "kristijanhusak/vim-dadbod-ui" } -- database UI
+  use { "tpope/vim-rsi" }                        -- emacs readline bindings
+  use { "tpope/vim-fugitive" }                   -- git
+  use { "tpope/vim-rhubarb" }                    -- github
+  use { "tpope/vim-abolish" }                    -- substitution
+  use { "tpope/vim-vinegar" }                    -- netrw improvements
+  use { "tpope/vim-dadbod" }                     -- databases
+  use { "kristijanhusak/vim-dadbod-ui" }         -- database UI
   use { "kristijanhusak/vim-dadbod-completion" } -- database completion
-  use { "tpope/vim-dispatch" } -- used by other plugins
-  use { "radenling/vim-dispatch-neovim" } -- no one knows
-  use { "tpope/vim-surround" } -- ysiw
-  use { "tpope/vim-commentary" } -- comments
-  use { "tpope/vim-repeat" } -- better .
-  use { "tpope/vim-sensible" } -- good defaults
+  use { "tpope/vim-dispatch" }                   -- used by other plugins
+  use { "radenling/vim-dispatch-neovim" }        -- no one knows
+  use { "tpope/vim-surround" }                   -- ysiw
+  use { "tpope/vim-commentary" }                 -- comments
+  use { "tpope/vim-repeat" }                     -- better .
+  use { "tpope/vim-sensible" }                   -- good defaults
   use { "nvim-treesitter/nvim-treesitter", run = ':TSUpdate' }
   use { "editorconfig/editorconfig-vim" }
   use { "mracos/mermaid.vim" }
@@ -280,6 +295,9 @@ vim.cmd [[au! BufEnter *.heex setlocal ft=eelixir]]
 vim.cmd [[au! BufEnter *.mdx setlocal ft=markdown]]
 vim.cmd [[au! TermOpen * setlocal nonumber norelativenumber bufhidden=hide]]
 vim.cmd [[au! FileType typescript,typescriptreact setlocal foldmethod=indent]]
+vim.cmd [[au! FileType typescript,typescriptreact nn <localleader>i :lua require("typescript").actions.addMissingImports()<CR>]]
+vim.cmd [[au! FileType typescript,typescriptreact nn <localleader>u :lua require("typescript").actions.removeUnused()<CR>]]
+vim.cmd [[au! FileType typescript,typescriptreact nn <localleader>x :lua require("typescript").actions.fixAll()<CR>]]
 vim.cmd [[au! BufEnter journal.md nn <C-n> <C-x>k ]]
 vim.cmd [[au! BufEnter journal.md lua require('cmp').setup.buffer { enabled = false }]]
 vim.cmd [[au! BufWritePre *.json,*.lua,*.tf lua vim.lsp.buf.format()]]

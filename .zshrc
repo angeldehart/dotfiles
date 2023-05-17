@@ -10,8 +10,6 @@ export PATH=/opt/homebrew/sbin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 [ -f ~/.cargo/env ] && source ~/.cargo/env
-export FZF_DEFAULT_COMMAND="rg --files --hidden"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Pure prompt (brew install pure)
 fpath+=("$(brew --prefix)/share/zsh/site-functions")
@@ -38,6 +36,9 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
   export EDITOR='nvim'
 fi
+
+export FZF_DEFAULT_COMMAND="rg --files --hidden"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # aliases
 [ -f ~/dotfiles/.bash_aliases ] && source ~/dotfiles/.bash_aliases
