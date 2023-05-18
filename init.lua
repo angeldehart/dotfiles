@@ -203,7 +203,6 @@ require("packer").startup(function()
           "bright_script",
           "dockerls",
           "cssls",
-          "elixirls",
           "emmet_ls",
           "eslint",
           "jsonls",
@@ -281,6 +280,7 @@ require("packer").startup(function()
   use { "editorconfig/editorconfig-vim" }
   use { "mracos/mermaid.vim" }
   use { "mattn/emmet-vim" }
+  use { "elixir-editors/vim-elixir" }
 end)
 
 vim.cmd([[filetype plugin indent on]])
