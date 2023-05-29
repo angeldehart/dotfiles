@@ -1,35 +1,37 @@
 #!/bin/bash
 echo "Installing a bunch of stuff go for a walk"
-# note: brew and git must be installed already 🤷
 
-# Oh my zsh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+echo "Install homebrew"
+xcode-select --install
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# Dotfiles
+echo "Brew installs"
+brew upgrade
+brew install git gh fzf rg fd kitty asdf neovim pure
+
+echo asdf
+for LANG in nodejs python erlang elixir 
+do
+  asdf plugin add $LANG
+  asdf install $LANG latest
+  asdf global $LANG latest
+done
+
+echo Dotfiles
 cd ~
+gh repo clone angeldehart/dotfiles
 mkdir -p ~/.config/kitty
-git clone https://github.com/angeldehart/dotfiles.git
+mkdir -p ~/.config/nvim
 ln -sF ~/dotfiles/.zshrc ~/.zshrc
 ln -sF ~/dotfiles/kitty.conf ~/.config
+ln -sF ~/dotfiles/init.lua ~/.config/nvim/init.lua
 git config --global core.excludesfile ~/dotfiles/.gitignore_global
-source ~/.zshrc
-
-# Brew installs
-brew upgrade
-brew install --HEAD neovim
-brew install fzf kitty rg fd elixir erlang nodejs python gh
-brew install --cask dropbox dash neovide spotify
-brew install --cask 1password/tap/1password-cli
+exec $SHELL
 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 rustup default stable
 
-exec $SHELL
 npm i -g neovim
 pip install --user pynvim
 exec $SHELL
-
-# Lunarvim
-bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
-ln -sF ~/dotfiles/config.lua ~/.config/lvim/config.lua	
-
