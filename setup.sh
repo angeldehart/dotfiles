@@ -27,6 +27,8 @@ ln -sF ~/dotfiles/.zshrc ~/.zshrc
 ln -sF ~/dotfiles/kitty.conf ~/.config
 ln -sF ~/dotfiles/init.lua ~/.config/nvim/init.lua
 git config --global core.excludesfile ~/dotfiles/.gitignore_global
+git config --global user.name "Angel Campbell"
+git config --global user.email "angel@acidburn.tech"
 exec $SHELL
 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
