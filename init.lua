@@ -232,10 +232,10 @@ require("packer").startup(function()
       lsp["terraformls"].setup({})
       lsp["tflint"].setup({})
       lsp["tsserver"].setup({})
-      lsp["null_ls"].setup({
+      require("null-ls").setup({
         sources = {
           require("typescript.extensions.null-ls.code-actions"),
-        }
+        },
       })
     end
   }
