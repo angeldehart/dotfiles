@@ -87,7 +87,7 @@ vim.keymap.set("n", "<leader>/", ":FzfLua live_grep<CR>")
 vim.keymap.set("n", "<leader>;", ":FzfLua commands<CR>")
 vim.keymap.set("n", "<leader><CR>", ":")
 vim.keymap.set("n", "<leader><leader>", ":")
-vim.keymap.set("n", "<leader>a", ":te<CR>")
+vim.keymap.set("n", "<leader>a", ":ToggleTerm<CR>")
 vim.keymap.set("n", "<leader>b", ":FzfLua buffers<CR>")
 vim.keymap.set("n", "<leader>c", ":FzfLua lsp_live_workspace_symbols<CR>")
 vim.keymap.set("n", "<leader>d", ":25Lex<CR>")
@@ -281,6 +281,9 @@ require("packer").startup(function()
   use { "mracos/mermaid.vim" }
   use { "mattn/emmet-vim" }
   use { "elixir-editors/vim-elixir" }
+  use { "akinsho/toggleterm.nvim", config = function()
+    require("toggleterm").setup()
+  end }
 end)
 
 vim.cmd([[filetype plugin indent on]])
