@@ -48,3 +48,11 @@ export FZF_DEFAULT_COMMAND="rg --files --hidden"
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+# pnpm
+export PNPM_HOME="/Users/angel/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
