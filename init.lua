@@ -1,11 +1,12 @@
 ---@diagnostic disable: undefined-global, redundant-parameter
 -- ANGEL CAMPBELL'S WONDERFUL HORRIBLE VIM CONFIG
 
+------------------------------------------------------------
 -- > YOU ARE LOVED
 -- > YOU ARE WORTHY OF THAT LOVE
 -- > YOU ARE NOT IN TROUBLE
 -- > DRINK WATER
-
+------------------------------------------------------------
 
 -- XXX SETTINGS
 vim.g.maplocalleader = ","
@@ -142,153 +143,116 @@ end)
 --------------------------------------------------------------------------------
 
 -- XXX PACKAGES
-vim.cmd([[packadd packer.nvim]])
 vim.cmd([[packadd cfilter]])
-require("packer").startup(function()
-  use { "wbthomason/packer.nvim" }
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
-  -- Autocomplete
-  use { "hrsh7th/nvim-cmp",
-    requires = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-cmdline",
-      "quangnguyen30192/cmp-nvim-ultisnips"
-    },
-    config = function()
-      local cmp = require("cmp")
-      cmp.setup({
-        sources = cmp.config.sources({
-          { name = "ultisnips" },
-          { name = "nvim_lsp" },
-          { name = "buffer" },
-          { name = "path" },
-        }),
-        mapping = {
-          ["<CR>"] = function(fallback)
-            if cmp.visible() then
-              cmp.confirm()
-            else
-              fallback() -- If you use vim-endwise, this fallback will behave the same as vim-endwise.
-            end
-          end,
+vim.g.AutoPairsMapCR = 0
+vim.g["test#strategy"] = "neovim"
 
-          ["<Tab>"] = function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            else
-              fallback()
-            end
-          end,
-        },
-      })
-    end
-  }
+require("lazy").setup({
+  { 'VonHeikemen/lsp-zero.nvim', branch = 'v3.x' },
+  'neovim/nvim-lspconfig',
+  'hrsh7th/cmp-nvim-lsp',
+  'hrsh7th/nvim-cmp',
+  'L3MON4D3/LuaSnip',
+  'williamboman/mason.nvim',
+  'williamboman/mason-lspconfig.nvim',
+  "nvim-lualine/lualine.nvim",
+  "vim-test/vim-test",
+  'ibhagwan/fzf-lua',
+  'nvim-tree/nvim-web-devicons',
+  "stefandtw/quickfix-reflector.vim",
+  { "ggandor/lightspeed.nvim",   opts = { ignore_case = true } },
+  "jose-elias-alvarez/typescript.nvim",
+  "nvim-lua/plenary.nvim",                -- async lib for plugins
+  "windwp/nvim-autopairs",
+  "tpope/vim-rsi",                        -- emacs readline bindings
+  "tpope/vim-fugitive",                   -- git
+  "tpope/vim-rhubarb",                    -- github
+  "tpope/vim-abolish",                    -- substitution
+  "tpope/vim-vinegar",                    -- netrw improvements
+  "tpope/vim-dadbod",                     -- databases
+  "kristijanhusak/vim-dadbod-ui",         -- database UI
+  "kristijanhusak/vim-dadbod-completion", -- database completion
+  "tpope/vim-dispatch",                   -- used by other plugins
+  "radenling/vim-dispatch-neovim",        -- no one knows
+  "tpope/vim-surround",                   -- ysiw
+  "tpope/vim-commentary",                 -- comments
+  "tpope/vim-repeat",                     -- better .
+  "tpope/vim-sensible",                   -- good defaults
+  "nvim-treesitter/nvim-treesitter",
+  "editorconfig/editorconfig-vim",
+  "mracos/mermaid.vim",
+  -- "mattn/emmet-vim",
+  "mustache/vim-mustache-handlebars",
+  "elixir-editors/vim-elixir",
+  "AndrewRadev/tagalong.vim",
+  "akinsho/toggleterm.nvim",
+})
 
-  -- LSP
-  use { "neovim/nvim-lspconfig",
-    requires = {
-      "ray-x/lsp_signature.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      "williamboman/mason.nvim",
-      "jose-elias-alvarez/typescript.nvim",
-      "jose-elias-alvarez/null-ls.nvim"
-    },
-    config = function()
-      require("mason").setup()
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "bashls",
-          "csharp_ls",
-          "pyright",
-          "dockerls",
-          "cssls",
-          "emmet_ls",
-          "elixirls",
-          "ember",
-          "eslint",
-          "jsonls",
-          "rust_analyzer",
-          "terraformls",
-          "tsserver"
-        }
-      })
-      require("typescript").setup({
-        disable_commands = true,
-        go_to_source_definition = {
-          fallback = true,
-        },
-      })
+local lsp_zero = require('lsp-zero')
 
-      local lsp = require("lspconfig")
-      lsp["bashls"].setup({})
-      lsp["csharp_ls"].setup({})
-      lsp["dockerls"].setup({})
-      lsp["cssls"].setup({})
-      lsp["elixirls"].setup({})
-      lsp["ember"].setup({})
-      lsp["eslint"].setup({})
-      lsp["jsonls"].setup({})
-      lsp["rust_analyzer"].setup({})
-      lsp["pyright"].setup({})
-      lsp["terraformls"].setup({})
-      lsp["tflint"].setup({})
-      lsp["tsserver"].setup({})
-      require("null-ls").setup({
-        sources = {
-          require("typescript.extensions.null-ls.code-actions"),
-        },
-      })
-    end
-  }
-
-
-  -- Cosmetic
-  use { "nvim-lualine/lualine.nvim", config = function() require("lualine").setup() end }
-  use { "ellisonleao/gruvbox.nvim" }
-
-  -- Testing
-  use { "vim-test/vim-test" }
-  vim.g["test#strategy"] = "neovim"
-
-  -- Snippets
-  use { "SirVer/ultisnips" }
-
-  -- Navigation
-  use { "ryanoasis/vim-devicons" }
-  use { 'ibhagwan/fzf-lua', requires = { 'nvim-tree/nvim-web-devicons' } }
-  use { "stefandtw/quickfix-reflector.vim" }
-  use { "ggandor/lightspeed.nvim", config = function() require("lightspeed").setup({ ignore_case = true }) end }
-
-  -- Utility
-  use { "nvim-lua/plenary.nvim" } -- async lib for plugins
-  use { "windwp/nvim-autopairs", config = function() require("nvim-autopairs").setup({}) end }
-  vim.g.AutoPairsMapCR = 0
-  use { "tpope/vim-rsi" }                        -- emacs readline bindings
-  use { "tpope/vim-fugitive" }                   -- git
-  use { "tpope/vim-rhubarb" }                    -- github
-  use { "tpope/vim-abolish" }                    -- substitution
-  use { "tpope/vim-vinegar" }                    -- netrw improvements
-  use { "tpope/vim-dadbod" }                     -- databases
-  use { "kristijanhusak/vim-dadbod-ui" }         -- database UI
-  use { "kristijanhusak/vim-dadbod-completion" } -- database completion
-  use { "tpope/vim-dispatch" }                   -- used by other plugins
-  use { "radenling/vim-dispatch-neovim" }        -- no one knows
-  use { "tpope/vim-surround" }                   -- ysiw
-  use { "tpope/vim-commentary" }                 -- comments
-  use { "tpope/vim-repeat" }                     -- better .
-  use { "tpope/vim-sensible" }                   -- good defaults
-  use { "nvim-treesitter/nvim-treesitter", run = ':TSUpdate' }
-  use { "editorconfig/editorconfig-vim" }
-  use { "mracos/mermaid.vim" }
-  use { "mattn/emmet-vim" }
-  use { "mustache/vim-mustache-handlebars"}
-  use { "elixir-editors/vim-elixir" }
-  use { "akinsho/toggleterm.nvim", config = function()
-    require("toggleterm").setup()
-  end }
+lsp_zero.on_attach(function(client, bufnr)
+  -- see :help lsp-zero-keybindings
+  -- to learn the available actions
+  lsp_zero.default_keymaps({ buffer = bufnr })
 end)
+
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  ensure_installed = {
+    "bashls",
+    "csharp_ls",
+    "pyright",
+    "dockerls",
+    "cssls",
+    "emmet_ls",
+    "elixirls",
+    "ember",
+    "eslint",
+    "jsonls",
+    "rust_analyzer",
+    "terraformls",
+    "tsserver"
+  },
+  handlers = {
+    lsp_zero.default_setup,
+  },
+})
+
+require("typescript").setup({
+  disable_commands = true,
+  go_to_source_definition = {
+    fallback = true,
+  },
+})
+
+local cmp = require('cmp')
+
+cmp.setup({
+  mapping = {
+    ['<CR>'] = cmp.mapping.confirm({ select = false }),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<S-Tab>'] = cmp.mapping.select_prev_item({ behavior = 'select' }),
+    ['<Tab>'] = cmp.mapping.select_next_item({ behavior = 'select' }),
+  },
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+})
 
 vim.cmd([[filetype plugin indent on]])
 vim.cmd([[syntax enable]])
@@ -313,7 +277,6 @@ vim.cmd [[au! FileType snippets setlocal foldmethod=indent]]
 --------------------------------------------------------------------------------
 
 -- XXX CONFIGS
-vim.cmd([[ au! bufwritepost init.lua source % ]]) -- Autoload
 -- Project config
 if vim.fn.filereadable("./.nvim/init.lua") == 1 then
   dofile("./.nvim/init.lua")
