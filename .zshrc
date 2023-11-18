@@ -10,13 +10,8 @@ export PATH=/opt/homebrew/bin:$PATH
 export PATH=/opt/homebrew/sbin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
+export PATH=/opt/homebrew/opt/postgresql@15/bin:$PATH
 [ -f ~/.cargo/env ] && source ~/.cargo/env
-
-# Pure prompt (brew install pure)
-fpath+=("$(brew --prefix)/share/zsh/site-functions")
-autoload -Uz promptinit
-promptinit
-prompt pure
 
 # vim it all
 set -o vi

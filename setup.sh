@@ -1,14 +1,14 @@
 #!/bin/bash
 echo "Installing a bunch of stuff go for a walk"
 
-echo "Install homebrew"
+echo "install homebrew"
 xcode-select --install
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-echo "Brew installs"
+echo "brew installs"
 brew upgrade
-brew install git gh fzf rg fd kitty asdf neovim pure
+brew install git gh fzf rg fd kitty asdf neovim
 
 echo asdf
 for LANG in nodejs python erlang elixir 

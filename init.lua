@@ -98,6 +98,7 @@ vim.keymap.set("n", "<leader>gg", ":Git<CR>")
 vim.keymap.set("n", "<leader>h", ":FzfLua help_tags<CR>")
 vim.keymap.set("n", "<leader>i", ":echom unused<CR>")
 vim.keymap.set("n", '<leader>jf', ':lua require("fzf-lua").files({ cwd="~/notes" })<CR>')
+vim.keymap.set("n", "<leader>jj", ":e ~/notes/<CR>")
 vim.keymap.set("n", '<leader>jr', ':e ~/notes/read-watch-listen.md<CR>')
 vim.keymap.set("n", '<leader>js', ':e ~/notes/shopping.md<CR>')
 vim.keymap.set("n", '<leader>jt', ':e ~/notes/todo.md<CR>')
@@ -127,7 +128,7 @@ vim.keymap.set("n", "<leader>vl", ":e ./.nvim/init.lua<CR>")
 vim.keymap.set("n", "<leader>vv", ":e ~/dotfiles/init.lua<CR>")
 vim.keymap.set("n", "<leader>vz", ":e ~/dotfiles/.zshrc<CR>")
 vim.keymap.set("n", "<leader>w", ":w<CR>")
-vim.keymap.set("n", "<leader>x", ':UltiSnipsEdit')
+vim.keymap.set("n", "<leader>x", ':UltiSnipsEdit<CR>')
 vim.keymap.set("n", "<leader>y", ':let @+ = expand("%")<cr>')
 vim.keymap.set("n", "<leader>z", function()
   if vim.wo.foldlevel > 0 then
@@ -199,14 +200,16 @@ require("packer").startup(function()
       require("mason-lspconfig").setup({
         ensure_installed = {
           "bashls",
-          "bright_script",
+          "csharp_ls",
+          "pyright",
           "dockerls",
           "cssls",
           "emmet_ls",
+          "elixirls",
+          "ember",
           "eslint",
           "jsonls",
           "rust_analyzer",
-          "lua_ls",
           "terraformls",
           "tsserver"
         }
@@ -220,14 +223,15 @@ require("packer").startup(function()
 
       local lsp = require("lspconfig")
       lsp["bashls"].setup({})
-      lsp["bright_script"].setup({})
+      lsp["csharp_ls"].setup({})
       lsp["dockerls"].setup({})
       lsp["cssls"].setup({})
       lsp["elixirls"].setup({})
+      lsp["ember"].setup({})
       lsp["eslint"].setup({})
       lsp["jsonls"].setup({})
       lsp["rust_analyzer"].setup({})
-      lsp["lua_ls"].setup({})
+      lsp["pyright"].setup({})
       lsp["terraformls"].setup({})
       lsp["tflint"].setup({})
       lsp["tsserver"].setup({})
@@ -279,6 +283,7 @@ require("packer").startup(function()
   use { "editorconfig/editorconfig-vim" }
   use { "mracos/mermaid.vim" }
   use { "mattn/emmet-vim" }
+  use { "mustache/vim-mustache-handlebars"}
   use { "elixir-editors/vim-elixir" }
   use { "akinsho/toggleterm.nvim", config = function()
     require("toggleterm").setup()
