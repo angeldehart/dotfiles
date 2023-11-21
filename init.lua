@@ -198,7 +198,12 @@ require("lazy").setup({
   "mustache/vim-mustache-handlebars",
   "elixir-editors/vim-elixir",
   "AndrewRadev/tagalong.vim",
-  "akinsho/toggleterm.nvim",
+  {
+    "akinsho/toggleterm.nvim",
+    config = function()
+      require("toggleterm").setup()
+    end
+  }
 })
 
 local lsp_zero = require('lsp-zero')
@@ -213,15 +218,16 @@ require('mason').setup({})
 require('mason-lspconfig').setup({
   ensure_installed = {
     "bashls",
+    "clojure_lsp",
     "csharp_ls",
-    "pyright",
-    "dockerls",
     "cssls",
-    "emmet_ls",
+    "dockerls",
     "elixirls",
     "ember",
+    "emmet_ls",
     "eslint",
     "jsonls",
+    "pyright",
     "rust_analyzer",
     "terraformls",
     "tsserver"
