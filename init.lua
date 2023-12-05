@@ -97,7 +97,7 @@ vim.keymap.set("n", "<leader>f", ":FzfLua git_files<CR>")
 vim.keymap.set("n", "<leader>gd", ":Git diff origin/main...HEAD %<CR>")
 vim.keymap.set("n", "<leader>gg", ":Git<CR>")
 vim.keymap.set("n", "<leader>h", ":FzfLua help_tags<CR>")
-vim.keymap.set("n", "<leader>i", ":echom unused<CR>")
+vim.keymap.set("n", "<leader>i", ":Neorg<CR>")
 vim.keymap.set("n", '<leader>jf', ':lua require("fzf-lua").files({ cwd="~/notes" })<CR>')
 vim.keymap.set("n", "<leader>jj", ":e ~/notes/<CR>")
 vim.keymap.set("n", '<leader>jr', ':e ~/notes/read-watch-listen.md<CR>')
@@ -162,6 +162,8 @@ vim.g["test#strategy"] = "neovim"
 
 require("lazy").setup({
   { 'VonHeikemen/lsp-zero.nvim', branch = 'v3.x' },
+  { "nvim-neorg/neorg",          build = ":Neorg sync-parsers" },
+  'gsuuon/llm.nvim',
   'neovim/nvim-lspconfig',
   'hrsh7th/cmp-nvim-lsp',
   'hrsh7th/nvim-cmp',
@@ -173,7 +175,7 @@ require("lazy").setup({
   'ibhagwan/fzf-lua',
   'nvim-tree/nvim-web-devicons',
   "stefandtw/quickfix-reflector.vim",
-  { "ggandor/lightspeed.nvim",   opts = { ignore_case = true } },
+  { "ggandor/lightspeed.nvim", opts = { ignore_case = true } },
   "jose-elias-alvarez/typescript.nvim",
   "nvim-lua/plenary.nvim",                -- async lib for plugins
   "windwp/nvim-autopairs",
@@ -259,6 +261,25 @@ cmp.setup({
     end,
   },
 })
+
+-- Neorg
+require("neorg").setup {
+  load = {
+    ["core.defaults"] = {},              -- Loads default behaviour
+    ["core.concealer"] = {},             -- Adds pretty icons to your documents
+    ["core.summary"] = {},               -- generate ToC
+    ["core.integrations.nvim-cmp"] = {}, -- cmp
+    ["core.dirman"] = {                  -- Manages Neorg workspaces
+      config = {
+        default_workspace = "notes",
+        workspaces = {
+          notes = "~/notes",
+        },
+      },
+    },
+  },
+}
+
 
 vim.cmd([[filetype plugin indent on]])
 vim.cmd([[syntax enable]])
